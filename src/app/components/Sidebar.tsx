@@ -87,7 +87,7 @@ export default function Sidebar() {
                     }}
                     className="h-full flex flex-col relative group"
                 >
-                    <SelectableOverlay id="sidebar_scale" />
+
 
                     <div className="p-6 flex justify-between items-center lg:block">
                         <h1 className="text-[1.5em] font-bold text-primary">POS System</h1>
@@ -126,6 +126,7 @@ export default function Sidebar() {
                         <p className="text-[0.75em] text-center text-muted">© 2026 Simple POS</p>
                     </div>
 
+                    <SelectableOverlay id="sidebar_scale" />
                 </div>
             </aside>
         </>

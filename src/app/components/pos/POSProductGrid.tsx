@@ -68,7 +68,7 @@ export default function POSProductGrid({
             {/* Product Grid - Scrollable Area */}
             <div className="flex-1 overflow-y-auto min-h-0 pr-2 custom-scrollbar">
                 <div
-                    className={`grid ${gridColsClass} gap-4 pb-4`}
+                    className={`grid ${gridColsClass} gap-4 pb-4 relative`}
                     style={{ fontSize: `${settings?.grid_font_scale || 100}%` }}
                 >
                     <SelectableOverlay id="grid_scale" />

@@ -4,7 +4,7 @@ import { CartItem, Product } from '../app/types';
 import { categoryApi, receiptApi } from '@/lib/api';
 import { useCurrency } from './useCurrency';
 import { useTax } from './useTax';
-import { exampleProducts } from '@/lib/example-data';
+import { exampleProducts, exampleCartItems } from '@/lib/example-data';
 import { useMockup } from '../app/context/MockupContext';
 
 export function usePOSLogic(initialProducts: Product[]) {
@@ -33,6 +33,15 @@ export function usePOSLogic(initialProducts: Product[]) {
             console.error("Failed to fetch categories", err);
         });
     }, []);
+
+    // Effect to handle mockup mode cart items
+    useEffect(() => {
+        if (isMockupMode) {
+            setCartItems(exampleCartItems);
+        } else {
+            setCartItems([]);
+        }
+    }, [isMockupMode]);
 
     const updateURL = (key: string, value: string) => {
         const params = new URLSearchParams(searchParams.toString());

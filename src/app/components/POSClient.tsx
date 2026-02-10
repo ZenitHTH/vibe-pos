@@ -60,7 +60,7 @@ export default function POSClient({ initialProducts }: POSClientProps) {
 
             {/* Right Side: Cart Sidebar */}
             <div
-                className="shrink-0 hidden lg:block h-full transition-all duration-300"
+                className="shrink-0 hidden lg:block h-full transition-all duration-300 relative"
                 style={{
                     width: cartDynamicWidth,
                     fontSize: `${settings?.cart_font_scale || 100}%`
