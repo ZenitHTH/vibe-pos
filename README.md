@@ -79,15 +79,16 @@ The output binary will be located in `src-tauri/target/release/bundle/`.
 
 - **`src/`**: Next.js frontend source code.
   - `app/`:
-    - `components/`: Reusable React components.
-      - `payment/`: New PaymentModal sub-components (`VirtualNumpad`, `CashInput`, `ModalHeader`, etc.).
-      - `POSClient`, `Cart`, etc.
+    - `components/`: Reusable React components (`payment`, `ui`, `design-mode`, `POSClient`, `Cart`).
     - `history/`: Order history page and related components.
     - `manage/`: Management interface for products and categories.
     - `setting/`: Settings page implementation.
-    - `lib/`: Utility functions and API wrappers (`api.ts`).
+    - `context/`: Global state management.
+  - `hooks/`: Custom React hooks.
+  - `lib/`: Utility functions and API wrappers (`api.ts`).
 - **`src-tauri/`**: Rust backend source code.
   - `src/`: Core Rust source files (`main.rs`, `lib.rs`, `commands/`).
   - `database/`: Local crate for database interactions.
   - `export_lib/`: Local crate for handling exports.
+  - `capabilities/`: Tauri permission capabilities.
   - `tauri.conf.json`: Tauri configuration file.
