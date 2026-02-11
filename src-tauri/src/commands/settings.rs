@@ -72,10 +72,6 @@ pub fn get_settings() -> Result<AppSettings, String> {
     }
 
     let content = fs::read_to_string(path).map_err(|e| e.to_string())?;
-    // If parsing fails, return default instead of erroring out?
-    // Or maybe error so the user knows something is wrong.
-    // Let's fallback to default if file is corrupt but log it?
-    // For now, simple unwrapping or default.
     let settings: AppSettings = serde_json::from_str(&content).unwrap_or_default();
     Ok(settings)
 }
