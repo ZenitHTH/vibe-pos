@@ -15,6 +15,10 @@ export interface AppSettings {
     grid_font_scale: number;
     manage_table_font_scale: number;
     category_table_font_scale: number;
+    setting_page_scale: number;
+    setting_page_font_scale: number;
+    header_font_scale: number;
+    layout_max_width: number;
 }
 
 export async function getSettings(): Promise<AppSettings> {

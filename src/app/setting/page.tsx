@@ -5,14 +5,15 @@ import CurrencySettings from './CurrencySettings';
 import TaxSettings from './TaxSettings';
 import DisplaySettings from './DisplaySettings';
 import { useSettings } from '../context/SettingsContext';
-import { FaSave, FaCheck, FaToggleOn, FaToggleOff } from 'react-icons/fa';
+import { FaSave, FaCheck } from 'react-icons/fa';
 import { useState } from 'react';
 import ResetSettingsButton from './ResetSettingsButton';
+import ManagementPageLayout from '../components/layout/ManagementPageLayout';
+
 export default function SettingPage() {
     const { save } = useSettings();
     const [isSaving, setIsSaving] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
-
     const handleSave = async () => {
         setIsSaving(true);
         try {
@@ -27,32 +28,13 @@ export default function SettingPage() {
     };
 
     return (
-        <div className="h-full overflow-y-auto w-full custom-scrollbar">
-            <div className="p-8 max-w-4xl mx-auto pb-24">
-
-                <div className="flex justify-between items-start mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold mb-2">System Settings</h1>
-                        <p className="text-muted">Configure your POS system settings here.</p>
-                    </div>
-                    <ResetSettingsButton />
-                </div>
-
-                {/* Display Settings */}
-                <DisplaySettings />
-
-                {/* Currency Settings */}
-                <CurrencySettings />
-
-                {/* Tax Settings */}
-                <TaxSettings />
-
-                {/* Export Section */}
-                <ExportSection />
-            </div>
-
-            {/* Floating Save Bar */}
-            <div className="fixed bottom-6 right-6 z-50">
+        <ManagementPageLayout
+            title="System Settings"
+            subtitle="Configure your POS system settings here."
+            headerActions={<ResetSettingsButton />}
+            scaleKey="setting_page_scale"
+            scrollable={true}
+            floatingActions={
                 <button
                     onClick={handleSave}
                     disabled={isSaving}
@@ -73,7 +55,19 @@ export default function SettingPage() {
                         </>
                     )}
                 </button>
-            </div>
-        </div>
+            }
+        >
+            {/* Display Settings */}
+            <DisplaySettings />
+
+            {/* Currency Settings */}
+            <CurrencySettings />
+
+            {/* Tax Settings */}
+            <TaxSettings />
+
+            {/* Export Section */}
+            <ExportSection />
+        </ManagementPageLayout>
     );
 }

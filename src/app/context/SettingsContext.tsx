@@ -27,6 +27,10 @@ const DEFAULT_SETTINGS: AppSettings = {
     grid_font_scale: 100.0,
     manage_table_font_scale: 100.0,
     category_table_font_scale: 100.0,
+    setting_page_scale: 100.0,
+    setting_page_font_scale: 100.0,
+    header_font_scale: 100.0,
+    layout_max_width: 1280.0,
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);

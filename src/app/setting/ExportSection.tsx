@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { receiptApi } from '@/lib/api';
 import { FaFileExport, FaFolderOpen } from 'react-icons/fa';
 import { save } from '@tauri-apps/plugin-dialog';
+import SettingsSection from '../components/ui/SettingsSection';
 
 export default function ExportSection() {
     // Default: Last 30 days
@@ -56,16 +57,7 @@ export default function ExportSection() {
     };
 
     return (
-        <div className="bg-card-bg rounded-2xl border border-border p-6 shadow-sm">
-            <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 rounded-full bg-primary/10 text-primary">
-                    <FaFileExport size={24} />
-                </div>
-                <div>
-                    <h2 className="text-xl font-bold">Export Data</h2>
-                    <p className="text-muted text-sm">Export receipt history to spreadsheet files</p>
-                </div>
-            </div>
+        <SettingsSection title="Export Data" icon={FaFileExport}>
 
             <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-4">
@@ -122,6 +114,6 @@ export default function ExportSection() {
                     </button>
                 </div>
             </div>
-        </div>
+        </SettingsSection>
     );
 }

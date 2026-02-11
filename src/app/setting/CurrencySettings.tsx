@@ -2,6 +2,7 @@
 
 import { useCurrency } from '../../hooks/useCurrency';
 import { FaCoins } from 'react-icons/fa';
+import SettingsSection from '../components/ui/SettingsSection';
 
 const CURRENCIES = [
     { country: "United States", code: "USD", symbol: "$" },
@@ -30,13 +31,7 @@ export default function CurrencySettings() {
 
 
     return (
-        <div className="bg-card-bg border border-border rounded-xl p-6 mb-8">
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold flex items-center gap-2">
-                    <FaCoins className="text-primary" />
-                    Currency Settings
-                </h2>
-            </div>
+        <SettingsSection title="Currency Settings" icon={FaCoins}>
 
             {/* Currency Selection */}
             <div>
@@ -72,6 +67,6 @@ export default function CurrencySettings() {
 
             {/* Warning Modal */}
 
-        </div>
+        </SettingsSection>
     );
 }

@@ -5,6 +5,7 @@ import { useSettings } from "../../context/SettingsContext";
 import { useRouter } from "next/navigation";
 import NavigationMenu from "./NavigationMenu";
 import GlobalScaleControls from "./GlobalScaleControls";
+import GlobalLayoutControls from "./GlobalLayoutControls";
 import ComponentScaleControls from "./ComponentScaleControls";
 import ActionButton from "./ActionButton";
 
@@ -30,6 +31,13 @@ export default function BottomControlPanel() {
                 <GlobalScaleControls
                     value={settings.display_scale || 100}
                     onChange={(val) => updateSettings({ display_scale: val })}
+                />
+
+                <div className="h-8 w-px bg-border"></div>
+
+                <GlobalLayoutControls
+                    settings={settings}
+                    updateSettings={updateSettings}
                 />
 
                 <ComponentScaleControls

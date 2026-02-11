@@ -1,18 +1,15 @@
 import { memo } from 'react';
 import { useSettings } from '../context/SettingsContext';
 import { useMockup } from '../context/MockupContext';
-import { FaDesktop, FaMobileAlt, FaExpand } from 'react-icons/fa';
+import { FaDesktop } from 'react-icons/fa';
+import SettingsSection from '../components/ui/SettingsSection';
 
 const DisplaySettings = memo(() => {
     const { settings, updateSettings } = useSettings();
     const { isMockupMode, toggleMockupMode } = useMockup();
 
     return (
-        <section className="mb-8 p-6 bg-card-bg border border-border rounded-2xl shadow-sm">
-            <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-foreground">
-                <FaDesktop className="text-primary" />
-                Display Size
-            </h2>
+        <SettingsSection title="Display Size" icon={FaDesktop}>
 
             <div className="space-y-6">
                 {/* Design Mode Toggle */}
@@ -47,7 +44,7 @@ const DisplaySettings = memo(() => {
                     </div>
                 </div>
             </div>
-        </section>
+        </SettingsSection>
     );
 });
 

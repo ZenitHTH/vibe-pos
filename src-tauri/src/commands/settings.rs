@@ -20,6 +20,10 @@ pub struct AppSettings {
     pub grid_scale: f64,
     pub manage_table_font_scale: f64,
     pub category_table_font_scale: f64,
+    pub setting_page_scale: f64,
+    pub setting_page_font_scale: f64,
+    pub header_font_scale: f64,
+    pub layout_max_width: f64,
 }
 
 impl Default for AppSettings {
@@ -39,6 +43,10 @@ impl Default for AppSettings {
             grid_font_scale: 100.0,
             manage_table_font_scale: 100.0,
             category_table_font_scale: 100.0,
+            setting_page_scale: 100.0,
+            setting_page_font_scale: 100.0,
+            header_font_scale: 100.0,
+            layout_max_width: 1280.0,
         }
     }
 }

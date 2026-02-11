@@ -1,13 +1,14 @@
 "use client";
 
 import { useTax } from '../../hooks/useTax';
+import SettingsSection from '../components/ui/SettingsSection';
+import { FaPercent } from 'react-icons/fa';
 
 export default function TaxSettings() {
     const { isTaxEnabled, toggleTax, taxPercentage, setTaxPercentage } = useTax();
 
     return (
-        <div className="bg-card-bg border border-border rounded-2xl p-6 mb-6">
-            <h2 className="text-xl font-semibold mb-4 text-foreground">Tax Settings</h2>
+        <SettingsSection title="Tax Settings" icon={FaPercent}>
             <div className="flex items-center justify-between">
                 <div>
                     <h3 className="font-medium text-foreground">Enable Tax</h3>
@@ -38,6 +39,6 @@ export default function TaxSettings() {
                     </label>
                 </div>
             </div>
-        </div>
+        </SettingsSection>
     );
 }
