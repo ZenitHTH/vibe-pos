@@ -1,4 +1,4 @@
-# vibe POS
+# Simple POS
 
 A modern, lightweight Point of Sale (POS) system built with **Tauri v2** and **Next.js 16**, designed for performance and simplicity.
 
@@ -70,6 +70,10 @@ npm run tauri build
 ```
 
 The output binary will be located in `src-tauri/target/release/bundle/`.
+
+## Architecture
+
+![Architecture Diagram](./mermaid-diagram-2026-02-11-181614.svg)
 
 ## Project Structure
 
