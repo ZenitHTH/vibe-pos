@@ -7,7 +7,7 @@ import DisplaySettings from './DisplaySettings';
 import { useSettings } from '../context/SettingsContext';
 import { FaSave, FaCheck, FaToggleOn, FaToggleOff } from 'react-icons/fa';
 import { useState } from 'react';
-
+import ResetSettingsButton from './ResetSettingsButton';
 export default function SettingPage() {
     const { save } = useSettings();
     const [isSaving, setIsSaving] = useState(false);
@@ -29,8 +29,14 @@ export default function SettingPage() {
     return (
         <div className="h-full overflow-y-auto w-full custom-scrollbar">
             <div className="p-8 max-w-4xl mx-auto pb-24">
-                <h1 className="text-3xl font-bold mb-2">System Settings</h1>
-                <p className="text-muted mb-8">Configure your POS system settings here.</p>
+
+                <div className="flex justify-between items-start mb-8">
+                    <div>
+                        <h1 className="text-3xl font-bold mb-2">System Settings</h1>
+                        <p className="text-muted">Configure your POS system settings here.</p>
+                    </div>
+                    <ResetSettingsButton />
+                </div>
 
                 {/* Display Settings */}
                 <DisplaySettings />
