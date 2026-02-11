@@ -1,0 +1,58 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 24
+        cache: 'npm'
+
+    - name: Install Rust stable
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libwebkit2gtk-4.0-dev \
+          build-essential \
+          curl \
+          wget \
+          file \
+          libssl-dev \
+          libgtk-3-dev \
+          libayatana-appindicator3-dev \
+          librsvg2-dev
+
+    - name: Install frontend dependencies
+      run: npm install
+
+    - name: Run linting
+      run: npm run lint
+
+    - name: Build frontend
+      run: npm run build
+
+    - name: Check Tauri Build configuration
+      run: npm run tauri info
+      
+    - name: Run Rust tests
+      working-directory: ./src-tauri
+      run: cargo test --verbose
+
+    - name: Build Tauri app
+      run: npm run tauri build
