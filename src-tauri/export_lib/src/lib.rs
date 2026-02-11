@@ -3,15 +3,110 @@ pub mod ods_export;
 pub mod xlsx_export;
 
 use serde::{Deserialize, Serialize};
+use std::error::Error;
+use std::path::Path;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CellValue {
+    Text(String),
+    Number(f64),
+    Int(i64),
+    Bool(bool),
+    None,
+}
+
+impl ToString for CellValue {
+    fn to_string(&self) -> String {
+        match self {
+            CellValue::Text(s) => s.clone(),
+            CellValue::Number(n) => n.to_string(),
+            CellValue::Int(n) => n.to_string(),
+            CellValue::Bool(b) => b.to_string(),
+            CellValue::None => "".to_string(),
+        }
+    }
+}
+
+// Helper implementations for easy conversion
+impl From<&str> for CellValue {
+    fn from(s: &str) -> Self {
+        CellValue::Text(s.to_string())
+    }
+}
+
+impl From<String> for CellValue {
+    fn from(s: String) -> Self {
+        CellValue::Text(s)
+    }
+}
+
+impl From<f64> for CellValue {
+    fn from(n: f64) -> Self {
+        CellValue::Number(n)
+    }
+}
+
+impl From<i32> for CellValue {
+    fn from(n: i32) -> Self {
+        CellValue::Int(n as i64)
+    }
+}
+
+impl From<i64> for CellValue {
+    fn from(n: i64) -> Self {
+        CellValue::Int(n)
+    }
+}
+
+impl From<bool> for CellValue {
+    fn from(b: bool) -> Self {
+        CellValue::Bool(b)
+    }
+}
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct ExportData {
-    pub receipt_id: i32,
-    pub date: String,
-    pub total: f64,
-    // Add more fields as needed, keeping it simple for now
-    // Ideally we export items too, so maybe a flat structure:
-    pub product_name: String,
-    pub quantity: i32,
-    pub price: f64,
+pub struct ExportTable {
+    pub headers: Vec<String>,
+    pub rows: Vec<Vec<CellValue>>,
+}
+
+impl ExportTable {
+    pub fn new(headers: Vec<String>) -> Self {
+        Self {
+            headers,
+            rows: Vec::new(),
+        }
+    }
+
+    pub fn add_row(&mut self, row: Vec<CellValue>) {
+        if row.len() == self.headers.len() {
+            self.rows.push(row);
+        } else {
+            // Log warning or handle error? For now, we'll allow it but it might cause export issues if headers don't match
+            self.rows.push(row);
+        }
+    }
+
+    pub fn edit_cell(&mut self, row_idx: usize, col_idx: usize, value: CellValue) -> bool {
+        if let Some(row) = self.rows.get_mut(row_idx) {
+            if col_idx < row.len() {
+                row[col_idx] = value;
+                return true;
+            }
+        }
+        false
+    }
+
+    pub fn export_csv<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
+        csv_export::export_to_csv(self, path)
+    }
+
+    pub fn export_xlsx<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
+        xlsx_export::export_to_xlsx(self, path)
+    }
+
+    pub fn export_ods<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
+        ods_export::export_to_ods(self, path)
+    }
 }
