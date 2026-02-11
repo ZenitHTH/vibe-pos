@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { FaBackspace, FaTrash } from 'react-icons/fa';
+import { FaBackspace } from 'react-icons/fa';
 
 interface VirtualNumpadProps {
     onPress: (key: string) => void;

@@ -29,7 +29,7 @@ export default function ResetSettingsButton() {
                     <div className="bg-card-bg w-full max-w-sm rounded-xl shadow-2xl border border-border overflow-hidden animate-in fade-in zoom-in duration-200 p-6">
                         <h3 className="text-lg font-bold text-red-500 mb-2">Warning: Reset Settings</h3>
                         <p className="text-muted mb-6">
-                            Are you sure you want to reset all settings to their defaults? You will need to click 'Save Changes' to persist this action.
+                            Are you sure you want to reset all settings to their defaults? You will need to click &apos;Save Changes&apos; to persist this action.
                         </p>
                         <div className="flex gap-3 justify-end">
                             <button

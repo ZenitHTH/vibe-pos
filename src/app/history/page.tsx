@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { receiptApi } from '@/lib/api';
 import { ReceiptList as ReceiptListType } from '@/lib/types';
 import HistoryHeader from './HistoryHeader';
@@ -23,7 +23,7 @@ export default function HistoryPage() {
     const [endDate, setEndDate] = useState(() => new Date().toISOString().split('T')[0]);
     const [searchId, setSearchId] = useState('');
 
-    const fetchReceipts = async () => {
+    const fetchReceipts = useCallback(async () => {
         setLoading(true);
         try {
             const start = Math.floor(new Date(startDate).getTime() / 1000);
@@ -35,7 +35,7 @@ export default function HistoryPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [startDate, endDate]);
 
     const handleSearchById = async () => {
         if (!searchId) return;
@@ -47,7 +47,7 @@ export default function HistoryPage() {
                 return;
             }
 
-            const [header, _] = await receiptApi.getInvoiceDetail(id);
+            const [header] = await receiptApi.getInvoiceDetail(id);
 
             if (header && header.receipt_id) {
                 setSelectedReceipt(header);
@@ -64,7 +64,7 @@ export default function HistoryPage() {
 
     useEffect(() => {
         fetchReceipts();
-    }, []);
+    }, [fetchReceipts]);
 
     return (
         <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">

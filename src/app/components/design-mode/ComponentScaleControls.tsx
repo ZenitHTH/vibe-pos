@@ -5,7 +5,7 @@ import { AppSettings } from "@/lib/settings";
 import NumberStepper from "@/app/components/ui/NumberStepper";
 import NumberSlider from "@/app/components/ui/NumberSlider";
 
-export default function ComponentScaleControls({ selectedId, settings, updateSettings }: { selectedId: string | null, settings: AppSettings, updateSettings: any }) {
+export default function ComponentScaleControls({ selectedId, settings, updateSettings }: { selectedId: string | null, settings: AppSettings, updateSettings: (s: Partial<AppSettings>) => void }) {
     if (!selectedId) {
         return (
             <div className="flex-1 flex flex-col items-center justify-center h-full text-muted">

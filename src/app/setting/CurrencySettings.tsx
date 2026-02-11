@@ -27,7 +27,7 @@ const CURRENCIES = [
 ];
 
 export default function CurrencySettings() {
-    const { currency, updateCurrency, clearAllCookies } = useCurrency();
+    const { currency, updateCurrency } = useCurrency();
 
 
     return (

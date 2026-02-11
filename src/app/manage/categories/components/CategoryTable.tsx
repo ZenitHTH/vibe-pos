@@ -10,7 +10,7 @@ interface CategoryTableProps {
     settings: AppSettings;
 }
 
-export default function CategoryTable({ categories, onEdit, onDelete, settings }: CategoryTableProps) {
+export default function CategoryTable({ categories, onEdit, onDelete }: CategoryTableProps) {
     return (
         <div className="bg-card-bg rounded-xl border border-border shadow-sm overflow-hidden">
             <GlobalTable

@@ -5,7 +5,7 @@ import { FaDesktop } from 'react-icons/fa';
 import SettingsSection from '../components/ui/SettingsSection';
 
 const DisplaySettings = memo(() => {
-    const { settings, updateSettings } = useSettings();
+    useSettings();
     const { isMockupMode, toggleMockupMode } = useMockup();
 
     return (

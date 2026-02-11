@@ -10,7 +10,7 @@ interface ProductTableProps {
     settings: AppSettings;
 }
 
-export default function ProductTable({ products, onEdit, onDelete, settings }: ProductTableProps) {
+export default function ProductTable({ products, onEdit, onDelete }: ProductTableProps) {
     return (
         <div className="bg-card-bg rounded-xl border border-border shadow-sm overflow-hidden">
             <GlobalTable

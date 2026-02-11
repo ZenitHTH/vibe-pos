@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, memo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import ModalHeader from './payment/ModalHeader';
 import AmountSummary from './payment/AmountSummary';
 import CashInput from './payment/CashInput';

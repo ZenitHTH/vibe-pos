@@ -38,7 +38,7 @@ export default function ReceiptDetailModal({ receipt, onClose }: ReceiptDetailMo
         async function loadDetail() {
             setLoadingDetail(true);
             try {
-                const [_, items] = await receiptApi.getInvoiceDetail(receipt.receipt_id);
+                const [, items] = await receiptApi.getInvoiceDetail(receipt.receipt_id);
                 setReceiptItems(items);
             } catch (error) {
                 console.error("Failed to load details", error);
