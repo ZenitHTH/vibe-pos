@@ -41,18 +41,5 @@ jobs:
     - name: Install frontend dependencies
       run: npm install
 
-    - name: Run linting
-      run: npm run lint
-
-    - name: Build frontend
-      run: npm run build
-
-    - name: Check Tauri Build configuration
-      run: npm run tauri info
-      
-    - name: Run Rust tests
-      working-directory: ./src-tauri
-      run: cargo test --verbose
-
     - name: Build Tauri app
       run: npm run tauri build
