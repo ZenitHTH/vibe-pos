@@ -34,11 +34,11 @@ A modern, lightweight Point of Sale (POS) system built with **Tauri v2** and **N
 
 Before you begin, ensure you have the following installed:
 
-- **Node.js** (v20 or newer recommended)
+- **Node.js** (v24 or newer recommended)
 - **Rust & Cargo** (latest stable)
 - **System Dependencies**:
   - **Linux**: Build essentials, webkit2gtk (see [Tauri Linux Setup](https://v2.tauri.app/start/prerequisites/#linux))
-  - **macOS**: Xcode Command Line Tools
+  - **macOS**: Build your own , i don't have mac.
   - **Windows**: Microsoft Visual Studio C++ Build Tools
 
 ## Setup & Development
