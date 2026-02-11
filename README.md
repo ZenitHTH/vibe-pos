@@ -1,4 +1,4 @@
-# Simple POS
+# vibe POS
 
 A modern, lightweight Point of Sale (POS) system built with **Tauri v2** and **Next.js 16**, designed for performance and simplicity.
 
