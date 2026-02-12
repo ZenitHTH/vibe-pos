@@ -91,11 +91,13 @@ or add it to your profile/environment variables.
 
 - **`src/`**: Next.js frontend source code.
   - `app/`: Application routes and pages (`page.tsx`, `layout.tsx`).
+    - `about/`: About page.
     - `history/`: Order history page.
     - `manage/`: Management interface.
+    - `mockup/`: Mockup data interface.
     - `setting/`: Settings page.
-  - `components/`: Reusable React components (`payment`, `ui`, `design-mode`, `POSClient`, `Cart`).
-  - `context/`: Global state management (`DatabaseContext`, `SettingsContext`).
+  - `components/`: Reusable React components (`cart`, `design-mode`, `filters`, `layout`, `payment`, `pos`, `ui`).
+  - `context/`: Global state management (`DatabaseContext`, `SettingsContext`, `MockupContext`).
   - `hooks/`: Custom React hooks.
   - `lib/`: Utility functions and API wrappers (`api.ts`).
   - `types/`: Shared TypeScript definitions.
@@ -104,4 +106,5 @@ or add it to your profile/environment variables.
   - `database/`: Local crate for database interactions.
   - `export_lib/`: Local crate for handling exports.
   - `capabilities/`: Tauri permission capabilities.
+  - `icons/`: Application icons.
   - `tauri.conf.json`: Tauri configuration file.
