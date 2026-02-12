@@ -9,12 +9,13 @@ use tauri::command;
 
 #[command]
 pub fn export_receipts(
+    key: String,
     export_path: String,
     format: String,
     start_date: i64,
     end_date: i64,
 ) -> Result<String, String> {
-    let mut conn = establish_connection().map_err(|e| e.to_string())?;
+    let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
 
     // 1. Fetch Receipts in range
     // Note: We need to implement get_invoices_by_date logic here or reuse it

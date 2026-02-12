@@ -101,13 +101,12 @@ dependencies = [
 
 [[package]]
 name = "database"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "chrono",
  "diesel",
  "diesel_migrations",
  "directories",
- "dotenvy",
  "libsqlite3-sys",
  "serde",
 ]
@@ -187,12 +186,6 @@ dependencies = [
  "redox_users",
  "windows-sys",
 ]
-
-[[package]]
-name = "dotenvy"
-version = "0.15.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1aaf95b3e5c8f23aa320147307562d361db0ae0d51242340f558153b4eb2439b"
 
 [[package]]
 name = "downcast-rs"

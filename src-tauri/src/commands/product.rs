@@ -3,14 +3,14 @@ use database::product;
 use database::{NewProduct, Product};
 
 #[tauri::command]
-pub fn get_products() -> Result<Vec<Product>, String> {
-    let mut conn = establish_connection().map_err(|e| e.to_string())?;
+pub fn get_products(key: String) -> Result<Vec<Product>, String> {
+    let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
     return product::get_all_products(&mut conn).map_err(|e| e.to_string());
 }
 
 #[tauri::command]
-pub fn create_product(title: String, catagory: String, satang: i32) -> Result<Product, String> {
-    let mut conn = establish_connection().map_err(|e| e.to_string())?;
+pub fn create_product(key: String, title: String, catagory: String, satang: i32) -> Result<Product, String> {
+    let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
     let new_prod = NewProduct {
         title: &title,
         catagory: &catagory,
@@ -21,12 +21,13 @@ pub fn create_product(title: String, catagory: String, satang: i32) -> Result<Pr
 
 #[tauri::command]
 pub fn update_product(
+    key: String,
     id: i32,
     title: String,
     catagory: String,
     satang: i32,
 ) -> Result<Product, String> {
-    let mut conn = establish_connection().map_err(|e| e.to_string())?;
+    let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
     let prod = Product {
         product_id: id,
         title,
@@ -37,7 +38,7 @@ pub fn update_product(
 }
 
 #[tauri::command]
-pub fn delete_product(id: i32) -> Result<usize, String> {
-    let mut conn = establish_connection().map_err(|e| e.to_string())?;
+pub fn delete_product(key: String, id: i32) -> Result<usize, String> {
+    let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
     product::remove_product(&mut conn, id).map_err(|e| e.to_string())
 }

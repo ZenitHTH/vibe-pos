@@ -9,6 +9,7 @@ use commands::stock::*;
 
 use commands::export::*;
 use commands::settings::*;
+use commands::database::*;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -16,9 +17,6 @@ pub fn run() {
         .plugin(tauri_plugin_log::Builder::default().build())
         .plugin(tauri_plugin_dialog::init())
         .setup(|_app| {
-            let mut conn =
-                database::establish_connection().expect("Failed to initialize database connection");
-            database::run_migrations(&mut conn).expect("Failed to run migrations");
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
@@ -46,7 +44,9 @@ pub fn run() {
             export_receipts,
             // Settings Commands
             get_settings,
-            save_settings
+            save_settings,
+            // Database Commands
+            initialize_database
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
