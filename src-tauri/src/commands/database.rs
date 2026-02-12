@@ -7,3 +7,9 @@ pub fn initialize_database(key: String) -> Result<(), String> {
     run_migrations(&mut conn).map_err(|e| e.to_string())?;
     Ok(())
 }
+#[tauri::command]
+pub fn check_database_exists(_app: tauri::AppHandle) -> Result<bool, String> {
+    use database::get_database_path;
+    let db_path = get_database_path().map_err(|e| e.to_string())?;
+    Ok(db_path.exists())
+}

@@ -46,7 +46,8 @@ pub fn run() {
             get_settings,
             save_settings,
             // Database Commands
-            initialize_database
+            initialize_database,
+            check_database_exists
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

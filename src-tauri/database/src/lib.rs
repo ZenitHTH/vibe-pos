@@ -17,7 +17,7 @@ pub mod receipt;
 pub mod stock;
 
 pub use category::model::{Category, NewCategory};
-pub use connection::establish_connection;
+pub use connection::{establish_connection, get_database_path};
 pub use product::model::{NewProduct, Product};
 pub use receipt::model::{NewReceipt, NewReceiptList, Receipt, ReceiptList};
 pub use stock::model::{NewStock, Stock};
