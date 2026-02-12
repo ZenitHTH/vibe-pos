@@ -1,13 +1,13 @@
 "use client";
 
-import ExportSection from './ExportSection';
-import CurrencySettings from './CurrencySettings';
-import TaxSettings from './TaxSettings';
-import DisplaySettings from './DisplaySettings';
+import ExportSection from '@/components/settings/ExportSection';
+import CurrencySettings from '@/components/settings/CurrencySettings';
+import TaxSettings from '@/components/settings/TaxSettings';
+import DisplaySettings from '@/components/settings/DisplaySettings';
 import { useSettings } from '@/context/SettingsContext';
 import { FaSave, FaCheck } from 'react-icons/fa';
 import { useState } from 'react';
-import ResetSettingsButton from './ResetSettingsButton';
+import ResetSettingsButton from '@/components/settings/ResetSettingsButton';
 import ManagementPageLayout from '@/components/layout/ManagementPageLayout';
 
 export default function SettingPage() {

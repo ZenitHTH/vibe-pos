@@ -1,6 +1,6 @@
 "use client";
 
-import { useCurrency } from '../../hooks/useCurrency';
+import { useCurrency } from '@/hooks/useCurrency';
 import { FaCoins } from 'react-icons/fa';
 import SettingsSection from '@/components/ui/SettingsSection';
 

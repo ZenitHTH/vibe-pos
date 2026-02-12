@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { FaCompass, FaHome, FaBoxOpen, FaTags, FaCog } from "react-icons/fa";
 
 export default function NavigationMenu({ router }: { router: ReturnType<typeof useRouter> }) {
     const [isOpen, setIsOpen] = useState(false);
+    const pathname = usePathname();
 
     const navigate = (path: string) => {
         router.push(path);
@@ -25,11 +26,31 @@ export default function NavigationMenu({ router }: { router: ReturnType<typeof u
             {isOpen && (
                 <div className="absolute bottom-full left-0 mb-4 w-56 bg-card-bg border border-border rounded-xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-bottom-2">
                     <div className="p-2 space-y-1">
-                        <NavButton onClick={() => navigate('/')} icon={<FaHome />} label="Main Page" />
-                        <NavButton onClick={() => navigate('/manage')} icon={<FaBoxOpen />} label="Product Manage" />
-                        <NavButton onClick={() => navigate('/manage/categories')} icon={<FaTags />} label="Categories" />
+                        <NavButton
+                            onClick={() => navigate('/')}
+                            icon={<FaHome />}
+                            label="Main Page"
+                            isActive={pathname === '/'}
+                        />
+                        <NavButton
+                            onClick={() => navigate('/manage')}
+                            icon={<FaBoxOpen />}
+                            label="Product Manage"
+                            isActive={pathname === '/manage'}
+                        />
+                        <NavButton
+                            onClick={() => navigate('/manage/categories')}
+                            icon={<FaTags />}
+                            label="Categories"
+                            isActive={pathname === '/manage/categories'}
+                        />
                         <hr className="border-border my-1" />
-                        <NavButton onClick={() => navigate('/setting')} icon={<FaCog />} label="Settings" />
+                        <NavButton
+                            onClick={() => navigate('/setting')}
+                            icon={<FaCog />}
+                            label="Settings"
+                            isActive={pathname === '/setting'}
+                        />
                     </div>
                 </div>
             )}
@@ -37,11 +58,17 @@ export default function NavigationMenu({ router }: { router: ReturnType<typeof u
     );
 }
 
-function NavButton({ onClick, icon, label }: { onClick: () => void, icon: React.ReactNode, label: string }) {
+function NavButton({ onClick, icon, label, isActive }: { onClick: () => void, icon: React.ReactNode, label: string, isActive: boolean }) {
     return (
-        <button onClick={onClick} className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-muted/50 rounded-lg transition-colors">
-            <span className="text-muted">{icon}</span>
-            <span className="font-medium">{label}</span>
+        <button
+            onClick={onClick}
+            className={`w-full flex items-center gap-3 px-3 py-2 text-left rounded-lg transition-colors ${isActive
+                ? 'bg-primary/10 text-primary font-semibold'
+                : 'text-muted hover:bg-muted/50'
+                }`}
+        >
+            <span className={isActive ? 'text-primary' : 'text-muted'}>{icon}</span>
+            <span className={isActive ? 'font-semibold' : 'font-medium'}>{label}</span>
         </button>
     );
 }

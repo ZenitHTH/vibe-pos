@@ -32,6 +32,11 @@ export function MockupProvider({ children }: { children: ReactNode }) {
         }
     }, [pathname]);
 
+    // Clear selection on navigation
+    useEffect(() => {
+        setSelectedElementId(null);
+    }, [pathname]);
+
     return (
         <MockupContext.Provider value={{
             isMockupMode,

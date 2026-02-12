@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { useDatabase } from "../context/DatabaseContext";
-import { FaShieldAlt, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaShieldAlt, FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
 
-export default function SetupScreen() {
+export default function PasswordSetupScreen() {
     const { login, isLoading } = useDatabase();
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -103,12 +103,9 @@ export default function SetupScreen() {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className={`w-full py-3.5 px-4 rounded-xl text-white font-bold text-lg shadow-lg shadow-blue-500/30 transition-all transform hover:scale-[1.02] active:scale-[0.98] ${isLoading
-                            ? "bg-blue-400 cursor-not-allowed"
-                            : "bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600"
-                            }`}
+                        className="w-full py-3.5 px-4 rounded-xl text-white font-bold text-lg shadow-lg shadow-blue-500/30 transition-all transform hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 flex items-center justify-center gap-2"
                     >
-                        {isLoading ? "Setting up..." : "Get Started"}
+                        Next <FaArrowRight />
                     </button>
                 </form>
             </div>

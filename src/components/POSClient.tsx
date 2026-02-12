@@ -10,10 +10,10 @@ import Cart from './Cart';
 import PaymentModal from './PaymentModal';
 
 interface POSClientProps {
-    initialProducts: Product[];
+    initialProducts?: Product[];
 }
 
-export default function POSClient({ initialProducts }: POSClientProps) {
+export default function POSClient({ initialProducts = [] }: POSClientProps) {
     const { settings } = useSettings();
     const {
         productsSource,
