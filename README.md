@@ -71,6 +71,18 @@ npm run tauri build
 
 The output binary will be located in `src-tauri/target/release/bundle/`.
 
+
+## Troubleshooting
+
+### Linux (NVIDIA GPUs)
+If you experience rendering issues, blank screens, or crashes on Linux with an NVIDIA GPU, you may need to disable the DMABUF renderer.
+
+Run the application with the following environment variable:
+```bash
+WEBKIT_DISABLE_DMABUF_RENDERER=1 ./simple-pos
+```
+or add it to your profile/environment variables.
+
 ## Architecture
 
 ![Architecture Diagram](./mermaid-diagram-2026-02-11-181614.svg)
@@ -78,14 +90,15 @@ The output binary will be located in `src-tauri/target/release/bundle/`.
 ## Project Structure
 
 - **`src/`**: Next.js frontend source code.
-  - `app/`:
-    - `components/`: Reusable React components (`payment`, `ui`, `design-mode`, `POSClient`, `Cart`).
-    - `history/`: Order history page and related components.
-    - `manage/`: Management interface for products and categories.
-    - `setting/`: Settings page implementation.
-    - `context/`: Global state management.
+  - `app/`: Application routes and pages (`page.tsx`, `layout.tsx`).
+    - `history/`: Order history page.
+    - `manage/`: Management interface.
+    - `setting/`: Settings page.
+  - `components/`: Reusable React components (`payment`, `ui`, `design-mode`, `POSClient`, `Cart`).
+  - `context/`: Global state management (`DatabaseContext`, `SettingsContext`).
   - `hooks/`: Custom React hooks.
   - `lib/`: Utility functions and API wrappers (`api.ts`).
+  - `types/`: Shared TypeScript definitions.
 - **`src-tauri/`**: Rust backend source code.
   - `src/`: Core Rust source files (`main.rs`, `lib.rs`, `commands/`).
   - `database/`: Local crate for database interactions.
