@@ -2,8 +2,8 @@
 
 import { AppSettings } from "@/lib/settings";
 
-import NumberStepper from "@/app/components/ui/NumberStepper";
-import NumberSlider from "@/app/components/ui/NumberSlider";
+import NumberStepper from "@/components/ui/NumberStepper";
+import NumberSlider from "@/components/ui/NumberSlider";
 
 export default function ComponentScaleControls({ selectedId, settings, updateSettings }: { selectedId: string | null, settings: AppSettings, updateSettings: (s: Partial<AppSettings>) => void }) {
     if (!selectedId) {

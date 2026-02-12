@@ -1,6 +1,6 @@
 "use client";
 
-import { useSettings } from "@/app/context/SettingsContext";
+import { useSettings } from "@/context/SettingsContext";
 
 interface GlobalHeaderProps {
     title: string;

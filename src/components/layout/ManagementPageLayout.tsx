@@ -6,7 +6,7 @@ import ScalableContainer from "../design-mode/ScalableContainer";
 import ScrollableContainer from "../ui/ScrollableContainer";
 
 import { AppSettings } from "@/lib/settings";
-import { useSettings } from "@/app/context/SettingsContext";
+import { useSettings } from "@/context/SettingsContext";
 
 interface ManagementPageLayoutProps {
     title: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useTax } from '../../hooks/useTax';
-import SettingsSection from '../components/ui/SettingsSection';
+import SettingsSection from '@/components/ui/SettingsSection';
 import { FaPercent } from 'react-icons/fa';
 
 export default function TaxSettings() {

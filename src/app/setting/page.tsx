@@ -4,11 +4,11 @@ import ExportSection from './ExportSection';
 import CurrencySettings from './CurrencySettings';
 import TaxSettings from './TaxSettings';
 import DisplaySettings from './DisplaySettings';
-import { useSettings } from '../context/SettingsContext';
+import { useSettings } from '@/context/SettingsContext';
 import { FaSave, FaCheck } from 'react-icons/fa';
 import { useState } from 'react';
 import ResetSettingsButton from './ResetSettingsButton';
-import ManagementPageLayout from '../components/layout/ManagementPageLayout';
+import ManagementPageLayout from '@/components/layout/ManagementPageLayout';
 
 export default function SettingPage() {
     const { save } = useSettings();

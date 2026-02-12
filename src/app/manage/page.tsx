@@ -2,10 +2,10 @@
 
 import { FaPlus } from "react-icons/fa";
 import ProductModal from "./components/ProductModal";
-import { useSettings } from "@/app/context/SettingsContext";
+import { useSettings } from "@/context/SettingsContext";
 import { useProductManagement } from "./hooks/useProductManagement";
 import ProductTable from "./components/ProductTable";
-import ManagementPageLayout from "../components/layout/ManagementPageLayout";
+import ManagementPageLayout from "@/components/layout/ManagementPageLayout";
 
 export default function ManagePage() {
     const { settings } = useSettings();

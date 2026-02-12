@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Category } from "@/lib/types";
-import { Modal } from "../../../components/ui/Modal";
-import { Input } from "../../../components/ui/Input";
+import { Modal } from "@/components/ui/Modal";
+import { Input } from "@/components/ui/Input";
 
 interface CategoryModalProps {
     isOpen: boolean;

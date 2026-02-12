@@ -4,9 +4,12 @@ import { useState } from 'react';
 import { receiptApi } from '@/lib/api';
 import { FaFileExport, FaFolderOpen } from 'react-icons/fa';
 import { save } from '@tauri-apps/plugin-dialog';
-import SettingsSection from '../components/ui/SettingsSection';
+import SettingsSection from '@/components/ui/SettingsSection';
+
+import { useDatabase } from '@/context/DatabaseContext';
 
 export default function ExportSection() {
+    const { dbKey } = useDatabase();
     // Default: Last 30 days
     const [startDate, setStartDate] = useState(() => {
         const d = new Date();
@@ -28,9 +31,9 @@ export default function ExportSection() {
                 filters: [{ name: label, extensions: [ext] }],
                 defaultPath: `receipts_export_${startDate}_${endDate}.${ext}`
             });
-            if (!path) return;
+            if (!path || !dbKey) return;
 
-            await receiptApi.exportReceipts(path, ext, start, end);
+            await receiptApi.exportReceipts(dbKey, path, ext, start, end);
             alert(`${label} Export successful!`);
         };
 

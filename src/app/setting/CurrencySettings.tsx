@@ -2,7 +2,7 @@
 
 import { useCurrency } from '../../hooks/useCurrency';
 import { FaCoins } from 'react-icons/fa';
-import SettingsSection from '../components/ui/SettingsSection';
+import SettingsSection from '@/components/ui/SettingsSection';
 
 const CURRENCIES = [
     { country: "United States", code: "USD", symbol: "$" },

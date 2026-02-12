@@ -2,20 +2,22 @@ import { invoke } from "@tauri-apps/api/core";
 import { BackendProduct, NewProduct, Category, ReceiptList, Receipt } from "./types";
 
 export const productApi = {
-    getAll: async (): Promise<BackendProduct[]> => {
-        return await invoke("get_products");
+    getAll: async (key: string): Promise<BackendProduct[]> => {
+        return await invoke("get_products", { key });
     },
 
-    create: async (product: NewProduct): Promise<BackendProduct> => {
+    create: async (key: string, product: NewProduct): Promise<BackendProduct> => {
         return await invoke("create_product", {
+            key,
             title: product.title,
             catagory: product.catagory,
             satang: product.satang,
         });
     },
 
-    update: async (product: BackendProduct): Promise<BackendProduct> => {
+    update: async (key: string, product: BackendProduct): Promise<BackendProduct> => {
         return await invoke("update_product", {
+            key,
             id: product.product_id,
             title: product.title,
             catagory: product.catagory,
@@ -23,52 +25,54 @@ export const productApi = {
         });
     },
 
-    delete: async (id: number): Promise<void> => {
-        await invoke("delete_product", { id });
+    delete: async (key: string, id: number): Promise<void> => {
+        await invoke("delete_product", { key, id });
     },
 };
 
 export const categoryApi = {
-    getAll: async (): Promise<Category[]> => {
-        return await invoke("get_categories");
+    getAll: async (key: string): Promise<Category[]> => {
+        return await invoke("get_categories", { key });
     },
 
-    create: async (name: string): Promise<Category> => {
-        return await invoke("create_category", { name });
+    create: async (key: string, name: string): Promise<Category> => {
+        return await invoke("create_category", { key, name });
     },
 
-    update: async (category: Category): Promise<Category> => {
+    update: async (key: string, category: Category): Promise<Category> => {
         return await invoke("update_category", {
+            key,
             id: category.id,
             name: category.name,
         });
     },
 
-    delete: async (id: number): Promise<void> => {
-        await invoke("delete_category", { id });
+    delete: async (key: string, id: number): Promise<void> => {
+        await invoke("delete_category", { key, id });
     },
 };
 
 export const receiptApi = {
-    createInvoice: async (): Promise<ReceiptList> => {
-        return await invoke("create_invoice");
+    createInvoice: async (key: string): Promise<ReceiptList> => {
+        return await invoke("create_invoice", { key });
     },
 
-    addInvoiceItem: async (receiptId: number, productId: number, quantity: number): Promise<Receipt> => {
+    addInvoiceItem: async (key: string, receiptId: number, productId: number, quantity: number): Promise<Receipt> => {
         return await invoke("add_invoice_item", {
+            key,
             receiptId: receiptId,
             productId: productId,
             quantity,
         });
     },
 
-    getInvoiceDetail: async (receiptId: number): Promise<[ReceiptList, Receipt[]]> => {
-        return await invoke('get_invoice_detail', { receiptId });
+    getInvoiceDetail: async (key: string, receiptId: number): Promise<[ReceiptList, Receipt[]]> => {
+        return await invoke('get_invoice_detail', { key, receiptId });
     },
-    getInvoicesByDate: async (startDate: number, endDate: number): Promise<ReceiptList[]> => {
-        return await invoke('get_invoices_by_date', { startUnix: startDate, endUnix: endDate });
+    getInvoicesByDate: async (key: string, startDate: number, endDate: number): Promise<ReceiptList[]> => {
+        return await invoke('get_invoices_by_date', { key, startUnix: startDate, endUnix: endDate });
     },
-    exportReceipts: async (exportPath: string, format: string, startDate: number, endDate: number): Promise<string> => {
-        return await invoke('export_receipts', { exportPath, format, startDate: startDate, endDate: endDate });
+    exportReceipts: async (key: string, exportPath: string, format: string, startDate: number, endDate: number): Promise<string> => {
+        return await invoke('export_receipts', { key, exportPath, format, startDate: startDate, endDate: endDate });
     }
 };

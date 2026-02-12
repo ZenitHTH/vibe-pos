@@ -1,8 +1,8 @@
 import { memo } from 'react';
-import { useSettings } from '../context/SettingsContext';
-import { useMockup } from '../context/MockupContext';
+import { useSettings } from '@/context/SettingsContext';
+import { useMockup } from '@/context/MockupContext';
 import { FaDesktop } from 'react-icons/fa';
-import SettingsSection from '../components/ui/SettingsSection';
+import SettingsSection from '@/components/ui/SettingsSection';
 
 const DisplaySettings = memo(() => {
     useSettings();

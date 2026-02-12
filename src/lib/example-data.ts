@@ -1,4 +1,4 @@
-import { Product } from '@/app/types';
+import { Product } from '@/types';
 
 export const exampleProducts: Product[] = [
     { id: 1, name: "Iced Americano", price: 4.50, category: "Coffee", image: "", color: "#78350f" },
@@ -16,7 +16,7 @@ export const exampleProducts: Product[] = [
 
 ];
 
-import { CartItem } from '@/app/types';
+import { CartItem } from '@/types';
 
 export const exampleCartItems: CartItem[] = [
     { ...exampleProducts[0], quantity: 2 },

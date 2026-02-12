@@ -9,7 +9,10 @@ import IdSearch from './IdSearch';
 import ReceiptList from './ReceiptList';
 import ReceiptDetailModal from './ReceiptDetailModal';
 
+import { useDatabase } from '@/context/DatabaseContext';
+
 export default function HistoryPage() {
+    const { dbKey } = useDatabase();
     const [receipts, setReceipts] = useState<ReceiptListType[]>([]);
     const [loading, setLoading] = useState(false);
     const [selectedReceipt, setSelectedReceipt] = useState<ReceiptListType | null>(null);
@@ -24,18 +27,19 @@ export default function HistoryPage() {
     const [searchId, setSearchId] = useState('');
 
     const fetchReceipts = useCallback(async () => {
+        if (!dbKey) return;
         setLoading(true);
         try {
             const start = Math.floor(new Date(startDate).getTime() / 1000);
             const end = Math.floor(new Date(endDate).getTime() / 1000) + 86399; // End of day
-            const data = await receiptApi.getInvoicesByDate(start, end);
+            const data = await receiptApi.getInvoicesByDate(dbKey, start, end);
             setReceipts(data.sort((a, b) => b.datetime_unix - a.datetime_unix));
         } catch (error) {
             console.error("Failed to fetch receipts:", error);
         } finally {
             setLoading(false);
         }
-    }, [startDate, endDate]);
+    }, [startDate, endDate, dbKey]);
 
     const handleSearchById = async () => {
         if (!searchId) return;
@@ -47,7 +51,8 @@ export default function HistoryPage() {
                 return;
             }
 
-            const [header] = await receiptApi.getInvoiceDetail(id);
+            if (!dbKey) return;
+            const [header] = await receiptApi.getInvoiceDetail(dbKey, id);
 
             if (header && header.receipt_id) {
                 setSelectedReceipt(header);

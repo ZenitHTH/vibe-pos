@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import { BackendProduct, NewProduct, Category } from "@/lib/types";
 import { categoryApi } from "@/lib/api";
-import { Modal } from "../../components/ui/Modal";
-import { Input } from "../../components/ui/Input";
-import { Select, Option } from "../../components/ui/Select";
+import { Modal } from "@/components/ui/Modal";
+import { Input } from "@/components/ui/Input";
+import { Select, Option } from "@/components/ui/Select";
 
 interface ProductModalProps {
     isOpen: boolean;
@@ -15,6 +15,8 @@ interface ProductModalProps {
     isSubmitting: boolean;
 }
 
+import { useDatabase } from '@/context/DatabaseContext';
+
 export default function ProductModal({
     isOpen,
     onClose,
@@ -22,6 +24,7 @@ export default function ProductModal({
     initialData,
     isSubmitting,
 }: ProductModalProps) {
+    const { dbKey } = useDatabase();
     const [formData, setFormData] = useState<NewProduct>({
         title: initialData?.title || "",
         catagory: initialData?.catagory || "",
@@ -31,10 +34,10 @@ export default function ProductModal({
     const [categories, setCategories] = useState<Category[]>([]);
 
     useEffect(() => {
-        if (isOpen) {
-            categoryApi.getAll().then(setCategories).catch(console.error);
+        if (isOpen && dbKey) {
+            categoryApi.getAll(dbKey).then(setCategories).catch(console.error);
         }
-    }, [isOpen]);
+    }, [isOpen, dbKey]);
 
     // Reset form when opening for create, or set for edit
     useEffect(() => {

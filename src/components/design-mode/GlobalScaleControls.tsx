@@ -1,4 +1,4 @@
-import NumberSlider from "@/app/components/ui/NumberSlider";
+import NumberSlider from "@/components/ui/NumberSlider";
 
 export default function GlobalScaleControls({ value, onChange }: { value: number, onChange: (val: number) => void }) {
     return (

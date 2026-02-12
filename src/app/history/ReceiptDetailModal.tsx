@@ -1,53 +1,16 @@
-import { useEffect, useState } from 'react';
+"use client";
+
 import { FaArrowLeft, FaReceipt } from 'react-icons/fa';
-import { ReceiptList as ReceiptListType, Receipt } from '@/lib/types';
-import { Product } from '../types';
-import { receiptApi, productApi } from '@/lib/api';
+import { ReceiptList as ReceiptListType } from '@/lib/types';
+import { useReceiptDetail, formatDate } from './hooks/useReceiptDetail';
 
 interface ReceiptDetailModalProps {
     receipt: ReceiptListType;
     onClose: () => void;
 }
 
-// Helper to format Unix timestamp
-const formatDate = (unix: number) => {
-    return new Date(unix * 1000).toLocaleString('th-TH', {
-        dateStyle: 'medium',
-        timeStyle: 'medium',
-    });
-};
-
 export default function ReceiptDetailModal({ receipt, onClose }: ReceiptDetailModalProps) {
-    const [receiptItems, setReceiptItems] = useState<Receipt[]>([]);
-    const [loadingDetail, setLoadingDetail] = useState(false);
-    const [products, setProducts] = useState<Product[]>([]);
-
-    useEffect(() => {
-        // Fetch products for name lookup
-        productApi.getAll().then(apiProducts => {
-            const mapped: Product[] = apiProducts.map(p => ({
-                id: p.product_id,
-                name: p.title,
-                price: p.satang / 100,
-                category: p.catagory,
-                image: "",
-            }));
-            setProducts(mapped);
-        }).catch(console.error);
-
-        async function loadDetail() {
-            setLoadingDetail(true);
-            try {
-                const [, items] = await receiptApi.getInvoiceDetail(receipt.receipt_id);
-                setReceiptItems(items);
-            } catch (error) {
-                console.error("Failed to load details", error);
-            } finally {
-                setLoadingDetail(false);
-            }
-        }
-        loadDetail();
-    }, [receipt]);
+    const { receiptItems, loadingDetail, getProductName } = useReceiptDetail(receipt);
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
@@ -75,18 +38,15 @@ export default function ReceiptDetailModal({ receipt, onClose }: ReceiptDetailMo
                         {loadingDetail ? (
                             <div className="text-center py-8 text-muted">Loading items...</div>
                         ) : (
-                            receiptItems.map((item, idx) => {
-                                const product = products.find(p => p.id === item.product_id);
-                                return (
-                                    <div key={idx} className="flex justify-between items-center p-3 bg-background rounded-lg border border-border">
-                                        <div className="font-medium">
-                                            {product ? product.name : `Product #${item.product_id}`}
-                                            <div className="text-xs text-muted">Qty: {item.quantity}</div>
-                                        </div>
-                                        <div className="font-bold">x{item.quantity}</div>
+                            receiptItems.map((item, idx) => (
+                                <div key={idx} className="flex justify-between items-center p-3 bg-background rounded-lg border border-border">
+                                    <div className="font-medium">
+                                        {getProductName(item.product_id)}
+                                        <div className="text-xs text-muted">Qty: {item.quantity}</div>
                                     </div>
-                                );
-                            })
+                                    <div className="font-bold">x{item.quantity}</div>
+                                </div>
+                            ))
                         )}
                     </div>
                 </div>

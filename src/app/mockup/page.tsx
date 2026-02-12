@@ -1,19 +1,22 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import POSClient from '../components/POSClient';
-import { Product } from '../types';
+import POSClient from '@/components/POSClient';
+import { Product } from '@/types';
 import { productApi } from '@/lib/api';
+import { useDatabase } from '@/context/DatabaseContext';
 
 export default function MockupPage() {
+    const { dbKey } = useDatabase();
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadProducts() {
+            if (!dbKey) return;
             try {
                 // Use backend products or fall back to mock data
-                const backendProducts = await productApi.getAll();
+                const backendProducts = await productApi.getAll(dbKey);
                 const mappedProducts: Product[] = backendProducts.map(p => ({
                     id: p.product_id,
                     name: p.title,
@@ -37,7 +40,7 @@ export default function MockupPage() {
             }
         }
         loadProducts();
-    }, []);
+    }, [dbKey]);
 
     if (loading) {
         return <div className="flex h-screen items-center justify-center">Loading Mockup UI...</div>;

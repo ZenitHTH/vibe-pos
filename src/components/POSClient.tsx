@@ -1,7 +1,7 @@
 "use client";
 
-import { usePOSLogic } from '../../hooks/usePOSLogic';
-import { Product } from '../types';
+import { usePOSLogic } from '@/hooks/usePOSLogic';
+import { Product } from '@/types';
 import { useSettings } from '../context/SettingsContext';
 import POSHeader from './pos/POSHeader';
 import POSProductGrid from './pos/POSProductGrid';

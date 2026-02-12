@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { CartItem, Product } from '../app/types';
+import { CartItem, Product } from '@/types';
 import { categoryApi, receiptApi } from '@/lib/api';
 import { useCurrency } from './useCurrency';
 import { useTax } from './useTax';
 import { exampleProducts, exampleCartItems } from '@/lib/example-data';
-import { useMockup } from '../app/context/MockupContext';
+import { useMockup } from '@/context/MockupContext';
+import { useDatabase } from '@/context/DatabaseContext';
 
 export function usePOSLogic(initialProducts: Product[]) {
     const { isMockupMode } = useMockup();
+    const { dbKey } = useDatabase();
     const router = useRouter();
     const searchParams = useSearchParams();
     const { currency } = useCurrency();
@@ -27,12 +29,13 @@ export function usePOSLogic(initialProducts: Product[]) {
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
     useEffect(() => {
-        categoryApi.getAll().then(data => {
+        if (!dbKey) return;
+        categoryApi.getAll(dbKey).then(data => {
             setCategories(["All", ...data.map(c => c.name)]);
         }).catch(err => {
             console.error("Failed to fetch categories", err);
         });
-    }, []);
+    }, [dbKey]);
 
     // Effect to handle mockup mode cart items
     useEffect(() => {
@@ -97,14 +100,16 @@ export function usePOSLogic(initialProducts: Product[]) {
     };
 
     const handleConfirmPayment = async (cashReceived: number) => {
+        if (!dbKey) return;
         try {
             // 1. Create Invoice Header
-            const receiptList = await receiptApi.createInvoice();
+            const receiptList = await receiptApi.createInvoice(dbKey);
             console.log("Invoice created:", receiptList);
 
             // 2. Add Items
             for (const item of cartItems) {
                 await receiptApi.addInvoiceItem(
+                    dbKey,
                     receiptList.receipt_id,
                     item.id,
                     item.quantity

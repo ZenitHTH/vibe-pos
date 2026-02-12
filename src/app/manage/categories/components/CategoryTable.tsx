@@ -1,6 +1,6 @@
 import { Category } from "@/lib/types";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import GlobalTable from "@/app/components/ui/GlobalTable";
+import GlobalTable from "@/components/ui/GlobalTable";
 import { AppSettings } from "@/lib/settings";
 
 interface CategoryTableProps {

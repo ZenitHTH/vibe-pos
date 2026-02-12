@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { productApi } from "@/lib/api";
 import { BackendProduct, NewProduct } from "@/lib/types";
 
+import { useDatabase } from "@/context/DatabaseContext";
+
 export function useProductManagement() {
+    const { dbKey } = useDatabase();
     const [products, setProducts] = useState<BackendProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -14,21 +17,21 @@ export function useProductManagement() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
+        const fetchProducts = async () => {
+            if (!dbKey) return;
+            try {
+                setLoading(true);
+                const data = await productApi.getAll(dbKey);
+                setProducts(data);
+            } catch (err) {
+                console.error("Failed to fetch products:", err);
+                setError("Failed to load products. Is the backend running?");
+            } finally {
+                setLoading(false);
+            }
+        };
         fetchProducts();
-    }, []);
-
-    const fetchProducts = async () => {
-        try {
-            setLoading(true);
-            const data = await productApi.getAll();
-            setProducts(data);
-        } catch (err) {
-            console.error("Failed to fetch products:", err);
-            setError("Failed to load products. Is the backend running?");
-        } finally {
-            setLoading(false);
-        }
-    };
+    }, [dbKey]);
 
     const handleCreate = () => {
         setEditingProduct(undefined);
@@ -41,10 +44,10 @@ export function useProductManagement() {
     };
 
     const handleDelete = async (id: number) => {
-        if (!confirm("Are you sure you want to delete this product?")) return;
+        if (!confirm("Are you sure you want to delete this product?") || !dbKey) return;
 
         try {
-            await productApi.delete(id);
+            await productApi.delete(dbKey, id);
             setProducts(products.filter(p => p.product_id !== id));
         } catch (err) {
             console.error("Failed to delete product:", err);
@@ -53,16 +56,17 @@ export function useProductManagement() {
     };
 
     const handleModalSubmit = async (data: NewProduct) => {
+        if (!dbKey) return;
         try {
             setIsSubmitting(true);
             if (editingProduct) {
-                const updated = await productApi.update({
+                const updated = await productApi.update(dbKey, {
                     ...data,
                     product_id: editingProduct.product_id,
                 });
                 setProducts(products.map(p => p.product_id === updated.product_id ? updated : p));
             } else {
-                const created = await productApi.create(data);
+                const created = await productApi.create(dbKey, data);
                 setProducts([...products, created]);
             }
             setIsModalOpen(false);

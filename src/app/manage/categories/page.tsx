@@ -2,10 +2,10 @@
 
 import { FaPlus } from "react-icons/fa";
 import CategoryModal from "./components/CategoryModal";
-import { useSettings } from "@/app/context/SettingsContext";
+import { useSettings } from "@/context/SettingsContext";
 import { useCategoryManagement } from "./hooks/useCategoryManagement";
 import CategoryTable from "./components/CategoryTable";
-import ManagementPageLayout from "../../components/layout/ManagementPageLayout";
+import ManagementPageLayout from "@/components/layout/ManagementPageLayout";
 
 export default function CategoriesPage() {
     const { settings } = useSettings();
