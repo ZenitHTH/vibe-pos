@@ -14,6 +14,10 @@ A modern, lightweight Point of Sale (POS) system built with **Tauri v2** and **N
 - **Customizable UI**:
   - **Global Display Scaling**: Adjust the entire interface size from 50% to 200%.
   - **Granular Control**: Independently resize the Sidebar, Cart panel, and Product Grid density.
+- **Design Mode (New)**: 
+  - **WYSIWYG Editor**: Interactive mode to adjust layout scaling and component sizes in real-time.
+  - **Context-Aware Controls**: Automatically shows relevant settings for the active view (e.g., Numpad Height when editing Payment Modal).
+  - **Visual Feedback**: Immediate visual updates for font sizes, element dimensions, and spacing.
 - **Order History**: 
   - View past transactions with date filtering.
   - Search receipts by unique ID.
@@ -39,7 +43,9 @@ Before you begin, ensure you have the following installed:
 - **System Dependencies**:
   - **Linux**: Build essentials, webkit2gtk (see [Tauri Linux Setup](https://v2.tauri.app/start/prerequisites/#linux))
   - **macOS**: Build your own , i don't have mac.
-  - **Windows**: Microsoft Visual Studio C++ Build Tools
+  - **Windows**: 
+    - Microsoft Visual Studio C++ Build Tools
+    - **OpenSSL**: Required for database encryption (`sqlcipher`). Set `OPENSSL_DIR` and `OPENSSL_LIB_DIR` environment variables.
 
 ## Setup & Development
 

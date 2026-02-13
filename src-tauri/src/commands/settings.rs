@@ -24,6 +24,9 @@ pub struct AppSettings {
     pub setting_page_font_scale: f64,
     pub header_font_scale: f64,
     pub layout_max_width: f64,
+    pub payment_modal_scale: f64,
+    pub payment_modal_font_scale: f64,
+    pub payment_numpad_height: Option<f64>,
 }
 
 impl Default for AppSettings {
@@ -47,6 +50,9 @@ impl Default for AppSettings {
             setting_page_font_scale: 100.0,
             header_font_scale: 100.0,
             layout_max_width: 1280.0,
+            payment_modal_scale: 100.0,
+            payment_modal_font_scale: 100.0,
+            payment_numpad_height: Some(320.0),
         }
     }
 }

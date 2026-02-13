@@ -26,11 +26,13 @@ The following ER diagram illustrates the relationships between the database enti
 
 ### Entities
 
-- **CATEGORY**: Groups products.
-- **PRODUCT**: Represents individual items for sale.
-- **STOCK**: Tracks quantity on hand for each product.
-- **RECEIPT**: Records a single sales transaction (payment type, total, timestamp).
-- **RECEIPT_LIST**: Line items associated with a receipt (specific products sold, quantity, price at time of sale).
+- **CATEGORY**: Groups products (`id`, `name`, `color`, `icon`).
+- **PRODUCT**: Items for sale (`id`, `name`, `price`, `image`, `sku`, `category_id`).
+- **STOCK**: Inventory tracking (`id`, `product_id`, `quantity`, `updated_at`).
+- **RECEIPT**: Sales transactions (`id`, `total`, `payment_type`, `created_at`).
+- **RECEIPT_ITEM**: Line items for receipts (`id`, `receipt_id`, `product_id`, `quantity`, `price`).
+
+> **Note**: Application settings (currency, tax, layout) are **not** stored in the database. They are persisted in a JSON file (`settings.json`) in the user's data directory.
 
 ## Development
 
