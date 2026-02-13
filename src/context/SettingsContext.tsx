@@ -31,6 +31,8 @@ const DEFAULT_SETTINGS: AppSettings = {
     setting_page_font_scale: 100.0,
     header_font_scale: 100.0,
     layout_max_width: 1280.0,
+    payment_modal_scale: 100.0,
+    payment_modal_font_scale: 100.0,
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);

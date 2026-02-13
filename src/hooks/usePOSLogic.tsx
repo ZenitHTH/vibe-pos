@@ -9,7 +9,7 @@ import { useMockup } from '@/context/MockupContext';
 import { useDatabase } from '@/context/DatabaseContext';
 
 export function usePOSLogic(initialProducts: Product[]) {
-    const { isMockupMode } = useMockup();
+    const { isMockupMode, mockupView, setMockupView } = useMockup();
     const { dbKey } = useDatabase();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -45,6 +45,17 @@ export function usePOSLogic(initialProducts: Product[]) {
             setCartItems([]);
         }
     }, [isMockupMode]);
+
+    // Effect to view syncing
+    useEffect(() => {
+        if (isMockupMode) {
+            if (mockupView === 'payment') {
+                setIsPaymentModalOpen(true);
+            } else {
+                setIsPaymentModalOpen(false);
+            }
+        }
+    }, [isMockupMode, mockupView]);
 
     const updateURL = (key: string, value: string) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -132,6 +143,13 @@ export function usePOSLogic(initialProducts: Product[]) {
 
     const cartTotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0) * (1 + taxRate);
 
+    const handleSetIsPaymentModalOpen = (isOpen: boolean) => {
+        setIsPaymentModalOpen(isOpen);
+        if (!isOpen && isMockupMode) {
+            setMockupView('default');
+        }
+    };
+
     return {
         productsSource,
         categories,
@@ -144,7 +162,7 @@ export function usePOSLogic(initialProducts: Product[]) {
         handleUpdateQuantity,
         handleRemove,
         isPaymentModalOpen,
-        setIsPaymentModalOpen,
+        setIsPaymentModalOpen: handleSetIsPaymentModalOpen,
         handleCheckout,
         handleConfirmPayment,
         currency,

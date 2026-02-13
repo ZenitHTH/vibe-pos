@@ -65,7 +65,7 @@ export default function ExportSection() {
             <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-muted mb-2">Date Range</label>
+                        <label className="block text-sm font-medium mb-2"><p>Date Range</p></label>
                         <div className="flex gap-4">
                             <input
                                 type="date"
@@ -73,7 +73,7 @@ export default function ExportSection() {
                                 onChange={(e) => setStartDate(e.target.value)}
                                 className="w-full px-4 py-2 rounded-xl bg-background border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
                             />
-                            <span className="self-center text-muted">-</span>
+                            <span className="self-center text-muted-foreground">-</span>
                             <input
                                 type="date"
                                 value={endDate}
@@ -84,7 +84,7 @@ export default function ExportSection() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-muted mb-2">Format</label>
+                        <label className="block text-sm font-medium mb-2">Format</label>
                         <div className="grid grid-cols-3 gap-2">
                             {['csv', 'xlsx', 'ods'].map((f) => (
                                 <button
@@ -92,7 +92,7 @@ export default function ExportSection() {
                                     onClick={() => setFormat(f)}
                                     className={`px-4 py-2 rounded-xl border transition-all font-medium uppercase ${format === f
                                         ? 'bg-primary text-primary-foreground border-primary shadow-lg shadow-blue-500/20'
-                                        : 'bg-background border-border hover:bg-muted/10 text-muted'
+                                        : 'bg-background border-border hover:bg-muted/10 text-muted-foreground'
                                         }`}
                                 >
                                     {f}

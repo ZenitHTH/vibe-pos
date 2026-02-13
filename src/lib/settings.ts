@@ -19,6 +19,8 @@ export interface AppSettings {
     setting_page_font_scale: number;
     header_font_scale: number;
     layout_max_width: number;
+    payment_modal_scale: number;
+    payment_modal_font_scale: number;
 }
 
 export async function getSettings(): Promise<AppSettings> {

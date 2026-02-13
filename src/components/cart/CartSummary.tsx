@@ -8,13 +8,13 @@ interface CartSummaryProps {
 
 export default function CartSummary({ subtotal, tax, total, currency, onCheckout }: CartSummaryProps) {
     return (
-        <div className="p-6 bg-card-bg border-t border-border mt-auto shadow-[0_-5px_20px_rgba(0,0,0,0.05)] z-10">
+        <div className="p-6 bg-card text-card-foreground border-t border-border mt-auto shadow-[0_-5px_20px_rgba(0,0,0,0.05)] z-10">
             <div className="space-y-3 mb-6">
-                <div className="flex justify-between text-muted">
+                <div className="flex justify-between text-muted-foreground">
                     <span>Subtotal</span>
                     <span>{currency}{subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-muted">
+                <div className="flex justify-between text-muted-foreground">
                     <span>Tax (7%)</span>
                     <span>{currency}{tax.toFixed(2)}</span>
                 </div>

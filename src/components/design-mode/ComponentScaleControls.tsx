@@ -20,7 +20,7 @@ export default function ComponentScaleControls({ selectedId, settings, updateSet
     const currentFontScale = settings[fontScaleKey] as number || 100;
 
     const label = getLabel(selectedId);
-    const hasFontControl = ['sidebar_scale', 'cart_scale', 'grid_scale', 'manage_table_scale', 'category_table_scale', 'setting_page_scale'].includes(selectedId);
+    const hasFontControl = ['sidebar_scale', 'cart_scale', 'grid_scale', 'manage_table_scale', 'category_table_scale', 'setting_page_scale', 'payment_modal_scale'].includes(selectedId);
 
     return (
         <div className="flex-1 flex gap-8">
@@ -104,6 +104,7 @@ function getLabel(id: string) {
         case 'manage_table_scale': return 'Product Table';
         case 'category_table_scale': return 'Category Table';
         case 'setting_page_scale': return 'Settings Page';
+        case 'payment_modal_scale': return 'Payment Modal';
         default: return 'Component Size';
     }
 }

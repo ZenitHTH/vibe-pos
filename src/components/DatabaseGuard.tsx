@@ -5,11 +5,9 @@ import { useDatabase } from "../context/DatabaseContext";
 import LoginScreen from "./LoginScreen";
 import WelcomeScreen from "./WelcomeScreen";
 import PasswordSetupScreen from "./PasswordSetupScreen";
-import UISetupMode from "./UISetupMode";
-import DesignModeWrapper from "./DesignModeWrapper";
 import SettingsSetup from "./SettingsSetup";
 
-type SetupStep = 'welcome' | 'db-setup' | 'ui-intro' | 'design-mode' | 'settings' | 'complete';
+type SetupStep = 'welcome' | 'db-setup' | 'settings' | 'complete';
 
 export default function DatabaseGuard({ children }: { children: React.ReactNode }) {
     const { isLoggedIn, dbExists } = useDatabase();
@@ -36,14 +34,10 @@ export default function DatabaseGuard({ children }: { children: React.ReactNode 
                             // Database created and logged in.
                             // Mark session as active so we don't drop to standard login/app
                             setIsSetupSession(true);
-                            setSetupStep('ui-intro');
+                            setSetupStep('settings');
                         }}
                     />
                 );
-            case 'ui-intro':
-                return <UISetupMode onNext={() => setSetupStep('design-mode')} />;
-            case 'design-mode':
-                return <DesignModeWrapper onNext={() => setSetupStep('settings')} />;
             case 'settings':
                 return <SettingsSetup onComplete={() => {
                     setIsSetupSession(false);

@@ -19,7 +19,7 @@ export default function GlobalHeader({ title, subtitle, children, className = ""
         >
             <div className="flex-1">
                 <h1 className="text-2xl font-bold text-foreground mb-1" style={{ fontSize: '1.5em' }}>{title}</h1>
-                {subtitle && <p className="text-muted text-sm" style={{ fontSize: '0.875em' }}>{subtitle}</p>}
+                {subtitle && <p className="text-muted-foreground text-sm" style={{ fontSize: '0.875em' }}>{subtitle}</p>}
             </div>
             {children && (
                 <div className="flex items-center gap-2">

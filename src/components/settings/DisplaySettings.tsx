@@ -17,7 +17,7 @@ const DisplaySettings = memo(() => {
                     <div className="flex justify-between items-center">
                         <div>
                             <p className="font-semibold text-foreground">Design Mode (UI Adjustments)</p>
-                            <p className="text-sm text-muted">Enable visual resizing of UI components</p>
+                            <p className="text-sm text-muted-foreground">Enable visual resizing of UI components</p>
                         </div>
                         <button
                             onClick={toggleMockupMode}
@@ -31,7 +31,7 @@ const DisplaySettings = memo(() => {
                     </div>
 
                     {/* Information / Help Text */}
-                    <div className="text-sm text-muted bg-background p-3 rounded-lg border border-border">
+                    <div className="text-sm text-muted-foreground bg-background p-3 rounded-lg border border-border">
                         <p>
                             <span className="font-semibold text-primary">Tip:</span> Enable Design Mode to:
                         </p>

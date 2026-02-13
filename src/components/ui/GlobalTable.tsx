@@ -19,14 +19,14 @@ interface GlobalTableProps<T> {
 
 export default function GlobalTable<T>({ columns, data, keyField, emptyMessage = "No items found" }: GlobalTableProps<T>) {
     return (
-        <div className="bg-card-bg rounded-xl border border-border shadow-sm overflow-hidden">
+        <div className="bg-card text-card-foreground rounded-xl border border-border shadow-sm overflow-hidden">
             <table className="w-full text-left">
-                <thead className="bg-muted/5 border-b border-border">
+                <thead className="bg-muted/50 border-b border-border">
                     <tr>
                         {columns.map((col, index) => (
                             <th
                                 key={index}
-                                className={`px-6 py-4 font-medium text-muted ${col.headerClassName || ''}`}
+                                className={`px-6 py-3 font-medium text-muted-foreground ${col.headerClassName || ''}`}
                             >
                                 {col.header}
                             </th>
@@ -36,13 +36,13 @@ export default function GlobalTable<T>({ columns, data, keyField, emptyMessage =
                 <tbody className="divide-y divide-border">
                     {data.length === 0 ? (
                         <tr>
-                            <td colSpan={columns.length} className="px-6 py-12 text-center text-muted">
+                            <td colSpan={columns.length} className="px-6 py-12 text-center text-muted-foreground">
                                 {emptyMessage}
                             </td>
                         </tr>
                     ) : (
                         data.map((item) => (
-                            <tr key={String(item[keyField])} className="hover:bg-muted/5 transition-colors">
+                            <tr key={String(item[keyField])} className="hover:bg-muted/50 transition-colors">
                                 {columns.map((col, index) => (
                                     <td key={index} className={`px-6 py-4 ${col.className || ''}`}>
                                         {col.render ? col.render(item) : (col.accessor ? String(item[col.accessor]) : '')}

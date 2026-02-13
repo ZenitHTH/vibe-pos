@@ -3,6 +3,7 @@
 import ExportSection from '@/components/settings/ExportSection';
 import CurrencySettings from '@/components/settings/CurrencySettings';
 import TaxSettings from '@/components/settings/TaxSettings';
+import ThemeSettings from '@/components/settings/ThemeSettings';
 import DisplaySettings from '@/components/settings/DisplaySettings';
 import { useSettings } from '@/context/SettingsContext';
 import { FaSave, FaCheck } from 'react-icons/fa';
@@ -57,6 +58,9 @@ export default function SettingPage() {
                 </button>
             }
         >
+            {/* Theme Settings */}
+            <ThemeSettings />
+
             {/* Display Settings */}
             <DisplaySettings />
 

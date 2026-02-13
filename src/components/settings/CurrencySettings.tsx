@@ -60,7 +60,7 @@ export default function CurrencySettings() {
                         )}
                     </select>
                 </div>
-                <p className="text-xs text-muted mt-2">
+                <p className="text-xs text-muted-foreground mt-2">
                     Select your region to automatically set the currency symbol ({currency}).
                 </p>
             </div>

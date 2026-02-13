@@ -7,6 +7,7 @@ import { DatabaseProvider } from "@/context/DatabaseContext";
 import DatabaseGuard from "@/components/DatabaseGuard";
 import { MockupProvider } from "@/context/MockupContext";
 import BottomControlPanel from '@/components/design-mode/BottomControlPanel';
+import { ThemeProvider } from "@/components/theme-provider";
 
 const notoSans = Noto_Sans({
   variable: "--font-noto-sans",
@@ -31,21 +32,28 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${notoSans.variable} ${notoMono.variable} antialiased flex bg-background`}
+        className={`${notoSans.variable} ${notoMono.variable} antialiased flex bg-background text-foreground`}
       >
-        <SettingsProvider>
-          <DatabaseProvider>
-            <MockupProvider>
-              <DatabaseGuard>
-                <Sidebar />
-                <main className="flex-1 h-screen overflow-hidden pt-16 lg:pt-0 flex flex-col">
-                  {children}
-                </main>
-                <BottomControlPanel />
-              </DatabaseGuard>
-            </MockupProvider>
-          </DatabaseProvider>
-        </SettingsProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SettingsProvider>
+            <DatabaseProvider>
+              <MockupProvider>
+                <DatabaseGuard>
+                  <Sidebar />
+                  <main className="flex-1 h-screen overflow-hidden pt-16 lg:pt-0 flex flex-col">
+                    {children}
+                  </main>
+                  <BottomControlPanel />
+                </DatabaseGuard>
+              </MockupProvider>
+            </DatabaseProvider>
+          </SettingsProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

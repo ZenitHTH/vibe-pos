@@ -19,11 +19,11 @@ export default function ProductFilter({
     return (
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
             <div className="relative flex-1">
-                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" />
+                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <input
                     type="text"
                     placeholder="Search products..."
-                    className="w-full pl-10 pr-4 py-3 bg-card-bg border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-foreground placeholder:text-muted/70"
+                    className="w-full pl-10 pr-4 py-3 bg-card text-card-foreground border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground/70"
                     value={searchQuery}
                     onChange={(e) => onSearchChange(e.target.value)}
                 />
@@ -36,7 +36,7 @@ export default function ProductFilter({
                         onClick={() => onCategoryChange(cat)}
                         className={`px-5 py-2.5 rounded-xl font-medium whitespace-nowrap transition-all ${selectedCategory === cat
                             ? 'bg-primary text-primary-foreground shadow-lg shadow-blue-500/20'
-                            : 'bg-card-bg text-muted border border-border hover:bg-card-hover hover:text-foreground'
+                            : 'bg-card text-muted-foreground border border-border hover:bg-accent hover:text-accent-foreground'
                             }`}
                     >
                         {cat}

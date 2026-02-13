@@ -8,6 +8,8 @@ interface MockupContextType {
     selectedElementId: string | null;
     selectElement: (id: string | null) => void;
     toggleMockupMode: () => void;
+    mockupView: 'default' | 'payment';
+    setMockupView: (view: 'default' | 'payment') => void;
 }
 
 const MockupContext = createContext<MockupContextType | undefined>(undefined);
@@ -16,11 +18,15 @@ export function MockupProvider({ children }: { children: ReactNode }) {
     const pathname = usePathname();
     const [isMockupMode, setIsMockupMode] = useState(false);
     const [selectedElementId, setSelectedElementId] = useState<string | null>(null);
+    const [mockupView, setMockupView] = useState<'default' | 'payment'>('default');
 
     const toggleMockupMode = () => {
         setIsMockupMode(prev => {
             const newValue = !prev;
-            if (!newValue) setSelectedElementId(null);
+            if (!newValue) {
+                setSelectedElementId(null);
+                setMockupView('default');
+            }
             return newValue;
         });
     };
@@ -42,7 +48,9 @@ export function MockupProvider({ children }: { children: ReactNode }) {
             isMockupMode,
             selectedElementId,
             selectElement: setSelectedElementId,
-            toggleMockupMode
+            toggleMockupMode,
+            mockupView,
+            setMockupView
         }}>
             {children}
         </MockupContext.Provider>

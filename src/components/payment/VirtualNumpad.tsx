@@ -23,7 +23,7 @@ const VirtualNumpad = memo(({ onPress, onClear, onBackspace }: VirtualNumpadProp
                     <button
                         key={key}
                         onClick={() => onPress(key)}
-                        className="flex items-center justify-center text-3xl font-bold bg-card-bg border border-border rounded-2xl shadow-sm hover:bg-muted/10 active:scale-95 active:bg-primary/5 transition-all outline-none focus:ring-2 focus:ring-primary/20"
+                        className="flex items-center justify-center text-3xl font-bold bg-card text-foreground border border-border rounded-2xl shadow-sm hover:bg-muted/10 active:scale-95 active:bg-primary/5 transition-all outline-none focus:ring-2 focus:ring-primary/20"
                         type="button"
                     >
                         {key}

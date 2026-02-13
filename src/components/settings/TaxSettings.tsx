@@ -12,7 +12,7 @@ export default function TaxSettings() {
             <div className="flex items-center justify-between">
                 <div>
                     <h3 className="font-medium text-foreground">Enable Tax</h3>
-                    <p className="text-sm text-muted">Apply tax to all orders automatically.</p>
+                    <p className="text-sm text-muted-foreground">Apply tax to all orders automatically.</p>
                 </div>
                 <div className="flex items-center gap-4">
                     {isTaxEnabled && (
@@ -25,7 +25,7 @@ export default function TaxSettings() {
                                 onChange={(e) => setTaxPercentage(Number(e.target.value))}
                                 className="w-16 px-2 py-1 bg-background border border-border rounded-lg text-right focus:outline-none focus:ring-2 focus:ring-primary/50"
                             />
-                            <span className="text-muted font-medium">%</span>
+                            <span className="text-muted-foreground font-medium">%</span>
                         </div>
                     )}
                     <label className="relative inline-flex items-center cursor-pointer">

@@ -5,6 +5,9 @@ import CashInput from './payment/CashInput';
 import ChangeDisplay from './payment/ChangeDisplay';
 import PaymentFooter from './payment/PaymentFooter';
 
+import { useSettings } from '@/context/SettingsContext';
+import SelectableOverlay from './design-mode/SelectableOverlay';
+
 interface PaymentModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -14,6 +17,7 @@ interface PaymentModalProps {
 }
 
 export default function PaymentModal({ isOpen, onClose, total, onConfirm, currency = '$' }: PaymentModalProps) {
+    const { settings } = useSettings();
     const [cashReceived, setCashReceived] = useState<string>('');
     const [isProcessing, setIsProcessing] = useState(false);
 
@@ -55,13 +59,24 @@ export default function PaymentModal({ isOpen, onClose, total, onConfirm, curren
 
     if (!isOpen) return null;
 
+    // Calculate base width (e.g. 512px for max-w-lg) and apply scaling
+    const scale = (settings?.payment_modal_scale || 100) / 100;
+    const fontScale = (settings?.payment_modal_font_scale || 100) / 100;
+    const baseWidth = 512; // approx 32rem
+    const scaledWidth = `${baseWidth * scale}px`;
+
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            className="payment-modal-overlay"
             role="dialog"
             aria-modal="true"
+            style={{ fontSize: `${fontScale}rem` }}
         >
-            <div className="bg-card-bg w-full max-w-md lg:max-w-md xl:max-w-lg max-h-[90vh] flex flex-col rounded-2xl shadow-2xl border border-border overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div
+                className="payment-modal-content"
+                style={{ maxWidth: scaledWidth, width: '100%' }}
+            >
+                <SelectableOverlay id="payment_modal_scale" />
                 <ModalHeader onClose={onClose} />
 
                 <div className="p-4 lg:p-5 space-y-4 lg:space-y-5 overflow-y-auto custom-scrollbar">
