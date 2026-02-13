@@ -21,6 +21,7 @@ export interface AppSettings {
     layout_max_width: number;
     payment_modal_scale: number;
     payment_modal_font_scale: number;
+    payment_numpad_height?: number;
 }
 
 export async function getSettings(): Promise<AppSettings> {

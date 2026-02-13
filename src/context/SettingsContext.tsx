@@ -33,6 +33,7 @@ const DEFAULT_SETTINGS: AppSettings = {
     layout_max_width: 1280.0,
     payment_modal_scale: 100.0,
     payment_modal_font_scale: 100.0,
+    payment_numpad_height: 320, // Default h-80 equivalent (approx)
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);

@@ -7,10 +7,11 @@ interface CashInputProps {
     onChange: (val: string) => void;
     quickAmounts: number[];
     currency: string;
+    numpadHeight?: number;
 }
 
 
-const CashInput = memo(({ value, onChange, quickAmounts, currency }: CashInputProps) => {
+const CashInput = memo(({ value, onChange, quickAmounts, currency, numpadHeight }: CashInputProps) => {
     const handleKeyPress = (key: string) => {
         // Prevent multiple dots
         if (key === '.' && value.includes('.')) return;
@@ -77,6 +78,7 @@ const CashInput = memo(({ value, onChange, quickAmounts, currency }: CashInputPr
                 onPress={handleKeyPress}
                 onBackspace={handleBackspace}
                 onClear={handleClear}
+                height={numpadHeight}
             />
         </div>
     );

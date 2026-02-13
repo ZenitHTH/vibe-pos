@@ -104,7 +104,7 @@ function getLabel(id: string) {
         case 'manage_table_scale': return 'Product Table';
         case 'category_table_scale': return 'Category Table';
         case 'setting_page_scale': return 'Settings Page';
-        case 'payment_modal_scale': return 'Payment Modal';
+        case 'payment_modal_scale': return 'Modal Scale';
         default: return 'Component Size';
     }
 }

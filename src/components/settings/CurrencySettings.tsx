@@ -4,7 +4,7 @@ import { useCurrency } from '@/hooks/useCurrency';
 import { FaCoins } from 'react-icons/fa';
 import SettingsSection from '@/components/ui/SettingsSection';
 
-const CURRENCIES = [
+export const CURRENCIES = [
     { country: "United States", code: "USD", symbol: "$" },
     { country: "United Kingdom", code: "GBP", symbol: "£" },
     { country: "European Union", code: "EUR", symbol: "€" },

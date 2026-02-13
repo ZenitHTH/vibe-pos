@@ -5,9 +5,10 @@ interface VirtualNumpadProps {
     onPress: (key: string) => void;
     onClear: () => void;
     onBackspace: () => void;
+    height?: number;
 }
 
-const VirtualNumpad = memo(({ onPress, onClear, onBackspace }: VirtualNumpadProps) => {
+const VirtualNumpad = memo(({ onPress, onClear, onBackspace, height }: VirtualNumpadProps) => {
     const keys = [
         '7', '8', '9',
         '4', '5', '6',
@@ -16,7 +17,10 @@ const VirtualNumpad = memo(({ onPress, onClear, onBackspace }: VirtualNumpadProp
     ];
 
     return (
-        <div className="grid grid-cols-4 gap-3 h-48 sm:h-56 lg:h-64 xl:h-80 select-none">
+        <div
+            className={`grid grid-cols-4 gap-3 select-none ${!height ? 'h-48 sm:h-56 lg:h-64 xl:h-80' : ''}`}
+            style={{ height: height ? `${height}px` : undefined }}
+        >
             {/* Numbers Section (3 cols) */}
             <div className="col-span-3 grid grid-cols-3 gap-3">
                 {keys.map((key) => (

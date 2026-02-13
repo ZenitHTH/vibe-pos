@@ -43,6 +43,7 @@ export default function BottomControlPanel({ hideSaveButton = false, forceVisibl
                 <GlobalLayoutControls
                     settings={settings}
                     updateSettings={updateSettings}
+                    currentView={isMockupMode && selectedElementId === 'payment_modal_scale' ? 'payment' : undefined}
                 />
 
                 <ComponentScaleControls

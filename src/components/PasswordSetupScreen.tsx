@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useDatabase } from "../context/DatabaseContext";
-import { FaShieldAlt, FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
+import { FaShieldAlt, FaEye, FaEyeSlash, FaArrowRight, FaExclamationTriangle } from "react-icons/fa";
 import { cn } from "../lib/utils";
 
 interface PasswordSetupScreenProps {
@@ -98,11 +98,16 @@ export default function PasswordSetupScreen({ onSuccess }: PasswordSetupScreenPr
                     </div>
 
                     {error && (
-                        <div className="p-3 rounded-lg bg-destructive/10 text-destructive text-sm font-medium flex items-center">
-                            <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                            </svg>
+                        <div className="p-3 rounded-lg bg-destructive/10 text-destructive text-sm font-medium flex items-center mb-4">
+                            <FaExclamationTriangle className="w-4 h-4 mr-2 flex-shrink-0" />
                             {error}
+                        </div>
+                    )}
+
+                    {(/[^\x00-\x7F]/.test(password) || /[^\x00-\x7F]/.test(confirmPassword)) && (
+                        <div className="p-3 rounded-lg bg-yellow-500/10 text-yellow-600 border border-yellow-200 text-sm font-medium flex items-center mb-4">
+                            <FaExclamationTriangle className="w-4 h-4 mr-2 flex-shrink-0" />
+                            Warning: detailed characters detected. Please check your keyboard language (English recommended).
                         </div>
                     )}
 

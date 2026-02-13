@@ -95,6 +95,7 @@ export default function PaymentModal({ isOpen, onClose, total, onConfirm, curren
                         onChange={setCashReceived}
                         quickAmounts={quickAmounts}
                         currency={currency}
+                        numpadHeight={settings?.payment_numpad_height}
                     />
                 </div>
 
