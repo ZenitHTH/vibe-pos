@@ -7,6 +7,7 @@ import { FaHome, FaBoxOpen, FaCog, FaTags, FaBars, FaTimes } from "react-icons/f
 
 import { useSettings } from "../context/SettingsContext";
 import SelectableOverlay from './design-mode/SelectableOverlay';
+import { cn } from "../lib/utils";
 
 const menuItems = [
     {
@@ -69,13 +70,13 @@ export default function Sidebar() {
             {/* Sidebar */}
             <aside
                 style={{ width: dynamicWidth }}
-                className={`
-                    fixed lg:static inset-y-0 left-0 z-50
-                    bg-card-bg border-r border-border shadow-2xl lg:shadow-none
-                    transform transition-transform duration-300 ease-in-out
-                    flex flex-col
-                    ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-                `}
+                className={cn(
+                    "fixed lg:static inset-y-0 left-0 z-50",
+                    "bg-card text-card-foreground border-r border-border shadow-2xl lg:shadow-none",
+                    "transform transition-transform duration-300 ease-in-out",
+                    "flex flex-col",
+                    isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+                )}
             // We need to apply width specifically for desktop static layout
             // But tailwind class w-64 is applied. We should override it or use style.
             >
@@ -106,14 +107,16 @@ export default function Sidebar() {
                                 <Link
                                     key={item.path}
                                     href={item.path}
-                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group
-                                    ${isActive
-                                            ? "bg-primary text-primary-foreground shadow-md shadow-blue-500/20"
-                                            : "text-muted hover:bg-card-hover hover:text-foreground"
-                                        }
-                                `}
+                                    className={cn(
+                                        "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group",
+                                        isActive
+                                            ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                    )}
                                 >
-                                    <span className={isActive ? "text-primary-foreground" : "text-muted group-hover:text-foreground"}>
+                                    <span className={cn(
+                                        isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-foreground"
+                                    )}>
                                         {item.icon}
                                     </span>
                                     <span className="font-medium text-[1em]">{item.name}</span>

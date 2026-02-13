@@ -9,7 +9,7 @@ interface WelcomeScreenProps {
 
 export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
     return (
-        <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-50 z-50 p-4">
+        <div className="fixed inset-0 w-full flex flex-col items-center justify-center bg-gray-50 z-50 p-4">
             <div className="bg-white p-12 rounded-3xl shadow-2xl w-full max-w-lg border border-gray-100 text-center transform transition-all hover:scale-[1.01] duration-500">
                 <div className="w-24 h-24 bg-gradient-to-tr from-blue-600 to-cyan-500 rounded-3xl mx-auto mb-8 shadow-lg shadow-blue-500/30 flex items-center justify-center rotate-3 hover:rotate-6 transition-transform duration-500">
                     <span className="text-4xl font-black text-white">POS</span>

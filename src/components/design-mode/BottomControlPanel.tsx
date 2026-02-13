@@ -9,12 +9,17 @@ import GlobalLayoutControls from "./GlobalLayoutControls";
 import ComponentScaleControls from "./ComponentScaleControls";
 import ActionButton from "./ActionButton";
 
-export default function BottomControlPanel() {
+interface BottomControlPanelProps {
+    hideSaveButton?: boolean;
+    forceVisible?: boolean;
+}
+
+export default function BottomControlPanel({ hideSaveButton = false, forceVisible = false }: BottomControlPanelProps) {
     const { isMockupMode, toggleMockupMode, selectedElementId } = useMockup();
     const { settings, updateSettings, save } = useSettings();
     const router = useRouter();
 
-    if (!isMockupMode) return null;
+    if (!isMockupMode && !forceVisible) return null;
 
     const handleSave = async () => {
         await save();
@@ -48,7 +53,7 @@ export default function BottomControlPanel() {
 
                 <div className="border-l border-border h-10 mx-4"></div>
 
-                <ActionButton onClick={handleSave} label="Save Changes" />
+                {!hideSaveButton && <ActionButton onClick={handleSave} label="Save Changes" />}
             </div>
         </div>
     );

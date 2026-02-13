@@ -19,30 +19,30 @@ export default function LoginScreen() {
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-100 z-50">
-            <div className="bg-white p-8 rounded-lg shadow-md w-96">
-                <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Login</h1>
+        <div className="fixed inset-0 flex items-center justify-center bg-background z-50">
+            <div className="bg-card text-card-foreground p-8 rounded-lg shadow-md w-96 border border-border">
+                <h1 className="text-2xl font-bold mb-6 text-center text-foreground">Login</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-muted-foreground mb-1">
                             Database Password
                         </label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                            className="w-full px-3 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                             placeholder="Enter password"
                             autoFocus
                         />
                     </div>
-                    {error && <div className="text-red-500 text-sm">{error}</div>}
+                    {error && <div className="text-destructive text-sm">{error}</div>}
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className={`w-full py-2 px-4 rounded-md text-white font-medium ${isLoading
-                            ? "bg-blue-300 cursor-not-allowed"
-                            : "bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        className={`w-full py-2 px-4 rounded-md text-primary-foreground font-medium ${isLoading
+                            ? "bg-primary/50 cursor-not-allowed"
+                            : "bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                             }`}
                     >
                         {isLoading ? "Connecting..." : "Login"}

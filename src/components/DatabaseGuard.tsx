@@ -4,31 +4,55 @@ import React, { useState } from "react";
 import { useDatabase } from "../context/DatabaseContext";
 import LoginScreen from "./LoginScreen";
 import WelcomeScreen from "./WelcomeScreen";
+import PasswordSetupScreen from "./PasswordSetupScreen";
 import UISetupMode from "./UISetupMode";
-import SetupWizard from "./SetupWizard";
+import DesignModeWrapper from "./DesignModeWrapper";
+import SettingsSetup from "./SettingsSetup";
 
-type SetupStep = 'welcome' | 'ui-setup' | 'wizard' | 'complete';
+type SetupStep = 'welcome' | 'db-setup' | 'ui-intro' | 'design-mode' | 'settings' | 'complete';
 
 export default function DatabaseGuard({ children }: { children: React.ReactNode }) {
     const { isLoggedIn, dbExists } = useDatabase();
+    // Initialize state. If DB doesn't exist, start at welcome.
+    // If DB exists but we are technically "in setup session" (isLoggedIn is true immediately after creation),
+    // we manage that via internal state if we want to force the flow.
     const [setupStep, setSetupStep] = useState<SetupStep>('welcome');
+    const [isSetupSession, setIsSetupSession] = useState(false);
 
     if (dbExists === null) {
         return <div className="flex h-screen items-center justify-center bg-gray-50">Loading...</div>;
     }
 
-    if (!dbExists) {
+    // If database does NOT exist, we are definitely in the setup flow.
+    // OR if we are in an active setup session (even if DB is created).
+    if (!dbExists || isSetupSession) {
         switch (setupStep) {
             case 'welcome':
-                return <WelcomeScreen onStart={() => setSetupStep('ui-setup')} />;
-            case 'ui-setup':
-                return <UISetupMode onNext={() => setSetupStep('wizard')} />;
-            case 'wizard':
-                // The wizard handles the final connection via PasswordSetupScreen -> login()
-                // Once login() succeeds, standard DB checks will pass and re-render standard flow
-                return <SetupWizard onComplete={() => { }} />;
+                return <WelcomeScreen onStart={() => setSetupStep('db-setup')} />;
+            case 'db-setup':
+                return (
+                    <PasswordSetupScreen
+                        onSuccess={() => {
+                            // Database created and logged in.
+                            // Mark session as active so we don't drop to standard login/app
+                            setIsSetupSession(true);
+                            setSetupStep('ui-intro');
+                        }}
+                    />
+                );
+            case 'ui-intro':
+                return <UISetupMode onNext={() => setSetupStep('design-mode')} />;
+            case 'design-mode':
+                return <DesignModeWrapper onNext={() => setSetupStep('settings')} />;
+            case 'settings':
+                return <SettingsSetup onComplete={() => {
+                    setIsSetupSession(false);
+                    setSetupStep('complete');
+                }} />;
             default:
-                return <WelcomeScreen onStart={() => setSetupStep('ui-setup')} />;
+                // Fallback / Complete state -> Render children (the app)
+                if (isLoggedIn) return <>{children}</>;
+                return <LoginScreen />;
         }
     }
 

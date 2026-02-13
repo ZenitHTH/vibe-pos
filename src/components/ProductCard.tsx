@@ -11,7 +11,7 @@ export default function ProductCard({ product, onAdd, currency }: ProductCardPro
     return (
         <div
             onClick={() => onAdd(product)}
-            className="group bg-card-bg border border-border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1 active:scale-95"
+            className="group bg-card text-card-foreground border border-border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1 active:scale-95"
         >
             <div
                 className="aspect-[3/2] w-full relative bg-muted/20"
@@ -26,7 +26,7 @@ export default function ProductCard({ product, onAdd, currency }: ProductCardPro
                         sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
                     />
                 ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-muted font-bold text-2xl opacity-20">
+                    <div className="absolute inset-0 flex items-center justify-center text-muted-foreground font-bold text-2xl opacity-20">
                         {product.name.charAt(0)}
                     </div>
                 )}
@@ -40,7 +40,7 @@ export default function ProductCard({ product, onAdd, currency }: ProductCardPro
                 </div>
 
                 <div className="flex justify-between items-center mt-2">
-                    <span className="text-muted text-[1em] px-2 py-0.5 rounded-full bg-secondary/10 border border-border">
+                    <span className="text-muted-foreground text-[1em] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground border border-border">
                         {product.category}
                     </span>
                     <span className="font-bold text-primary text-[1.5em]">
