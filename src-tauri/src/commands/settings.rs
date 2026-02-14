@@ -27,6 +27,7 @@ pub struct AppSettings {
     pub payment_modal_scale: f64,
     pub payment_modal_font_scale: f64,
     pub payment_numpad_height: Option<f64>,
+    pub history_font_scale: Option<f64>,
 }
 
 impl Default for AppSettings {
@@ -53,6 +54,7 @@ impl Default for AppSettings {
             payment_modal_scale: 100.0,
             payment_modal_font_scale: 100.0,
             payment_numpad_height: Some(320.0),
+            history_font_scale: Some(100.0),
         }
     }
 }
