@@ -26,7 +26,7 @@ export default function ProductCard({ product, onAdd, currency }: ProductCardPro
                         sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
                     />
                 ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-muted-foreground font-bold text-2xl opacity-20">
+                    <div className="absolute inset-0 flex items-center justify-center font-bold text-2xl opacity-20">
                         {product.name.charAt(0)}
                     </div>
                 )}

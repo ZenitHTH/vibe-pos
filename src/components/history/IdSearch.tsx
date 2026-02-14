@@ -9,11 +9,11 @@ interface IdSearchProps {
 
 export default function IdSearch({ searchId, loading, onSearchIdChange, onSearch }: IdSearchProps) {
     return (
-        <div className="bg-card-bg p-6 rounded-2xl border border-border shadow-sm mb-8">
-            <h3 className="text-sm font-medium text-muted mb-4">Search by Receipt ID</h3>
+        <div className="bg-card text-card-foreground p-6 rounded-2xl border border-border shadow-sm mb-8">
+            <h3 className="text-sm font-medium text-muted-foreground mb-4">Search by Receipt ID</h3>
             <div className="flex gap-4">
                 <div className="relative flex-1 max-w-xs">
-                    <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" />
+                    <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
                     <input
                         type="text"
                         value={searchId}
