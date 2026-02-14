@@ -13,6 +13,7 @@ import { useDatabase } from '@/context/DatabaseContext';
 import { useMockup } from '@/context/MockupContext';
 import { useSettings } from '@/context/SettingsContext';
 
+
 export default function HistoryPage() {
     const { dbKey } = useDatabase();
     const { settings } = useSettings();
@@ -111,7 +112,10 @@ export default function HistoryPage() {
         <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8 flex justify-center">
             <div
                 className="w-full transition-all duration-300"
-                style={{ maxWidth: `${settings.layout_max_width || 1280}px` }}
+                style={{
+                    maxWidth: `${settings.layout_max_width || 1280}px`,
+                    fontSize: `${settings.history_font_scale || 100}%`
+                }}
             >
                 <HistoryHeader />
 

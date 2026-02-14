@@ -20,7 +20,7 @@ export default function GlobalLayoutControls({ settings, updateSettings, current
 
     if (currentView === 'payment') {
         return (
-            <div className="flex items-center gap-4 w-64">
+            <div className="flex items-center gap-2">
                 <div className="flex-1">
                     <NumberSlider
                         label="Numpad Height"
@@ -77,6 +77,19 @@ export default function GlobalLayoutControls({ settings, updateSettings, current
                     formatValue={(v) => `${v}%`}
                 />
             </div>
+            {pathname === '/history' && (
+                <div className="flex flex-col gap-1">
+                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Content Size</span>
+                    <NumberStepper
+                        min={50}
+                        max={150}
+                        step={5}
+                        value={settings.history_font_scale || 100}
+                        onChange={(val) => updateSettings({ history_font_scale: val })}
+                        formatValue={(v) => `${v}%`}
+                    />
+                </div>
+            )}
             <div className="flex flex-col gap-1">
                 <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Page Width</span>
                 <NumberStepper
