@@ -1,10 +1,10 @@
 "use client";
 
 import { FaPlus } from "react-icons/fa";
-import ProductModal from "./components/ProductModal";
+import ProductModal from "@/components/manage/ProductModal";
 import { useSettings } from "@/context/SettingsContext";
 import { useProductManagement } from "./hooks/useProductManagement";
-import ProductTable from "./components/ProductTable";
+import ProductTable from "@/components/manage/ProductTable";
 import ManagementPageLayout from "@/components/layout/ManagementPageLayout";
 
 export default function ManagePage() {

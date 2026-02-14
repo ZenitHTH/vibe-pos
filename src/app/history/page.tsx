@@ -3,11 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { receiptApi } from '@/lib/api';
 import { ReceiptList as ReceiptListType } from '@/lib/types';
-import HistoryHeader from './HistoryHeader';
-import DateFilter from './DateFilter';
-import IdSearch from './IdSearch';
-import ReceiptList from './ReceiptList';
-import ReceiptDetailModal from './ReceiptDetailModal';
+import HistoryHeader from '@/components/history/HistoryHeader';
+import DateFilter from '@/components/history/DateFilter';
+import IdSearch from '@/components/history/IdSearch';
+import ReceiptList from '@/components/history/ReceiptList';
+import ReceiptDetailModal from '@/components/history/ReceiptDetailModal';
 
 import { useDatabase } from '@/context/DatabaseContext';
 

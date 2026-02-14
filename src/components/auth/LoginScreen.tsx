@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useDatabase } from "../context/DatabaseContext";
+import { useDatabase } from "@/context/DatabaseContext";
 
 export default function LoginScreen() {
     const { login, isLoading } = useDatabase();

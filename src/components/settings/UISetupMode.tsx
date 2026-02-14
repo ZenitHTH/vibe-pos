@@ -2,7 +2,7 @@
 
 import React from "react";
 import { FaArrowRight, FaDesktop } from "react-icons/fa";
-import POSClient from "./POSClient";
+import POSClient from "../pos/POSClient";
 import { exampleProducts } from "@/lib/example-data";
 
 interface UISetupModeProps {

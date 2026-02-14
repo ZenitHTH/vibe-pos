@@ -1,12 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
-import ModalHeader from './payment/ModalHeader';
-import AmountSummary from './payment/AmountSummary';
-import CashInput from './payment/CashInput';
-import ChangeDisplay from './payment/ChangeDisplay';
-import PaymentFooter from './payment/PaymentFooter';
+import ModalHeader from './ModalHeader';
+import AmountSummary from './AmountSummary';
+import CashInput from './CashInput';
+import ChangeDisplay from './ChangeDisplay';
+import PaymentFooter from './PaymentFooter';
 
 import { useSettings } from '@/context/SettingsContext';
-import SelectableOverlay from './design-mode/SelectableOverlay';
+import SelectableOverlay from '../design-mode/SelectableOverlay';
 
 interface PaymentModalProps {
     isOpen: boolean;

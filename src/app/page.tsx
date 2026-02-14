@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import POSClient from '@/components/POSClient';
+import POSClient from '@/components/pos/POSClient';
 import { Product } from '@/types';
 import { productApi } from '@/lib/api';
 import { useDatabase } from '@/context/DatabaseContext';

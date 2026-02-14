@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Noto_Sans, Noto_Sans_Mono } from "next/font/google";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/layout/Sidebar";
 import { SettingsProvider } from "@/context/SettingsContext";
 import { DatabaseProvider } from "@/context/DatabaseContext";
-import DatabaseGuard from "@/components/DatabaseGuard";
+import DatabaseGuard from "@/components/common/DatabaseGuard";
 import { MockupProvider } from "@/context/MockupContext";
 import BottomControlPanel from '@/components/design-mode/BottomControlPanel';
 import { ThemeProvider } from "@/components/theme-provider";

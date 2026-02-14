@@ -2,9 +2,9 @@
 
 import React, { useEffect } from "react";
 import { useMockup } from "@/context/MockupContext";
-import POSClient from "@/components/POSClient";
-import Sidebar from "@/components/Sidebar";
-import BottomControlPanel from "@/components/design-mode/BottomControlPanel";
+import POSClient from "@/components/pos/POSClient";
+import Sidebar from "@/components/layout/Sidebar";
+import BottomControlPanel from "./BottomControlPanel";
 import { FaSave, FaArrowRight } from "react-icons/fa";
 import { exampleProducts } from "@/lib/example-data";
 

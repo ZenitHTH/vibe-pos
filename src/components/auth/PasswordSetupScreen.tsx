@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { useDatabase } from "../context/DatabaseContext";
+import { useDatabase } from "@/context/DatabaseContext";
 import { FaShieldAlt, FaEye, FaEyeSlash, FaArrowRight, FaExclamationTriangle } from "react-icons/fa";
-import { cn } from "../lib/utils";
+import { cn } from "@/lib/utils";
 
 interface PasswordSetupScreenProps {
     onSuccess?: () => void;

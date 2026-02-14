@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { useDatabase } from "../context/DatabaseContext";
-import LoginScreen from "./LoginScreen";
-import WelcomeScreen from "./WelcomeScreen";
-import PasswordSetupScreen from "./PasswordSetupScreen";
-import SettingsSetup from "./SettingsSetup";
+import { useDatabase } from "@/context/DatabaseContext";
+import LoginScreen from "../auth/LoginScreen";
+import WelcomeScreen from "../layout/WelcomeScreen";
+import PasswordSetupScreen from "../auth/PasswordSetupScreen";
+import SettingsSetup from "../settings/SettingsSetup";
 
 type SetupStep = 'welcome' | 'db-setup' | 'settings' | 'complete';
 

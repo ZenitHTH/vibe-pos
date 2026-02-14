@@ -2,12 +2,12 @@
 
 import { usePOSLogic } from '@/hooks/usePOSLogic';
 import { Product } from '@/types';
-import { useSettings } from '../context/SettingsContext';
-import POSHeader from './pos/POSHeader';
-import POSProductGrid from './pos/POSProductGrid';
-import SelectableOverlay from './design-mode/SelectableOverlay';
-import Cart from './Cart';
-import PaymentModal from './PaymentModal';
+import { useSettings } from '@/context/SettingsContext';
+import POSHeader from './POSHeader';
+import POSProductGrid from './POSProductGrid';
+import SelectableOverlay from '../design-mode/SelectableOverlay';
+import Cart from '../cart/Cart';
+import PaymentModal from '../payment/PaymentModal';
 
 interface POSClientProps {
     initialProducts?: Product[];

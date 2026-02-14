@@ -1,7 +1,7 @@
 import { CartItem as CartItemType } from '@/types';
-import CartItem from './cart/CartItem';
-import CartSummary from './cart/CartSummary';
-import CartEmpty from './cart/CartEmpty';
+import CartItem from './CartItem';
+import CartSummary from './CartSummary';
+import CartEmpty from './CartEmpty';
 import { useTax } from '@/hooks/useTax';
 
 interface CartProps {

@@ -1,10 +1,10 @@
 "use client";
 
 import { useMemo } from 'react';
-import ProductCard from '../ProductCard';
+import ProductCard from './ProductCard';
 import ProductFilter from '../filters/ProductFilter';
 import SelectableOverlay from '../design-mode/SelectableOverlay';
-import { Product } from '../../types';
+import { Product } from '@/types';
 import { AppSettings } from '@/lib/settings';
 
 interface POSProductGridProps {
