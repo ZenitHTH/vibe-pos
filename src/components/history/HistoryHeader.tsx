@@ -1,10 +1,16 @@
 import { FaArrowLeft } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+import { useSettings } from '@/context/SettingsContext';
 
 export default function HistoryHeader() {
     const router = useRouter();
+    const { settings } = useSettings();
+
     return (
-        <header className="mb-8 flex items-center gap-4">
+        <header
+            className="mb-8 flex items-center gap-4 transition-all duration-300"
+            style={{ fontSize: `${settings.header_font_scale || 100}%` }}
+        >
             <button
                 onClick={() => router.back()}
                 className="p-3 rounded-xl bg-card border border-border hover:bg-muted/20 transition-colors"
@@ -12,8 +18,8 @@ export default function HistoryHeader() {
                 <FaArrowLeft />
             </button>
             <div>
-                <h1 className="text-3xl font-bold text-foreground mb-1">Order History</h1>
-                <p className="text-muted-foreground">View past transactions</p>
+                <h1 className="text-3xl font-bold text-foreground mb-1" style={{ fontSize: '1.5em' }}>Order History</h1>
+                <p className="text-muted-foreground" style={{ fontSize: '0.875em' }}>View past transactions</p>
             </div>
         </header>
     );

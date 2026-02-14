@@ -11,9 +11,13 @@ import ReceiptDetailModal from '@/components/history/ReceiptDetailModal';
 
 import { useDatabase } from '@/context/DatabaseContext';
 import { useMockup } from '@/context/MockupContext';
+import { useSettings } from '@/context/SettingsContext';
 
 export default function HistoryPage() {
     const { dbKey } = useDatabase();
+    const { settings } = useSettings();
+    const { isMockupMode } = useMockup();
+    
     const [receipts, setReceipts] = useState<ReceiptListType[]>([]);
     const [loading, setLoading] = useState(false);
     const [selectedReceipt, setSelectedReceipt] = useState<ReceiptListType | null>(null);
@@ -26,8 +30,6 @@ export default function HistoryPage() {
     });
     const [endDate, setEndDate] = useState(() => new Date().toISOString().split('T')[0]);
     const [searchId, setSearchId] = useState('');
-
-    const { isMockupMode } = useMockup();
 
     const fetchReceipts = useCallback(async () => {
         if (isMockupMode) {
@@ -69,12 +71,6 @@ export default function HistoryPage() {
                         receipt_id: id,
                         datetime_unix: 1735689600 + (id - 1001) * 86400,
                         // In real app, we would fetch details here, but for list item type it's enough.
-                        // However, ReceiptDetailModal fetches details using useReceiptDetail hook which also needs mocking or 
-                        // we need to mock the selectedReceipt fully if it was full receipt type.
-                        // But selectedReceipt state is just ReceiptListType (header).
-                        // The modal uses `useReceiptDetail` hook which calls API. 
-                        // We might need to handle that hook too or just mock the hook data?
-                        // Wait, the hook is inside ReceiptDetailModal.
                     } as any); 
                 } else {
                     alert("Receipt not found (Mockup: try 1001, 1002, 1003)");
@@ -112,37 +108,42 @@ export default function HistoryPage() {
     }, [fetchReceipts]);
 
     return (
-        <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">
-            <HistoryHeader />
+        <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8 flex justify-center">
+            <div
+                className="w-full transition-all duration-300"
+                style={{ maxWidth: `${settings.layout_max_width || 1280}px` }}
+            >
+                <HistoryHeader />
 
-            <DateFilter
-                startDate={startDate}
-                endDate={endDate}
-                loading={loading}
-                onStartDateChange={setStartDate}
-                onEndDateChange={setEndDate}
-                onFilter={fetchReceipts}
-            />
-
-            <IdSearch
-                searchId={searchId}
-                loading={loading}
-                onSearchIdChange={setSearchId}
-                onSearch={handleSearchById}
-            />
-
-            <ReceiptList
-                receipts={receipts}
-                loading={loading}
-                onSelect={setSelectedReceipt}
-            />
-
-            {selectedReceipt && (
-                <ReceiptDetailModal
-                    receipt={selectedReceipt}
-                    onClose={() => setSelectedReceipt(null)}
+                <DateFilter
+                    startDate={startDate}
+                    endDate={endDate}
+                    loading={loading}
+                    onStartDateChange={setStartDate}
+                    onEndDateChange={setEndDate}
+                    onFilter={fetchReceipts}
                 />
-            )}
+
+                <IdSearch
+                    searchId={searchId}
+                    loading={loading}
+                    onSearchIdChange={setSearchId}
+                    onSearch={handleSearchById}
+                />
+
+                <ReceiptList
+                    receipts={receipts}
+                    loading={loading}
+                    onSelect={setSelectedReceipt}
+                />
+
+                {selectedReceipt && (
+                    <ReceiptDetailModal
+                        receipt={selectedReceipt}
+                        onClose={() => setSelectedReceipt(null)}
+                    />
+                )}
+            </div>
         </div>
     );
 }

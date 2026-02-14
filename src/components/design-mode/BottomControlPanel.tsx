@@ -2,7 +2,7 @@
 
 import { useMockup } from "../../context/MockupContext";
 import { useSettings } from "../../context/SettingsContext";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import NavigationMenu from "./NavigationMenu";
 import GlobalScaleControls from "./GlobalScaleControls";
 import GlobalLayoutControls from "./GlobalLayoutControls";
@@ -18,6 +18,7 @@ export default function BottomControlPanel({ hideSaveButton = false, forceVisibl
     const { isMockupMode, toggleMockupMode, selectedElementId } = useMockup();
     const { settings, updateSettings, save } = useSettings();
     const router = useRouter();
+    const pathname = usePathname();
 
     if (!isMockupMode && !forceVisible) return null;
 
@@ -27,7 +28,7 @@ export default function BottomControlPanel({ hideSaveButton = false, forceVisibl
     };
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 h-24 bg-background/95 backdrop-blur border-t border-border z-[100] flex items-center justify-center shadow-lg px-8">
+        <div className="fixed bottom-0 left-0 right-0 h-24 bg-background/95 backdrop-blur border-t border-border z-100 flex items-center justify-center shadow-lg px-8">
             <div className="w-full max-w-5xl flex items-center gap-8">
                 <NavigationMenu router={router} />
 
@@ -44,6 +45,7 @@ export default function BottomControlPanel({ hideSaveButton = false, forceVisibl
                     settings={settings}
                     updateSettings={updateSettings}
                     currentView={isMockupMode && selectedElementId === 'payment_modal_scale' ? 'payment' : undefined}
+                    pathname={pathname}
                 />
 
                 <ComponentScaleControls

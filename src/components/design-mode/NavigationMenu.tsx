@@ -2,24 +2,21 @@
 
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { FaCompass, FaHome, FaBoxOpen, FaTags, FaCog, FaHistory } from "react-icons/fa";
+import { FaCompass, FaHome, FaBoxOpen, FaTags, FaCog } from "react-icons/fa";
 import { cn } from "@/lib/utils";
-import { useMockup } from "@/context/MockupContext";
+
 
 export default function NavigationMenu({ router }: { router: ReturnType<typeof useRouter> }) {
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
-    const { isMockupMode, setMockupView, mockupView } = useMockup();
+
 
     const navigate = (path: string) => {
         router.push(path);
         setIsOpen(false);
     };
 
-    const handlePaymentModalNav = () => {
-        setMockupView('payment');
-        setIsOpen(false);
-    };
+
 
     return (
         <div className="relative">
@@ -62,24 +59,7 @@ export default function NavigationMenu({ router }: { router: ReturnType<typeof u
                             label="Settings"
                             isActive={pathname === '/setting'}
                         />
-                        <NavButton
-                            onClick={() => navigate('/history')}
-                            icon={<FaHistory />}
-                            label="History"
-                            isActive={pathname === '/history'}
-                        />
 
-                        {isMockupMode && (
-                            <>
-                                <hr className="border-border my-1" />
-                                <NavButton
-                                    onClick={() => handlePaymentModalNav()}
-                                    icon={<FaCompass />}
-                                    label="Payment Modal"
-                                    isActive={mockupView === 'payment'}
-                                />
-                            </>
-                        )}
                     </div>
                 </div>
             )}
