@@ -10,6 +10,7 @@ import ReceiptList from '@/components/history/ReceiptList';
 import ReceiptDetailModal from '@/components/history/ReceiptDetailModal';
 
 import { useDatabase } from '@/context/DatabaseContext';
+import { useMockup } from '@/context/MockupContext';
 
 export default function HistoryPage() {
     const { dbKey } = useDatabase();
@@ -26,7 +27,22 @@ export default function HistoryPage() {
     const [endDate, setEndDate] = useState(() => new Date().toISOString().split('T')[0]);
     const [searchId, setSearchId] = useState('');
 
+    const { isMockupMode } = useMockup();
+
     const fetchReceipts = useCallback(async () => {
+        if (isMockupMode) {
+            setLoading(true);
+            setTimeout(() => {
+                setReceipts([
+                    { receipt_id: 1001, datetime_unix: 1735689600 },
+                    { receipt_id: 1002, datetime_unix: 1735776000 },
+                    { receipt_id: 1003, datetime_unix: 1735862400 },
+                ]);
+                setLoading(false);
+            }, 500);
+            return;
+        }
+
         if (!dbKey) return;
         setLoading(true);
         try {
@@ -39,11 +55,35 @@ export default function HistoryPage() {
         } finally {
             setLoading(false);
         }
-    }, [startDate, endDate, dbKey]);
+    }, [startDate, endDate, dbKey, isMockupMode]);
 
     const handleSearchById = async () => {
         if (!searchId) return;
         setLoading(true);
+
+        if (isMockupMode) {
+            setTimeout(() => {
+                const id = parseInt(searchId);
+                if ([1001, 1002, 1003].includes(id)) {
+                    setSelectedReceipt({
+                        receipt_id: id,
+                        datetime_unix: 1735689600 + (id - 1001) * 86400,
+                        // In real app, we would fetch details here, but for list item type it's enough.
+                        // However, ReceiptDetailModal fetches details using useReceiptDetail hook which also needs mocking or 
+                        // we need to mock the selectedReceipt fully if it was full receipt type.
+                        // But selectedReceipt state is just ReceiptListType (header).
+                        // The modal uses `useReceiptDetail` hook which calls API. 
+                        // We might need to handle that hook too or just mock the hook data?
+                        // Wait, the hook is inside ReceiptDetailModal.
+                    } as any); 
+                } else {
+                    alert("Receipt not found (Mockup: try 1001, 1002, 1003)");
+                }
+                setLoading(false);
+            }, 500);
+            return;
+        }
+
         try {
             const id = parseInt(searchId);
             if (isNaN(id)) {

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { FaCompass, FaHome, FaBoxOpen, FaTags, FaCog } from "react-icons/fa";
+import { FaCompass, FaHome, FaBoxOpen, FaTags, FaCog, FaHistory } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { useMockup } from "@/context/MockupContext";
 
@@ -61,6 +61,12 @@ export default function NavigationMenu({ router }: { router: ReturnType<typeof u
                             icon={<FaCog />}
                             label="Settings"
                             isActive={pathname === '/setting'}
+                        />
+                        <NavButton
+                            onClick={() => navigate('/history')}
+                            icon={<FaHistory />}
+                            label="History"
+                            isActive={pathname === '/history'}
                         />
 
                         {isMockupMode && (
