@@ -4,7 +4,7 @@ This directory contains the Rust backend for the Simple POS application, built w
 
 ## Architecture
 
-![Backend Architecture](./mermaid-diagram-2026-02-11-180408.svg)
+![Backend Architecture](./mermaid-diagram-2026-02-14-152729.svg)
 
 ## Structure
 
