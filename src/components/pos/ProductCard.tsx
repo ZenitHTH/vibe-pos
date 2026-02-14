@@ -14,7 +14,7 @@ export default function ProductCard({ product, onAdd, currency }: ProductCardPro
             className="group bg-card text-card-foreground border border-border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1 active:scale-95"
         >
             <div
-                className="aspect-[3/2] w-full relative bg-muted/20"
+                className="aspect-3/2 w-full relative bg-muted/20"
                 style={{ backgroundColor: !product.image ? (product.color || '#e2e8f0') : undefined }}
             >
                 {product.image ? (
@@ -40,7 +40,7 @@ export default function ProductCard({ product, onAdd, currency }: ProductCardPro
                 </div>
 
                 <div className="flex justify-between items-center mt-2">
-                    <span className="text-muted-foreground text-[1em] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground border border-border">
+                    <span className="text-[1em] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground border border-border">
                         {product.category}
                     </span>
                     <span className="font-bold text-primary text-[1.5em]">

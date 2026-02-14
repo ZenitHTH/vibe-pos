@@ -5,9 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaHome, FaBoxOpen, FaCog, FaTags, FaBars, FaTimes } from "react-icons/fa";
 
-import { useSettings } from "../context/SettingsContext";
-import SelectableOverlay from './design-mode/SelectableOverlay';
-import { cn } from "../lib/utils";
+import { useSettings } from "@/context/SettingsContext";
+import SelectableOverlay from "@/components/design-mode/SelectableOverlay";
+import { cn } from "@/lib/utils";
 
 const menuItems = [
     {

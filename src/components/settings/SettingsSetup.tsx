@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useSettings } from "@/context/SettingsContext";
 import { FaCheck, FaCog } from "react-icons/fa";
-import { CURRENCIES } from "./settings/CurrencySettings";
+import { CURRENCIES } from "./CurrencySettings";
 
 interface SettingsSetupProps {
     onComplete: () => void;

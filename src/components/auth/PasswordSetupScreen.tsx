@@ -99,14 +99,14 @@ export default function PasswordSetupScreen({ onSuccess }: PasswordSetupScreenPr
 
                     {error && (
                         <div className="p-3 rounded-lg bg-destructive/10 text-destructive text-sm font-medium flex items-center mb-4">
-                            <FaExclamationTriangle className="w-4 h-4 mr-2 flex-shrink-0" />
+                            <FaExclamationTriangle className="w-4 h-4 mr-2 shrink-0" />
                             {error}
                         </div>
                     )}
 
                     {(/[^\x00-\x7F]/.test(password) || /[^\x00-\x7F]/.test(confirmPassword)) && (
                         <div className="p-3 rounded-lg bg-yellow-500/10 text-yellow-600 border border-yellow-200 text-sm font-medium flex items-center mb-4">
-                            <FaExclamationTriangle className="w-4 h-4 mr-2 flex-shrink-0" />
+                            <FaExclamationTriangle className="w-4 h-4 mr-2 shrink-0" />
                             Warning: detailed characters detected. Please check your keyboard language (English recommended).
                         </div>
                     )}
