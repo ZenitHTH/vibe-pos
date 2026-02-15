@@ -5,7 +5,7 @@ use database::{Category, NewCategory};
 #[tauri::command]
 pub fn get_categories(key: String) -> Result<Vec<Category>, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
-    return category::get_all_categories(&mut conn).map_err(|e| e.to_string());
+    category::get_all_categories(&mut conn).map_err(|e| e.to_string())
 }
 
 #[tauri::command]

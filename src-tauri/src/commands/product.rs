@@ -5,11 +5,16 @@ use database::{NewProduct, Product};
 #[tauri::command]
 pub fn get_products(key: String) -> Result<Vec<Product>, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
-    return product::get_all_products(&mut conn).map_err(|e| e.to_string());
+    product::get_all_products(&mut conn).map_err(|e| e.to_string())
 }
 
 #[tauri::command]
-pub fn create_product(key: String, title: String, catagory: String, satang: i32) -> Result<Product, String> {
+pub fn create_product(
+    key: String,
+    title: String,
+    catagory: String,
+    satang: i32,
+) -> Result<Product, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
     let new_prod = NewProduct {
         title: &title,
