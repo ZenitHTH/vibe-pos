@@ -17,6 +17,8 @@ The module is structured to separate concerns between connection management and 
   - `category`: Manages product categories.
   - `stock`: Manages inventory levels for products.
   - `receipt`: Handles sales transactions and receipt generation.
+  - `image`: Manages image metadata and file paths.
+  - `product_image`: Handles the relationship between products and images.
 
 ## Database Schema
 
@@ -31,6 +33,8 @@ The following ER diagram illustrates the relationships between the database enti
 - **STOCK**: Inventory tracking (`id`, `product_id`, `quantity`, `updated_at`).
 - **RECEIPT**: Sales transactions (`id`, `total`, `payment_type`, `created_at`).
 - **RECEIPT_ITEM**: Line items for receipts (`id`, `receipt_id`, `product_id`, `quantity`, `price`).
+- **IMAGES**: Image file metadata (`id`, `file_name`, `file_hash`, `file_path`, `created_at`).
+- **PRODUCT_IMAGES**: Link between products and images (`product_id`, `image_id`).
 
 > **Note**: Application settings (currency, tax, layout) are **not** stored in the database. They are persisted in a JSON file (`settings.json`) in the user's data directory.
 
