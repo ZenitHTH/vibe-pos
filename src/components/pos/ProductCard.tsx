@@ -1,55 +1,66 @@
-import { Product } from '@/types';
-import { convertFileSrc } from '@tauri-apps/api/core';
+import { Product } from "@/types";
+import { convertFileSrc } from "@tauri-apps/api/core";
 
 interface ProductCardProps {
-    product: Product;
-    onAdd: (product: Product) => void;
-    currency: string;
+  product: Product;
+  onAdd: (product: Product) => void;
+  currency: string;
 }
 
-export default function ProductCard({ product, onAdd, currency }: ProductCardProps) {
-    const imageSrc = product.image
-        ? (product.image.startsWith('http') ? product.image : convertFileSrc(product.image))
-        : null;
+export default function ProductCard({
+  product,
+  onAdd,
+  currency,
+}: ProductCardProps) {
+  const imageSrc = product.image
+    ? product.image.startsWith("http")
+      ? product.image
+      : convertFileSrc(product.image)
+    : null;
 
-    return (
-        <div
-            onClick={() => onAdd(product)}
-            className="group bg-card text-card-foreground border border-border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1 active:scale-95"
-        >
-            <div
-                className="aspect-3/2 w-full relative bg-muted/20"
-                style={{ backgroundColor: !imageSrc ? (product.color || '#e2e8f0') : undefined }}
-            >
-                {imageSrc ? (
-                    <img
-                        src={imageSrc}
-                        alt={product.name}
-                        className="w-full h-full object-cover"
-                    />
-                ) : (
-                    <div className="absolute inset-0 flex items-center justify-center font-bold text-2xl opacity-20">
-                        {product.name.charAt(0)}
-                    </div>
-                )}
+  return (
+    <div
+      onClick={() => onAdd(product)}
+      className="group bg-card text-card-foreground border-border hover:border-primary/50 cursor-pointer overflow-hidden rounded-xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-95"
+    >
+      <div
+        className="bg-muted/20 relative aspect-3/2 w-full"
+        style={{
+          backgroundColor: !imageSrc ? product.color || "#e2e8f0" : undefined,
+        }}
+      >
+        {imageSrc ? (
+          <img
+            src={imageSrc}
+            alt={product.name}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold opacity-20">
+            {product.name.charAt(0)}
+          </div>
+        )}
 
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 hover:bg-transparent" />
-            </div>
+        <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10 hover:bg-transparent" />
+      </div>
 
-            <div className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-semibold text-foreground text-[1.25em] leading-tight line-clamp-2">{product.name}</h3>
-                </div>
-
-                <div className="flex justify-between items-center mt-2">
-                    <span className="text-[1em] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground border border-border">
-                        {product.category}
-                    </span>
-                    <span className="font-bold text-primary text-[1.5em]">
-                        {currency}{product.price.toFixed(2)}
-                    </span>
-                </div>
-            </div>
+      <div className="p-4">
+        <div className="mb-2 flex items-start justify-between">
+          <h3 className="text-foreground line-clamp-2 text-[1.25em] leading-tight font-semibold">
+            {product.name}
+          </h3>
         </div>
-    );
+
+        <div className="mt-2 flex items-center justify-between">
+          <span className="bg-secondary text-secondary-foreground border-border rounded-full border px-2 py-0.5 text-[1em]">
+            {product.category}
+          </span>
+          <span className="text-primary text-[1.5em] font-bold">
+            {currency}
+            {product.price.toFixed(2)}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
 }

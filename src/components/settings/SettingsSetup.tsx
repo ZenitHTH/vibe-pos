@@ -6,117 +6,148 @@ import { FaCheck, FaCog } from "react-icons/fa";
 import { CURRENCIES } from "./CurrencySettings";
 
 interface SettingsSetupProps {
-    onComplete: () => void;
+  onComplete: () => void;
 }
 
 export default function SettingsSetup({ onComplete }: SettingsSetupProps) {
-    const { settings, updateSettings, save } = useSettings();
-    const [saving, setSaving] = useState(false);
+  const { settings, updateSettings, save } = useSettings();
+  const [saving, setSaving] = useState(false);
 
-    const handleSave = async () => {
-        setSaving(true);
-        try {
-            await save();
-            onComplete();
-        } catch (error) {
-            console.error("Failed to save settings:", error);
-        } finally {
-            setSaving(false);
-        }
-    };
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await save();
+      onComplete();
+    } catch (error) {
+      console.error("Failed to save settings:", error);
+    } finally {
+      setSaving(false);
+    }
+  };
 
-    return (
-        <div className="fixed inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-50 p-4">
-            <div className="bg-card p-8 rounded-2xl shadow-xl w-full max-w-2xl border border-border">
-                <div className="text-center mb-8">
-                    <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <FaCog className="text-primary text-2xl" />
-                    </div>
-                    <h1 className="text-3xl font-bold text-foreground mb-2">Final Touches</h1>
-                    <p className="text-muted-foreground">Configure your regional settings.</p>
-                </div>
-
-                <div className="space-y-8">
-                    {/* Currency Section */}
-                    <div className="bg-muted/50 p-6 rounded-xl border border-border">
-                        <h3 className="font-bold text-foreground mb-4 flex items-center gap-2">
-                            Currency
-                        </h3>
-                        <div>
-                            <label className="block text-sm font-medium text-foreground mb-1">
-                                Currency Symbol
-                            </label>
-                            <select
-                                value={CURRENCIES.find(c => c.symbol === settings.currency_symbol)?.code || "CUSTOM"}
-                                onChange={(e) => {
-                                    const selected = CURRENCIES.find(c => c.code === e.target.value);
-                                    if (selected) {
-                                        updateSettings({ currency_symbol: selected.symbol });
-                                    }
-                                }}
-                                className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-background text-foreground appearance-none cursor-pointer"
-                            >
-                                {CURRENCIES.map((c) => (
-                                    <option key={c.code} value={c.code} className="bg-background text-foreground">
-                                        {c.country} ({c.code}) - {c.symbol}
-                                    </option>
-                                ))}
-                                {!CURRENCIES.some(c => c.symbol === settings.currency_symbol) && (
-                                    <option value="CUSTOM" className="bg-background text-foreground">Custom ({settings.currency_symbol})</option>
-                                )}
-                            </select>
-                            <p className="text-xs text-muted-foreground mt-2">
-                                Symbol displayed next to prices (e.g., $, €, £, ¥)
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Tax Section */}
-                    <div className="bg-muted/50 p-6 rounded-xl border border-border">
-                        <h3 className="font-bold text-foreground mb-4 flex items-center gap-2">
-                            Tax Configuration
-                        </h3>
-                        <div className="space-y-4">
-                            <label className="flex items-center gap-3 p-3 bg-background rounded-lg border border-border cursor-pointer hover:border-primary/50 transition-colors">
-                                <input
-                                    type="checkbox"
-                                    checked={settings.tax_enabled}
-                                    onChange={(e) => updateSettings({ tax_enabled: e.target.checked })}
-                                    className="w-5 h-5 text-primary rounded focus:ring-primary"
-                                />
-                                <span className="font-medium text-foreground">Enable Tax Calculation</span>
-                            </label>
-
-                            {settings.tax_enabled && (
-                                <div>
-                                    <label className="block text-sm font-medium text-foreground mb-1">
-                                        Tax Rate (%)
-                                    </label>
-                                    <input
-                                        type="number"
-                                        value={settings.tax_rate}
-                                        onChange={(e) => updateSettings({ tax_rate: parseFloat(e.target.value) || 0 })}
-                                        className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-background text-foreground"
-                                        placeholder="7.0"
-                                    />
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="mt-8">
-                    <button
-                        onClick={handleSave}
-                        disabled={saving}
-                        className={`w-full py-4 px-6 rounded-xl text-primary-foreground font-bold text-lg shadow-lg shadow-primary/30 transition-all transform hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 ${saving ? "bg-primary/70 cursor-not-allowed" : "bg-primary hover:bg-primary/90"
-                            }`}
-                    >
-                        {saving ? "Saving..." : "Finish Setup"}
-                        {!saving && <FaCheck />}
-                    </button>
-                </div>
-            </div>
+  return (
+    <div className="bg-background/80 fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+      <div className="bg-card border-border w-full max-w-2xl rounded-2xl border p-8 shadow-xl">
+        <div className="mb-8 text-center">
+          <div className="bg-primary/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+            <FaCog className="text-primary text-2xl" />
+          </div>
+          <h1 className="text-foreground mb-2 text-3xl font-bold">
+            Final Touches
+          </h1>
+          <p className="text-muted-foreground">
+            Configure your regional settings.
+          </p>
         </div>
-    );
+
+        <div className="space-y-8">
+          {/* Currency Section */}
+          <div className="bg-muted/50 border-border rounded-xl border p-6">
+            <h3 className="text-foreground mb-4 flex items-center gap-2 font-bold">
+              Currency
+            </h3>
+            <div>
+              <label className="text-foreground mb-1 block text-sm font-medium">
+                Currency Symbol
+              </label>
+              <select
+                value={
+                  CURRENCIES.find((c) => c.symbol === settings.currency_symbol)
+                    ?.code || "CUSTOM"
+                }
+                onChange={(e) => {
+                  const selected = CURRENCIES.find(
+                    (c) => c.code === e.target.value,
+                  );
+                  if (selected) {
+                    updateSettings({ currency_symbol: selected.symbol });
+                  }
+                }}
+                className="border-border focus:ring-primary/20 focus:border-primary bg-background text-foreground w-full cursor-pointer appearance-none rounded-lg border px-4 py-3 transition-all focus:ring-2 focus:outline-none"
+              >
+                {CURRENCIES.map((c) => (
+                  <option
+                    key={c.code}
+                    value={c.code}
+                    className="bg-background text-foreground"
+                  >
+                    {c.country} ({c.code}) - {c.symbol}
+                  </option>
+                ))}
+                {!CURRENCIES.some(
+                  (c) => c.symbol === settings.currency_symbol,
+                ) && (
+                  <option
+                    value="CUSTOM"
+                    className="bg-background text-foreground"
+                  >
+                    Custom ({settings.currency_symbol})
+                  </option>
+                )}
+              </select>
+              <p className="text-muted-foreground mt-2 text-xs">
+                Symbol displayed next to prices (e.g., $, €, £, ¥)
+              </p>
+            </div>
+          </div>
+
+          {/* Tax Section */}
+          <div className="bg-muted/50 border-border rounded-xl border p-6">
+            <h3 className="text-foreground mb-4 flex items-center gap-2 font-bold">
+              Tax Configuration
+            </h3>
+            <div className="space-y-4">
+              <label className="bg-background border-border hover:border-primary/50 flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={settings.tax_enabled}
+                  onChange={(e) =>
+                    updateSettings({ tax_enabled: e.target.checked })
+                  }
+                  className="text-primary focus:ring-primary h-5 w-5 rounded"
+                />
+                <span className="text-foreground font-medium">
+                  Enable Tax Calculation
+                </span>
+              </label>
+
+              {settings.tax_enabled && (
+                <div>
+                  <label className="text-foreground mb-1 block text-sm font-medium">
+                    Tax Rate (%)
+                  </label>
+                  <input
+                    type="number"
+                    value={settings.tax_rate}
+                    onChange={(e) =>
+                      updateSettings({
+                        tax_rate: parseFloat(e.target.value) || 0,
+                      })
+                    }
+                    className="border-border focus:ring-primary/20 focus:border-primary bg-background text-foreground w-full rounded-lg border px-4 py-3 transition-all focus:ring-2 focus:outline-none"
+                    placeholder="7.0"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8">
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className={`text-primary-foreground shadow-primary/30 flex w-full transform items-center justify-center gap-2 rounded-xl px-6 py-4 text-lg font-bold shadow-lg transition-all hover:scale-[1.01] active:scale-[0.99] ${
+              saving
+                ? "bg-primary/70 cursor-not-allowed"
+                : "bg-primary hover:bg-primary/90"
+            }`}
+          >
+            {saving ? "Saving..." : "Finish Setup"}
+            {!saving && <FaCheck />}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }

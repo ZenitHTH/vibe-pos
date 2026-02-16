@@ -5,24 +5,32 @@ import { IconType } from "react-icons";
 import { cn } from "@/lib/utils";
 
 interface SettingsSectionProps {
-    title: string;
-    icon?: IconType;
-    children: ReactNode;
-    className?: string;
+  title: string;
+  icon?: IconType;
+  children: ReactNode;
+  className?: string;
 }
 
-export default function SettingsSection({ title, icon: Icon, children, className = "" }: SettingsSectionProps) {
-    return (
-        <section className={cn("bg-card text-card-foreground border border-border rounded-xl p-6 mb-8 shadow-sm", className)}>
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold flex items-center gap-2 text-foreground">
-                    {Icon && <Icon className="text-primary" />}
-                    {title}
-                </h2>
-            </div>
-            <div className="text-card-foreground">
-                {children}
-            </div>
-        </section>
-    );
+export default function SettingsSection({
+  title,
+  icon: Icon,
+  children,
+  className = "",
+}: SettingsSectionProps) {
+  return (
+    <section
+      className={cn(
+        "bg-card text-card-foreground border-border mb-8 rounded-xl border p-6 shadow-sm",
+        className,
+      )}
+    >
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-foreground flex items-center gap-2 text-xl font-bold">
+          {Icon && <Icon className="text-primary" />}
+          {title}
+        </h2>
+      </div>
+      <div className="text-card-foreground">{children}</div>
+    </section>
+  );
 }

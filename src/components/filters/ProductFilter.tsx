@@ -1,48 +1,49 @@
-import React from 'react';
-import { FaSearch } from 'react-icons/fa';
+import React from "react";
+import { FaSearch } from "react-icons/fa";
 
 interface ProductFilterProps {
-    searchQuery: string;
-    onSearchChange: (query: string) => void;
-    categories: string[];
-    selectedCategory: string;
-    onCategoryChange: (category: string) => void;
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+  categories: string[];
+  selectedCategory: string;
+  onCategoryChange: (category: string) => void;
 }
 
 export default function ProductFilter({
-    searchQuery,
-    onSearchChange,
-    categories,
-    selectedCategory,
-    onCategoryChange
+  searchQuery,
+  onSearchChange,
+  categories,
+  selectedCategory,
+  onCategoryChange,
 }: ProductFilterProps) {
-    return (
-        <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <div className="relative flex-1">
-                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                <input
-                    type="text"
-                    placeholder="Search products..."
-                    className="w-full pl-10 pr-4 py-3 bg-card text-card-foreground border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground/70"
-                    value={searchQuery}
-                    onChange={(e) => onSearchChange(e.target.value)}
-                />
-            </div>
+  return (
+    <div className="mb-8 flex flex-col gap-4 sm:flex-row">
+      <div className="relative flex-1">
+        <FaSearch className="text-muted-foreground absolute top-1/2 left-4 -translate-y-1/2" />
+        <input
+          type="text"
+          placeholder="Search products..."
+          className="bg-card text-card-foreground border-border focus:ring-primary/50 placeholder:text-muted-foreground/70 w-full rounded-xl border py-3 pr-4 pl-10 transition-all focus:ring-2 focus:outline-none"
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+        />
+      </div>
 
-            <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-hide">
-                {categories.map(cat => (
-                    <button
-                        key={cat}
-                        onClick={() => onCategoryChange(cat)}
-                        className={`px-5 py-2.5 rounded-xl font-medium whitespace-nowrap transition-all ${selectedCategory === cat
-                            ? 'bg-primary text-primary-foreground shadow-lg shadow-blue-500/20'
-                            : 'bg-card text-muted-foreground border border-border hover:bg-accent hover:text-accent-foreground'
-                            }`}
-                    >
-                        {cat}
-                    </button>
-                ))}
-            </div>
-        </div>
-    );
+      <div className="scrollbar-hide flex gap-2 overflow-x-auto pb-2 sm:pb-0">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => onCategoryChange(cat)}
+            className={`rounded-xl px-5 py-2.5 font-medium whitespace-nowrap transition-all ${
+              selectedCategory === cat
+                ? "bg-primary text-primary-foreground shadow-lg shadow-blue-500/20"
+                : "bg-card text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground border"
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }

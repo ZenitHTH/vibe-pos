@@ -3,14 +3,17 @@
 import { ReactNode } from "react";
 
 interface ScrollableContainerProps {
-    children: ReactNode;
-    className?: string;
+  children: ReactNode;
+  className?: string;
 }
 
-export default function ScrollableContainer({ children, className = "" }: ScrollableContainerProps) {
-    return (
-        <div className={`h-full w-full custom-scrollbar ${className}`}>
-            {children}
-        </div>
-    );
+export default function ScrollableContainer({
+  children,
+  className = "",
+}: ScrollableContainerProps) {
+  return (
+    <div className={`custom-scrollbar h-full w-full ${className}`}>
+      {children}
+    </div>
+  );
 }

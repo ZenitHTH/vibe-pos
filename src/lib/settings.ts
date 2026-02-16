@@ -1,36 +1,36 @@
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from "@tauri-apps/api/core";
 
 export interface AppSettings {
-    currency_symbol: string;
-    tax_enabled: boolean;
-    tax_rate: number;
-    display_scale: number;
-    sidebar_scale: number;
-    cart_scale: number;
-    grid_scale: number;
-    manage_table_scale: number;
-    category_table_scale: number;
-    sidebar_font_scale: number;
-    cart_font_scale: number;
-    grid_font_scale: number;
-    manage_table_font_scale: number;
-    category_table_font_scale: number;
-    setting_page_scale: number;
-    setting_page_font_scale: number;
-    header_font_scale: number;
-    layout_max_width: number;
-    payment_modal_scale: number;
-    payment_modal_font_scale: number;
-    payment_numpad_height?: number;
-    history_font_scale?: number;
-    image_storage_path?: string;
-    db_storage_path?: string;
+  currency_symbol: string;
+  tax_enabled: boolean;
+  tax_rate: number;
+  display_scale: number;
+  sidebar_scale: number;
+  cart_scale: number;
+  grid_scale: number;
+  manage_table_scale: number;
+  category_table_scale: number;
+  sidebar_font_scale: number;
+  cart_font_scale: number;
+  grid_font_scale: number;
+  manage_table_font_scale: number;
+  category_table_font_scale: number;
+  setting_page_scale: number;
+  setting_page_font_scale: number;
+  header_font_scale: number;
+  layout_max_width: number;
+  payment_modal_scale: number;
+  payment_modal_font_scale: number;
+  payment_numpad_height?: number;
+  history_font_scale?: number;
+  image_storage_path?: string;
+  db_storage_path?: string;
 }
 
 export async function getSettings(): Promise<AppSettings> {
-    return await invoke('get_settings');
+  return await invoke("get_settings");
 }
 
 export async function saveSettings(settings: AppSettings): Promise<void> {
-    await invoke('save_settings', { settings });
+  await invoke("save_settings", { settings });
 }

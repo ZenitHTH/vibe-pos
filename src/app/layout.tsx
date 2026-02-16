@@ -6,7 +6,7 @@ import { SettingsProvider } from "@/context/SettingsContext";
 import { DatabaseProvider } from "@/context/DatabaseContext";
 import DatabaseGuard from "@/components/common/DatabaseGuard";
 import { MockupProvider } from "@/context/MockupContext";
-import BottomControlPanel from '@/components/design-mode/BottomControlPanel';
+import BottomControlPanel from "@/components/design-mode/BottomControlPanel";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const notoSans = Noto_Sans({
@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${notoSans.variable} ${notoMono.variable} antialiased flex bg-background text-foreground`}
+        className={`${notoSans.variable} ${notoMono.variable} bg-background text-foreground flex antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -45,7 +45,7 @@ export default function RootLayout({
               <MockupProvider>
                 <DatabaseGuard>
                   <Sidebar />
-                  <main className="flex-1 h-screen overflow-hidden pt-16 lg:pt-0 flex flex-col">
+                  <main className="flex h-screen flex-1 flex-col overflow-hidden pt-16 lg:pt-0">
                     {children}
                   </main>
                   <BottomControlPanel />

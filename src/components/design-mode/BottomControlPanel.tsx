@@ -10,57 +10,66 @@ import ComponentScaleControls from "./ComponentScaleControls";
 import ActionButton from "./ActionButton";
 
 interface BottomControlPanelProps {
-    hideSaveButton?: boolean;
-    forceVisible?: boolean;
+  hideSaveButton?: boolean;
+  forceVisible?: boolean;
 }
 
-export default function BottomControlPanel({ hideSaveButton = false, forceVisible = false }: BottomControlPanelProps) {
-    const { isMockupMode, toggleMockupMode, selectedElementId } = useMockup();
-    const { settings, updateSettings, save } = useSettings();
-    const router = useRouter();
-    const pathname = usePathname();
+export default function BottomControlPanel({
+  hideSaveButton = false,
+  forceVisible = false,
+}: BottomControlPanelProps) {
+  const { isMockupMode, toggleMockupMode, selectedElementId } = useMockup();
+  const { settings, updateSettings, save } = useSettings();
+  const router = useRouter();
+  const pathname = usePathname();
 
-    if (!isMockupMode && !forceVisible) return null;
+  if (!isMockupMode && !forceVisible) return null;
 
-    const handleSave = async () => {
-        await save();
-        toggleMockupMode();
-        if (pathname.startsWith('/design/tuner')) {
-            router.push('/setting');
-        }
-    };
+  const handleSave = async () => {
+    await save();
+    toggleMockupMode();
+    if (pathname.startsWith("/design/tuner")) {
+      router.push("/setting");
+    }
+  };
 
-    return (
-        <div className="fixed bottom-0 left-0 right-0 h-24 bg-background/95 backdrop-blur border-t border-border z-100 flex items-center justify-center shadow-lg px-8">
-            <div className="w-full max-w-5xl flex items-center gap-8">
-                <NavigationMenu router={router} />
+  return (
+    <div className="bg-background/95 border-border fixed right-0 bottom-0 left-0 z-100 flex h-24 items-center justify-center border-t px-8 shadow-lg backdrop-blur">
+      <div className="flex w-full max-w-5xl items-center gap-8">
+        <NavigationMenu router={router} />
 
-                <div className="h-10 border-l border-border"></div>
+        <div className="border-border h-10 border-l"></div>
 
-                <GlobalScaleControls
-                    value={settings.display_scale || 100}
-                    onChange={(val) => updateSettings({ display_scale: val })}
-                />
+        <GlobalScaleControls
+          value={settings.display_scale || 100}
+          onChange={(val) => updateSettings({ display_scale: val })}
+        />
 
-                <div className="h-8 w-px bg-border"></div>
+        <div className="bg-border h-8 w-px"></div>
 
-                <GlobalLayoutControls
-                    settings={settings}
-                    updateSettings={updateSettings}
-                    currentView={isMockupMode && selectedElementId === 'payment_modal_scale' ? 'payment' : undefined}
-                    pathname={pathname}
-                />
+        <GlobalLayoutControls
+          settings={settings}
+          updateSettings={updateSettings}
+          currentView={
+            isMockupMode && selectedElementId === "payment_modal_scale"
+              ? "payment"
+              : undefined
+          }
+          pathname={pathname}
+        />
 
-                <ComponentScaleControls
-                    selectedId={selectedElementId}
-                    settings={settings}
-                    updateSettings={updateSettings}
-                />
+        <ComponentScaleControls
+          selectedId={selectedElementId}
+          settings={settings}
+          updateSettings={updateSettings}
+        />
 
-                <div className="border-l border-border h-10 mx-4"></div>
+        <div className="border-border mx-4 h-10 border-l"></div>
 
-                {!hideSaveButton && <ActionButton onClick={handleSave} label="Save Changes" />}
-            </div>
-        </div>
-    );
+        {!hideSaveButton && (
+          <ActionButton onClick={handleSave} label="Save Changes" />
+        )}
+      </div>
+    </div>
+  );
 }
