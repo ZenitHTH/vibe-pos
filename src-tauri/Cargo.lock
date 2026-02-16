@@ -768,6 +768,7 @@ dependencies = [
  "directories 6.0.0",
  "libsqlite3-sys",
  "serde",
+ "serde_json",
 ]
 
 [[package]]

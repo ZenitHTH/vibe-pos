@@ -29,6 +29,7 @@ pub struct AppSettings {
     pub payment_numpad_height: Option<f64>,
     pub history_font_scale: Option<f64>,
     pub image_storage_path: Option<String>,
+    pub db_storage_path: Option<String>,
 }
 
 impl Default for AppSettings {
@@ -57,6 +58,7 @@ impl Default for AppSettings {
             payment_numpad_height: Some(320.0),
             history_font_scale: Some(100.0),
             image_storage_path: None,
+            db_storage_path: None,
         }
     }
 }

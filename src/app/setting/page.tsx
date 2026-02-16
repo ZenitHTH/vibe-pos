@@ -59,6 +59,9 @@ export default function SettingPage() {
                 </button>
             }
         >
+            {/* General Settings */}
+            <GeneralSettings />
+
             {/* Theme Settings */}
             <ThemeSettings />
 

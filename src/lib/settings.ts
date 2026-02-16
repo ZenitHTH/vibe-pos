@@ -24,6 +24,7 @@ export interface AppSettings {
     payment_numpad_height?: number;
     history_font_scale?: number;
     image_storage_path?: string;
+    db_storage_path?: string;
 }
 
 export async function getSettings(): Promise<AppSettings> {

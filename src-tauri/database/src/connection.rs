@@ -1,5 +1,6 @@
 use diesel::prelude::*;
 use directories::ProjectDirs;
+use serde_json;
 use std::fs;
 
 use std::path::PathBuf;
@@ -14,7 +15,25 @@ pub fn get_database_path() -> Result<PathBuf, String> {
     // Ensure the directory exists
     if !data_dir.exists() {
         fs::create_dir_all(data_dir)
-            .map_err(|e| format!("Error creating database directory: {}", e))?;
+            .map_err(|e| format!("Error creating data directory: {}", e))?;
+    }
+
+    // Try to read settings.json to check for db override
+    let settings_path = data_dir.join("settings.json");
+    if settings_path.exists() {
+        if let Ok(content) = fs::read_to_string(&settings_path) {
+            if let Ok(json) = serde_json::from_str::<serde_json::Value>(&content) {
+                if let Some(db_path_str) = json.get("db_storage_path").and_then(|v| v.as_str()) {
+                    let custom_path = PathBuf::from(db_path_str);
+                    if !custom_path.exists() {
+                        fs::create_dir_all(&custom_path).map_err(|e| {
+                            format!("Error creating custom database directory: {}", e)
+                        })?;
+                    }
+                    return Ok(custom_path.join("database.db"));
+                }
+            }
+        }
     }
 
     Ok(data_dir.join("database.db"))
