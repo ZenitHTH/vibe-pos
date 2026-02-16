@@ -79,15 +79,29 @@ export default function DesignTunerPage() {
                                 <label className="text-xs text-muted-foreground">Base Scale (Px)</label>
                                 <span className="text-xs text-muted-foreground">{baseFontSize}px</span>
                             </div>
-                            <input
-                                type="range"
-                                min="12"
-                                max="32"
-                                step="1"
-                                value={baseFontSize}
-                                onChange={(e) => setBaseFontSize(parseInt(e.target.value))}
-                                className="w-full"
-                            />
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => setBaseFontSize(Math.max(12, baseFontSize - 1))}
+                                    className="w-6 h-6 flex items-center justify-center rounded bg-secondary hover:bg-secondary/80 text-foreground text-xs"
+                                >
+                                    -
+                                </button>
+                                <input
+                                    type="range"
+                                    min="12"
+                                    max="32"
+                                    step="1"
+                                    value={baseFontSize}
+                                    onChange={(e) => setBaseFontSize(parseInt(e.target.value))}
+                                    className="flex-1"
+                                />
+                                <button
+                                    onClick={() => setBaseFontSize(Math.min(32, baseFontSize + 1))}
+                                    className="w-6 h-6 flex items-center justify-center rounded bg-secondary hover:bg-secondary/80 text-foreground text-xs"
+                                >
+                                    +
+                                </button>
+                            </div>
                         </div>
                         <div>
                             <label className="text-xs text-muted-foreground block mb-1">Primary Color</label>

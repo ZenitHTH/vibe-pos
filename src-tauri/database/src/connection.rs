@@ -5,7 +5,7 @@ use std::fs;
 use std::path::PathBuf;
 
 pub fn get_database_path() -> Result<PathBuf, String> {
-    let proj_dirs = ProjectDirs::from("", "", "simple-pos").ok_or_else(|| {
+    let proj_dirs = ProjectDirs::from("", "", "com.simple-pos.app").ok_or_else(|| {
         "No valid home directory path could be retrieved from the operating system.".to_string()
     })?;
 
