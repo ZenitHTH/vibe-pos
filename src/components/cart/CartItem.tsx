@@ -1,6 +1,6 @@
 import { CartItem as CartItemType } from '../../types';
 import { FaMinus, FaPlus, FaTrash } from 'react-icons/fa';
-import Image from 'next/image';
+import { convertFileSrc } from '@tauri-apps/api/core';
 
 interface CartItemProps {
     item: CartItemType;
@@ -10,19 +10,21 @@ interface CartItemProps {
 }
 
 export default function CartItem({ item, currency, onUpdateQuantity, onRemove }: CartItemProps) {
+    const imageSrc = item.image
+        ? (item.image.startsWith('http') ? item.image : convertFileSrc(item.image))
+        : null;
+
     return (
         <div className="flex items-center gap-4 p-3 bg-background rounded-xl border border-border group hover:border-primary/30 transition-colors">
             <div
                 className="w-16 h-16 rounded-lg overflow-hidden relative shrink-0 border border-border bg-muted/20"
-                style={{ backgroundColor: !item.image ? (item.color || '#e2e8f0') : undefined }}
+                style={{ backgroundColor: !imageSrc ? (item.color || '#e2e8f0') : undefined }}
             >
-                {item.image ? (
-                    <Image
-                        src={item.image}
+                {imageSrc ? (
+                    <img
+                        src={imageSrc}
                         alt={item.name}
-                        fill
-                        className="object-cover"
-                        sizes="64px"
+                        className="w-full h-full object-cover"
                     />
                 ) : (
                     <div className="absolute inset-0 flex items-center justify-center text-muted font-bold text-lg opacity-20">

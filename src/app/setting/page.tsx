@@ -10,6 +10,7 @@ import { FaSave, FaCheck } from 'react-icons/fa';
 import { useState } from 'react';
 import ResetSettingsButton from '@/components/settings/ResetSettingsButton';
 import ManagementPageLayout from '@/components/layout/ManagementPageLayout';
+import GeneralSettings from '@/components/settings/GeneralSettings';
 
 export default function SettingPage() {
     const { save } = useSettings();

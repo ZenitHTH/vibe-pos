@@ -1,5 +1,5 @@
 import { Product } from '@/types';
-import Image from 'next/image';
+import { convertFileSrc } from '@tauri-apps/api/core';
 
 interface ProductCardProps {
     product: Product;
@@ -8,6 +8,10 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, onAdd, currency }: ProductCardProps) {
+    const imageSrc = product.image
+        ? (product.image.startsWith('http') ? product.image : convertFileSrc(product.image))
+        : null;
+
     return (
         <div
             onClick={() => onAdd(product)}
@@ -15,15 +19,13 @@ export default function ProductCard({ product, onAdd, currency }: ProductCardPro
         >
             <div
                 className="aspect-3/2 w-full relative bg-muted/20"
-                style={{ backgroundColor: !product.image ? (product.color || '#e2e8f0') : undefined }}
+                style={{ backgroundColor: !imageSrc ? (product.color || '#e2e8f0') : undefined }}
             >
-                {product.image ? (
-                    <Image
-                        src={product.image}
+                {imageSrc ? (
+                    <img
+                        src={imageSrc}
                         alt={product.name}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+                        className="w-full h-full object-cover"
                     />
                 ) : (
                     <div className="absolute inset-0 flex items-center justify-center font-bold text-2xl opacity-20">

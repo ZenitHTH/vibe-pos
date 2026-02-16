@@ -3,6 +3,7 @@ export interface BackendProduct {
     title: string;
     catagory: string;
     satang: number;
+    image_path?: string;
 }
 
 export type NewProduct = Omit<BackendProduct, 'product_id'>;

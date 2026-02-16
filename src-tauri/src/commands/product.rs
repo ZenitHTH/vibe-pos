@@ -1,11 +1,12 @@
 use database::establish_connection;
 use database::product;
+use database::product::model::ProductWithImage;
 use database::{NewProduct, Product};
 
 #[tauri::command]
-pub fn get_products(key: String) -> Result<Vec<Product>, String> {
+pub fn get_products(key: String) -> Result<Vec<ProductWithImage>, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
-    product::get_all_products(&mut conn).map_err(|e| e.to_string())
+    product::get_all_products_with_images(&mut conn).map_err(|e| e.to_string())
 }
 
 #[tauri::command]

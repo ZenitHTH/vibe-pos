@@ -163,7 +163,7 @@ export default function ProductModal({
                         <label className="block text-sm font-medium mb-1">
                             Display Price
                         </label>
-                        <div className="px-3 py-2 rounded-lg border border-border bg-muted/10 text-muted">
+                        <div className="px-3 py-2 rounded-lg border border-border bg-muted/10 text-foreground">
                             ฿{getPrice(formData.satang)}
                         </div>
                     </div>

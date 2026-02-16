@@ -1,5 +1,5 @@
 use atomic_write_file::AtomicWriteFile;
-use database::{establish_connection, insert_image, Image, NewImage};
+use database::{Image, NewImage, establish_connection, insert_image};
 use sha2::{Digest, Sha256};
 use std::io::Write;
 use std::path::Path;
@@ -23,6 +23,7 @@ pub fn save_image(
     data: &[u8],
     filename: &str,
     target_dir: Option<&Path>,
+    key: &str,
 ) -> Result<Image, ImageError> {
     // 1. Calculate Hash
     let mut hasher = Sha256::new();
@@ -32,9 +33,7 @@ pub fn save_image(
     // 2. Check if image already exists in DB
     let db_path =
         database::get_database_path().map_err(|e| ImageError::Connection(e.to_string()))?;
-    let db_path_str = db_path.to_string_lossy();
-    let mut conn =
-        establish_connection(&db_path_str).map_err(|e| ImageError::Connection(e.to_string()))?;
+    let mut conn = establish_connection(key).map_err(|e| ImageError::Connection(e.to_string()))?;
 
     // Check if hash exists
     if let Ok(Some(existing_image)) = database::image::get_image_by_hash(&mut conn, &hash) {
@@ -94,12 +93,8 @@ pub fn save_image(
     Ok(saved_image)
 }
 
-pub fn verify_image(image_id: i32) -> Result<bool, ImageError> {
-    let db_path =
-        database::get_database_path().map_err(|e| ImageError::Connection(e.to_string()))?;
-    let db_path_str = db_path.to_string_lossy();
-    let mut conn =
-        establish_connection(&db_path_str).map_err(|e| ImageError::Connection(e.to_string()))?;
+pub fn verify_image(image_id: i32, key: &str) -> Result<bool, ImageError> {
+    let mut conn = establish_connection(key).map_err(|e| ImageError::Connection(e.to_string()))?;
 
     // Fix: `database::image::get_image` is not pub or not reachable via that path?
     // `insert_image` and `get_image` are imported at top level of `database` crate via `pub use image::...`?

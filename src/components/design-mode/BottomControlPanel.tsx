@@ -25,6 +25,9 @@ export default function BottomControlPanel({ hideSaveButton = false, forceVisibl
     const handleSave = async () => {
         await save();
         toggleMockupMode();
+        if (pathname.startsWith('/design/tuner')) {
+            router.push('/setting');
+        }
     };
 
     return (

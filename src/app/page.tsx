@@ -21,7 +21,7 @@ export default function Page() {
           name: p.title,
           price: p.satang / 100, // Convert satang to unit
           category: p.catagory, // Note: backend uses 'catagory' typo
-          image: "", // Placeholder or default image logic could go here
+          image: p.image_path || "",
           color: "#78350f" // Default color
         }));
         setProducts(mappedProducts);
