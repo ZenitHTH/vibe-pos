@@ -59,6 +59,13 @@ export default function NavigationMenu({ router }: { router: ReturnType<typeof u
                             label="Settings"
                             isActive={pathname === '/setting'}
                         />
+                        <hr className="border-border my-1" />
+                        <NavButton
+                            onClick={() => navigate('/design/tuner')}
+                            icon={<FaCompass />}
+                            label="Design Tuner"
+                            isActive={pathname === '/design/tuner'}
+                        />
 
                     </div>
                 </div>

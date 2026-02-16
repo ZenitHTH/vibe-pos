@@ -46,6 +46,8 @@ export default function Sidebar() {
         setIsOpen(false);
     }, [pathname]);
 
+    if (pathname.startsWith("/design/tuner")) return null;
+
     return (
         <>
             {/* Mobile Header */}
