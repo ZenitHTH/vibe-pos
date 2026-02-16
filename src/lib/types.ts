@@ -31,3 +31,16 @@ export interface NewReceipt {
     product_id: number;
     quantity: number;
 }
+
+export interface Image {
+    id: number;
+    file_name: string;
+    file_hash: string;
+    file_path: string;
+    created_at: string; // Timestamp from SQLite
+}
+
+export interface ProductImage {
+    product_id: number;
+    image_id: number;
+}

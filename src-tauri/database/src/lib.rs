@@ -25,6 +25,8 @@ pub use image::model::{Image, NewImage};
 pub use image::{get_image, get_image_by_hash, insert_image};
 pub use product::model::{NewProduct, Product};
 pub use product_image::model::{NewProductImage, ProductImage};
-pub use product_image::{get_product_images, link_product_image, unlink_product_image};
+pub use product_image::{
+    get_linked_images, get_product_images, link_product_image, unlink_product_image,
+};
 pub use receipt::model::{NewReceipt, NewReceiptList, Receipt, ReceiptList};
 pub use stock::model::{NewStock, Stock};

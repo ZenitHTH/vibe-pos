@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
-import { BackendProduct, NewProduct, Category, ReceiptList, Receipt } from "./types";
+import { BackendProduct, NewProduct, Category, ReceiptList, Receipt, Image, ProductImage } from "./types";
 
 export const productApi = {
     getAll: async (key: string): Promise<BackendProduct[]> => {
@@ -74,5 +74,23 @@ export const receiptApi = {
     },
     exportReceipts: async (key: string, exportPath: string, format: string, startDate: number, endDate: number): Promise<string> => {
         return await invoke('export_receipts', { key, exportPath, format, startDate: startDate, endDate: endDate });
+    }
+};
+
+export const imageApi = {
+    save: async (key: string, data: number[], filename: string): Promise<Image> => {
+        return await invoke("save_image", { key, data, filename });
+    },
+
+    linkToProduct: async (key: string, productId: number, imageId: number): Promise<ProductImage> => {
+        return await invoke("link_product_image", { key, product_id: productId, image_id: imageId });
+    },
+
+    unlink: async (key: string, productId: number, imageId: number): Promise<number> => {
+        return await invoke("unlink_product_image", { key, product_id: productId, image_id: imageId });
+    },
+
+    getByProduct: async (key: string, productId: number): Promise<Image[]> => {
+        return await invoke("get_product_images", { key, product_id: productId });
     }
 };

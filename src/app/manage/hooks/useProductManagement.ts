@@ -55,21 +55,25 @@ export function useProductManagement() {
         }
     };
 
-    const handleModalSubmit = async (data: NewProduct) => {
+    const handleModalSubmit = async (data: NewProduct): Promise<BackendProduct | undefined> => {
         if (!dbKey) return;
         try {
             setIsSubmitting(true);
+            let result: BackendProduct;
             if (editingProduct) {
                 const updated = await productApi.update(dbKey, {
                     ...data,
                     product_id: editingProduct.product_id,
                 });
                 setProducts(products.map(p => p.product_id === updated.product_id ? updated : p));
+                result = updated;
             } else {
                 const created = await productApi.create(dbKey, data);
                 setProducts([...products, created]);
+                result = created;
             }
             setIsModalOpen(false);
+            return result;
         } catch (err) {
             console.error("Failed to save product:", err);
             alert("Failed to save product");

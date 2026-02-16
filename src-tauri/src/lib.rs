@@ -7,18 +7,17 @@ use commands::product::*;
 use commands::receipt::*;
 use commands::stock::*;
 
-use commands::export::*;
-use commands::settings::*;
 use commands::database::*;
+use commands::export::*;
+use commands::images::*;
+use commands::settings::*; // Import the new images module
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_log::Builder::default().build())
         .plugin(tauri_plugin_dialog::init())
-        .setup(|_app| {
-            Ok(())
-        })
+        .setup(|_app| Ok(()))
         .invoke_handler(tauri::generate_handler![
             // Product Commands
             get_products,
@@ -47,7 +46,12 @@ pub fn run() {
             save_settings,
             // Database Commands
             initialize_database,
-            check_database_exists
+            check_database_exists,
+            // Image Commands
+            save_image,
+            link_product_image,
+            unlink_product_image,
+            get_product_images
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

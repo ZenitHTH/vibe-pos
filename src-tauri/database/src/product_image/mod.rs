@@ -31,6 +31,20 @@ pub fn unlink_product_image(
         .execute(conn)
 }
 
+pub fn get_linked_images(
+    conn: &mut SqliteConnection,
+    prod_id: i32,
+) -> Result<Vec<crate::image::model::Image>, diesel::result::Error> {
+    use crate::schema::images;
+    use crate::schema::product_images;
+
+    product_images::table
+        .inner_join(images::table)
+        .filter(product_images::product_id.eq(prod_id))
+        .select(crate::image::model::Image::as_select())
+        .load(conn)
+}
+
 pub fn get_product_images(
     conn: &mut SqliteConnection,
     prod_id: i32,
