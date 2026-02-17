@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from "react";
-import ModalHeader from "./ModalHeader";
 import AmountSummary from "./AmountSummary";
 import CashInput from "./CashInput";
 import ChangeDisplay from "./ChangeDisplay";
@@ -7,6 +6,8 @@ import PaymentFooter from "./PaymentFooter";
 
 import { useSettings } from "@/context/SettingsContext";
 import SelectableOverlay from "../design-mode/SelectableOverlay";
+import { Modal } from "@/components/ui/Modal";
+import { FaMoneyBillWave } from "react-icons/fa";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -74,49 +75,55 @@ export default function PaymentModal({
   const scaledWidth = `${baseWidth * scale}px`;
 
   return (
-    <div
-      className="payment-modal-overlay"
-      role="dialog"
-      aria-modal="true"
-      style={{ fontSize: `${fontScale}rem` }}
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={
+        <div className="flex items-center gap-2">
+          <FaMoneyBillWave className="text-success" />
+          <span>Cash Payment</span>
+        </div>
+      }
+      className="max-w-none shadow-2xl"
+      style={{
+        maxWidth: scaledWidth,
+        width: "100%",
+        fontSize: `${fontScale}rem`,
+      }}
+      contentClassName="p-0"
     >
-      <div
-        className="payment-modal-content"
-        style={{ maxWidth: scaledWidth, width: "100%" }}
-      >
-        <SelectableOverlay id="payment_modal_scale" />
-        <ModalHeader onClose={onClose} />
+      <SelectableOverlay id="payment_modal_scale" />
 
-        <div className="custom-scrollbar space-y-4 overflow-y-auto p-4 lg:space-y-5 lg:p-5">
-          {/* Compact Summary Row */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-primary/5 border-primary/10 rounded-xl border p-3">
-              <AmountSummary total={total} currency={currency} />
-            </div>
-            <div className="h-full">
-              <ChangeDisplay
-                change={change}
-                isValid={isValid}
-                currency={currency}
-              />
-            </div>
-          </div>
-
-          <CashInput
-            value={cashReceived}
-            onChange={setCashReceived}
-            quickAmounts={quickAmounts}
+      <div className="custom-scrollbar space-y-4 overflow-y-auto p-4 lg:space-y-5 lg:p-5">
+        {/* Compact Summary Row */}
+        <div className="grid grid-cols-2 gap-4">
+          <AmountSummary total={total} currency={currency} />
+          <ChangeDisplay
+            change={change}
+            isValid={isValid}
             currency={currency}
-            numpadHeight={settings?.payment_numpad_height}
+            className={
+              isValid
+                ? "border-success/20 bg-success/10"
+                : "bg-muted/5 border-border"
+            }
           />
         </div>
 
-        <PaymentFooter
-          isValid={isValid}
-          isProcessing={isProcessing}
-          onConfirm={handleConfirm}
+        <CashInput
+          value={cashReceived}
+          onChange={setCashReceived}
+          quickAmounts={quickAmounts}
+          currency={currency}
+          numpadHeight={settings?.payment_numpad_height}
         />
       </div>
-    </div>
+
+      <PaymentFooter
+        isValid={isValid}
+        isProcessing={isProcessing}
+        onConfirm={handleConfirm}
+      />
+    </Modal>
   );
 }

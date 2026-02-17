@@ -3,6 +3,12 @@ import CartItem from "./CartItem";
 import CartSummary from "./CartSummary";
 import CartEmpty from "./CartEmpty";
 import { useTax } from "@/hooks/useTax";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from "@/components/ui/Card";
 
 interface CartProps {
   items: CartItemType[];
@@ -33,27 +39,29 @@ export default function Cart({
   }
 
   return (
-    <div className="bg-card text-card-foreground border-border sticky top-4 flex h-[calc(100vh-2rem)] flex-col overflow-hidden rounded-2xl border shadow-xl">
-      <div className="border-border bg-card/50 z-10 border-b p-6 backdrop-blur-sm">
-        <h2 className="flex items-center gap-3 text-[1.5em] font-bold">
+    <Card className="sticky top-4 flex h-[calc(100vh-2rem)] flex-col overflow-hidden shadow-xl">
+      <CardHeader className="bg-card/50 z-10 border-b backdrop-blur-sm">
+        <CardTitle className="flex items-center gap-3 text-[1.5em] font-bold">
           <span className="text-primary">Current Order</span>
           <span className="text-muted-foreground bg-muted/20 rounded-full px-3 py-1 text-[0.875em] font-normal">
             {items.reduce((acc, item) => acc + item.quantity, 0)} items
           </span>
-        </h2>
-      </div>
+        </CardTitle>
+      </CardHeader>
 
-      <div className="scrollbar-thin flex-1 space-y-3 overflow-y-auto p-4">
-        {items.map((item) => (
-          <CartItem
-            key={item.id}
-            item={item}
-            currency={currency}
-            onUpdateQuantity={onUpdateQuantity}
-            onRemove={onRemove}
-          />
-        ))}
-      </div>
+      <CardContent className="scrollbar-thin flex-1 overflow-y-auto p-4">
+        <div className="space-y-3">
+          {items.map((item) => (
+            <CartItem
+              key={item.id}
+              item={item}
+              currency={currency}
+              onUpdateQuantity={onUpdateQuantity}
+              onRemove={onRemove}
+            />
+          ))}
+        </div>
+      </CardContent>
 
       <CartSummary
         subtotal={subtotal}
@@ -62,6 +70,6 @@ export default function Cart({
         currency={currency}
         onCheckout={onCheckout}
       />
-    </div>
+    </Card>
   );
 }

@@ -2,6 +2,7 @@ import { memo } from "react";
 import { useSettings } from "@/context/SettingsContext";
 import { useMockup } from "@/context/MockupContext";
 import { FaDesktop } from "react-icons/fa";
+import { Switch } from "@/components/ui/Switch";
 import SettingsSection from "@/components/ui/SettingsSection";
 
 const DisplaySettings = memo(() => {
@@ -22,16 +23,10 @@ const DisplaySettings = memo(() => {
                 Enable visual resizing of UI components
               </p>
             </div>
-            <button
-              onClick={toggleMockupMode}
-              className={`focus:ring-primary relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none ${isMockupMode ? "bg-primary" : "bg-secondary"}`}
-            >
-              <span
-                className={`${
-                  isMockupMode ? "translate-x-6" : "translate-x-1"
-                } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
-              />
-            </button>
+          <Switch
+            checked={isMockupMode}
+            onClick={toggleMockupMode}
+          />
           </div>
 
           {/* Information / Help Text */}

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useSettings } from "@/context/SettingsContext";
 import { FaCheck, FaCog } from "react-icons/fa";
+import { Select } from "@/components/ui/Select";
 import { CURRENCIES } from "./CurrencySettings";
 
 interface SettingsSetupProps {
@@ -47,44 +48,36 @@ export default function SettingsSetup({ onComplete }: SettingsSetupProps) {
               Currency
             </h3>
             <div>
-              <label className="text-foreground mb-1 block text-sm font-medium">
-                Currency Symbol
-              </label>
-              <select
+              <Select
+                label="Currency Symbol"
                 value={
                   CURRENCIES.find((c) => c.symbol === settings.currency_symbol)
                     ?.code || "CUSTOM"
                 }
-                onChange={(e) => {
-                  const selected = CURRENCIES.find(
-                    (c) => c.code === e.target.value,
-                  );
+                onChange={(val: string | number) => {
+                  const code = val as string;
+                  const selected = CURRENCIES.find((c) => c.code === code);
                   if (selected) {
                     updateSettings({ currency_symbol: selected.symbol });
                   }
                 }}
-                className="border-border focus:ring-primary/20 focus:border-primary bg-background text-foreground w-full cursor-pointer appearance-none rounded-lg border px-4 py-3 transition-all focus:ring-2 focus:outline-none"
-              >
-                {CURRENCIES.map((c) => (
-                  <option
-                    key={c.code}
-                    value={c.code}
-                    className="bg-background text-foreground"
-                  >
-                    {c.country} ({c.code}) - {c.symbol}
-                  </option>
-                ))}
-                {!CURRENCIES.some(
-                  (c) => c.symbol === settings.currency_symbol,
-                ) && (
-                  <option
-                    value="CUSTOM"
-                    className="bg-background text-foreground"
-                  >
-                    Custom ({settings.currency_symbol})
-                  </option>
-                )}
-              </select>
+                options={[
+                  ...CURRENCIES.map((c) => ({
+                    value: c.code,
+                    label: `${c.country} (${c.code}) - ${c.symbol}`,
+                  })),
+                  ...(!CURRENCIES.some(
+                    (c) => c.symbol === settings.currency_symbol,
+                  )
+                    ? [
+                        {
+                          value: "CUSTOM",
+                          label: `Custom (${settings.currency_symbol})`,
+                        },
+                      ]
+                    : []),
+                ]}
+              />
               <p className="text-muted-foreground mt-2 text-xs">
                 Symbol displayed next to prices (e.g., $, €, £, ¥)
               </p>

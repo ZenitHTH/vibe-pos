@@ -44,7 +44,7 @@ export default function DateFilter({
       <button
         onClick={onFilter}
         disabled={loading}
-        className="bg-primary text-primary-foreground mb-px flex items-center gap-2 rounded-xl px-6 py-2.5 font-bold transition-colors hover:bg-blue-600"
+        className="bg-primary text-primary-foreground mb-px flex items-center gap-2 rounded-xl px-6 py-2.5 font-bold transition-colors hover:bg-primary/90"
       >
         {loading ? (
           "Loading..."

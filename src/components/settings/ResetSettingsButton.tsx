@@ -17,7 +17,7 @@ export default function ResetSettingsButton() {
     <>
       <button
         onClick={() => setShowWarning(true)}
-        className="flex items-center gap-2 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-2 text-sm font-bold text-red-500 transition-colors hover:bg-red-500/20"
+        className="flex items-center gap-2 rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-2 text-sm font-bold text-destructive transition-colors hover:bg-destructive/20"
       >
         <FaTrash size={14} />
         Reset to Default
@@ -26,8 +26,8 @@ export default function ResetSettingsButton() {
       {/* Warning Modal */}
       {showWarning && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-          <div className="bg-card-bg border-border animate-in fade-in zoom-in w-full max-w-sm overflow-hidden rounded-xl border p-6 shadow-2xl duration-200">
-            <h3 className="mb-2 text-lg font-bold text-red-500">
+          <div className="bg-card border-border animate-in fade-in zoom-in w-full max-w-sm overflow-hidden rounded-xl border p-6 shadow-2xl duration-200">
+            <h3 className="mb-2 text-lg font-bold text-destructive">
               Warning: Reset Settings
             </h3>
             <p className="text-muted mb-6">
@@ -44,7 +44,7 @@ export default function ResetSettingsButton() {
               </button>
               <button
                 onClick={handleResetDefaults}
-                className="rounded-lg bg-red-600 px-4 py-2 font-bold text-white shadow-lg shadow-red-500/20 transition-colors hover:bg-red-700"
+                className="rounded-lg bg-destructive px-4 py-2 font-bold text-destructive-foreground shadow-lg shadow-destructive/20 transition-colors hover:bg-destructive/90"
               >
                 Yes, Reset
               </button>

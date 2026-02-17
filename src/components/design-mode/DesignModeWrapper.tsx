@@ -36,7 +36,7 @@ export default function DesignModeWrapper({ onNext }: DesignModeWrapperProps) {
         <div className="animate-bounce-subtle fixed right-8 bottom-32 z-50">
           <button
             onClick={onNext}
-            className="flex transform items-center gap-3 rounded-full bg-green-600 px-8 py-4 text-lg font-bold text-white shadow-2xl transition-all hover:scale-105 hover:bg-green-700 hover:shadow-green-500/30"
+            className="bg-success text-success-foreground shadow-success/30 flex transform items-center gap-3 rounded-full px-8 py-4 text-lg font-bold shadow-2xl transition-all hover:scale-105 hover:bg-success/90"
           >
             <FaSave />
             Save & Continue

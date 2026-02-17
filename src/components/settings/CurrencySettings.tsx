@@ -2,6 +2,7 @@
 
 import { useCurrency } from "@/hooks/useCurrency";
 import { FaCoins } from "react-icons/fa";
+import { Select } from "@/components/ui/Select";
 import SettingsSection from "@/components/ui/SettingsSection";
 
 export const CURRENCIES = [
@@ -29,39 +30,41 @@ export const CURRENCIES = [
 export default function CurrencySettings() {
   const { currency, updateCurrency } = useCurrency();
 
+  const options = [
+    ...CURRENCIES.map((c) => ({
+      value: c.code,
+      label: `${c.country} (${c.code}) - ${c.symbol}`,
+    })),
+  ];
+
+  // Add Custom option only if current currency is not in predefined list
+  const isCustom = !CURRENCIES.some((c) => c.symbol === currency);
+  if (isCustom) {
+    options.push({
+      value: "CUSTOM",
+      label: `Custom (${currency})`,
+    });
+  }
+
+  const currentValue =
+    CURRENCIES.find((c) => c.symbol === currency)?.code || "CUSTOM";
+
   return (
     <SettingsSection title="Currency Settings" icon={FaCoins}>
       {/* Currency Selection */}
       <div>
-        <label className="text-foreground mb-2 block text-sm font-medium">
-          Select Country / Currency
-        </label>
-        <div className="flex gap-2">
-          <select
-            value={
-              CURRENCIES.find((c) => c.symbol === currency)?.code || "CUSTOM"
+        <Select
+          label="Select Country / Currency"
+          value={currentValue}
+          onChange={(val: string | number) => {
+            const code = val as string;
+            const selected = CURRENCIES.find((c) => c.code === code);
+            if (selected) {
+              updateCurrency(selected.symbol);
             }
-            onChange={(e) => {
-              const selected = CURRENCIES.find(
-                (c) => c.code === e.target.value,
-              );
-              if (selected) {
-                updateCurrency(selected.symbol);
-              }
-            }}
-            className="bg-background border-border focus:ring-primary/50 text-foreground w-full cursor-pointer appearance-none rounded-lg border px-4 py-2 focus:ring-2 focus:outline-none"
-          >
-            {CURRENCIES.map((c) => (
-              <option key={c.code} value={c.code}>
-                {c.country} ({c.code}) - {c.symbol}
-              </option>
-            ))}
-            {/* Option for custom/unknown symbols */}
-            {!CURRENCIES.some((c) => c.symbol === currency) && (
-              <option value="CUSTOM">Custom ({currency})</option>
-            )}
-          </select>
-        </div>
+          }}
+          options={options}
+        />
         <p className="text-muted-foreground mt-2 text-xs">
           Select your region to automatically set the currency symbol (
           {currency}).

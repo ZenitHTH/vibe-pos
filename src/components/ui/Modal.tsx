@@ -5,11 +5,22 @@ import { cn } from "../../lib/utils";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title: string;
+  title: React.ReactNode;
   children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  contentClassName?: string;
 }
 
-export function Modal({ isOpen, onClose, title, children }: ModalProps) {
+export function Modal({
+  isOpen,
+  onClose,
+  title,
+  children,
+  className,
+  style,
+  contentClassName,
+}: ModalProps) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -30,7 +41,9 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
         className={cn(
           "bg-card text-card-foreground border-border w-full max-w-md transform overflow-hidden rounded-2xl border shadow-xl transition-all duration-200",
           isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0",
+          className,
         )}
+        style={style}
       >
         <div className="border-border bg-muted/5 flex items-center justify-between border-b p-4">
           <h2 className="text-xl font-bold">{title}</h2>
@@ -41,7 +54,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             <FaTimes />
           </button>
         </div>
-        <div className="p-6">{children}</div>
+        <div className={cn("p-6", contentClassName)}>{children}</div>
       </div>
     </div>
   );

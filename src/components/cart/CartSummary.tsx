@@ -1,3 +1,5 @@
+import { CardFooter } from "@/components/ui/Card";
+
 interface CartSummaryProps {
   subtotal: number;
   tax: number;
@@ -5,6 +7,8 @@ interface CartSummaryProps {
   currency: string;
   onCheckout: () => void;
 }
+
+
 
 export default function CartSummary({
   subtotal,
@@ -14,7 +18,7 @@ export default function CartSummary({
   onCheckout,
 }: CartSummaryProps) {
   return (
-    <div className="bg-card text-card-foreground border-border z-10 mt-auto border-t p-6 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+    <CardFooter className="bg-card text-card-foreground border-border z-10 mt-auto flex-col items-stretch border-t p-6 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
       <div className="mb-6 space-y-3">
         <div className="text-muted-foreground flex justify-between">
           <span>Subtotal</span>
@@ -41,10 +45,10 @@ export default function CartSummary({
 
       <button
         onClick={onCheckout}
-        className="bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-xl py-4 text-[1.125em] font-bold shadow-lg shadow-blue-500/30 transition-all hover:bg-blue-600 active:scale-[0.98]"
+        className="bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-xl py-4 text-[1.125em] font-bold shadow-lg shadow-primary/30 transition-all hover:bg-primary/90 active:scale-[0.98]"
       >
         Checkout Now
       </button>
-    </div>
+    </CardFooter>
   );
 }

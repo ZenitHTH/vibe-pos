@@ -46,7 +46,7 @@ export default function NumberStepper({
       </span>
       <button
         onClick={handleIncrement}
-        className="bg-primary text-primary-foreground flex h-8 w-8 items-center justify-center rounded-lg font-bold shadow-sm transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+        className="bg-primary text-primary-foreground flex h-8 w-8 items-center justify-center rounded-lg font-bold shadow-sm transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
         disabled={value >= max}
       >
         +

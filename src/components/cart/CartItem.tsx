@@ -50,7 +50,7 @@ export default function CartItem({
         </div>
       </div>
 
-      <div className="bg-card-bg border-border flex items-center gap-3 rounded-lg border p-1">
+      <div className="bg-card border-border flex items-center gap-3 rounded-lg border p-1">
         <button
           onClick={() => onUpdateQuantity(item.id, -1)}
           className="hover:bg-muted/20 text-muted hover:text-foreground flex h-8 w-8 items-center justify-center rounded-md transition-colors"
@@ -68,7 +68,7 @@ export default function CartItem({
 
       <button
         onClick={() => onRemove(item.id)}
-        className="text-muted/50 ml-1 flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-red-500/10 hover:text-red-500"
+        className="text-muted/50 ml-1 flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-destructive/10 hover:text-destructive"
       >
         <FaTrash size={14} />
       </button>

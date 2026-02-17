@@ -1,5 +1,7 @@
+import { Button } from "@/components/ui/Button";
 import { memo } from "react";
 import { FaPaperPlane } from "react-icons/fa";
+import { cn } from "@/lib/utils";
 
 interface PaymentFooterProps {
   isValid: boolean;
@@ -10,14 +12,15 @@ interface PaymentFooterProps {
 const PaymentFooter = memo(
   ({ isValid, isProcessing, onConfirm }: PaymentFooterProps) => (
     <div className="border-border bg-muted/5 border-t p-4 lg:p-5">
-      <button
+      <Button
         onClick={onConfirm}
         disabled={!isValid || isProcessing}
-        className={`flex w-full items-center justify-center gap-2 rounded-xl py-4 text-lg font-bold transition-all ${
+        className={cn(
+          "flex h-auto w-full items-center justify-center gap-2 rounded-xl py-4 text-lg font-bold transition-all",
           isValid && !isProcessing
-            ? "bg-green-600 text-white shadow-lg shadow-green-500/20 hover:bg-green-700 active:scale-[0.98]"
-            : "bg-muted text-muted-foreground cursor-not-allowed opacity-50"
-        }`}
+            ? "bg-success text-success-foreground shadow-lg shadow-success/20 hover:bg-success/90 active:scale-[0.98]"
+            : "bg-muted text-muted-foreground cursor-not-allowed opacity-50",
+        )}
       >
         {isProcessing ? (
           <span>Processing...</span>
@@ -27,7 +30,7 @@ const PaymentFooter = memo(
             Confirm Payment
           </>
         )}
-      </button>
+      </Button>
     </div>
   ),
 );

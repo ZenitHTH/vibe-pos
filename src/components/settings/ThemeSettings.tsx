@@ -2,6 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { FaPalette, FaSun, FaMoon, FaDesktop } from "react-icons/fa";
+import { Button } from "@/components/ui/Button";
 import SettingsSection from "@/components/ui/SettingsSection";
 import { useEffect, useState } from "react";
 
@@ -26,41 +27,38 @@ export default function ThemeSettings() {
             Theme Preference
           </label>
           <div className="grid grid-cols-3 gap-4">
-            <button
+            <Button
+              variant={theme === "light" ? "default" : "outline"}
               onClick={() => setTheme("light")}
-              className={`flex flex-col items-center justify-center rounded-xl border p-4 transition-all ${
-                theme === "light"
-                  ? "bg-primary/10 border-primary text-primary ring-primary/20 ring-2"
-                  : "bg-card border-border hover:bg-muted/10 text-muted-foreground"
+              className={`flex h-auto flex-col items-center justify-center gap-2 p-4 ${
+                theme === "light" ? "ring-primary/20 ring-2" : ""
               }`}
             >
-              <FaSun className="mb-2 text-2xl" />
+              <FaSun className="text-2xl" />
               <span className="font-medium">Light</span>
-            </button>
+            </Button>
 
-            <button
+            <Button
+              variant={theme === "dark" ? "default" : "outline"}
               onClick={() => setTheme("dark")}
-              className={`flex flex-col items-center justify-center rounded-xl border p-4 transition-all ${
-                theme === "dark"
-                  ? "bg-primary/10 border-primary text-primary ring-primary/20 ring-2"
-                  : "bg-card border-border hover:bg-muted/10 text-muted-foreground"
+              className={`flex h-auto flex-col items-center justify-center gap-2 p-4 ${
+                theme === "dark" ? "ring-primary/20 ring-2" : ""
               }`}
             >
-              <FaMoon className="mb-2 text-2xl" />
+              <FaMoon className="text-2xl" />
               <span className="font-medium">Dark</span>
-            </button>
+            </Button>
 
-            <button
+            <Button
+              variant={theme === "system" ? "default" : "outline"}
               onClick={() => setTheme("system")}
-              className={`flex flex-col items-center justify-center rounded-xl border p-4 transition-all ${
-                theme === "system"
-                  ? "bg-primary/10 border-primary text-primary ring-primary/20 ring-2"
-                  : "bg-card border-border hover:bg-muted/10 text-muted-foreground"
+              className={`flex h-auto flex-col items-center justify-center gap-2 p-4 ${
+                theme === "system" ? "ring-primary/20 ring-2" : ""
               }`}
             >
-              <FaDesktop className="mb-2 text-2xl" />
+              <FaDesktop className="text-2xl" />
               <span className="font-medium">System</span>
-            </button>
+            </Button>
           </div>
         </div>
         <p className="text-muted-foreground text-sm">

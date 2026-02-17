@@ -7,6 +7,8 @@ import { ButtonTuner } from "@/components/design-tuner/ButtonTuner";
 import { TypographyTuner } from "@/components/design-tuner/TypographyTuner";
 import { NavButton } from "@/components/design-tuner/NavButton";
 
+import GlobalHeader from "@/components/ui/GlobalHeader";
+
 export default function DesignTunerPage() {
   const [activeTab, setActiveTab] = useState<
     "selector" | "button" | "typography"
@@ -30,10 +32,12 @@ export default function DesignTunerPage() {
   return (
     <div className="bg-background text-foreground flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <div className="border-border bg-card w-64 flex-shrink-0 space-y-2 border-r p-4">
-        <h1 className="mb-6 flex items-center gap-2 px-2 text-xl font-bold">
-          <FaPalette /> Design Tuner
-        </h1>
+      <div className="border-border bg-card w-64 shrink-0 space-y-2 border-r p-4">
+        <GlobalHeader
+          title="Design Tuner"
+          icon={FaPalette}
+          className="mb-6 px-2"
+        />
         <div className="space-y-1">
           <NavButton
             active={activeTab === "selector"}

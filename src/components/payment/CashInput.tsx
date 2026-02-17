@@ -1,6 +1,9 @@
 import { memo } from "react";
 import { formatCurrency } from "./utils";
 import VirtualNumpad from "./VirtualNumpad";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/utils";
 
 interface CashInputProps {
   value: string;
@@ -59,12 +62,14 @@ const CashInput = memo(
           <span className="text-muted pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 font-bold">
             {currency}
           </span>
-          <input
+          <Input
             id="cash-input"
             type="text"
             readOnly
             value={value}
-            className="bg-muted/5 border-border focus:border-primary focus:ring-primary/10 w-full cursor-default rounded-xl border-2 py-3 pr-4 pl-8 text-right text-2xl font-bold transition-all outline-none focus:ring-4 lg:text-3xl"
+            className={cn(
+              "bg-muted/5 border-border focus:border-primary focus:ring-primary/10 h-auto w-full cursor-default rounded-xl border-2 py-3 pr-4 pl-8 text-right text-2xl font-bold transition-all outline-none focus:ring-4 lg:text-3xl",
+            )}
             placeholder="0.00"
           />
         </div>
@@ -72,13 +77,14 @@ const CashInput = memo(
         {/* Quick Suggestions */}
         <div className="flex flex-wrap gap-2">
           {quickAmounts.map((amount) => (
-            <button
+            <Button
               key={`quick-${amount}`}
               onClick={() => onChange(amount.toString())}
-              className="bg-primary/10 hover:bg-primary/20 text-primary border-primary/20 rounded-xl border px-4 py-2 text-sm font-bold transition-colors"
+              variant="outline"
+              className="bg-primary/10 hover:bg-primary/20 text-primary border-primary/20 h-auto rounded-xl border px-4 py-2 text-sm font-bold transition-colors"
             >
               {formatCurrency(amount, currency)}
-            </button>
+            </Button>
           ))}
         </div>
 

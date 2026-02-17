@@ -61,13 +61,13 @@ export default function ManagementPageLayout({
                 placeholder={`Search ${title.toLowerCase()}...`}
                 value={searchQuery || ""}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="border-border bg-card-bg focus:ring-primary/50 w-full rounded-lg border py-2 pr-4 pl-10 outline-none focus:ring-2"
+                className="border-border bg-card focus:ring-primary/50 w-full rounded-lg border py-2 pr-4 pl-10 outline-none focus:ring-2"
               />
             </div>
           )}
 
           {error && (
-            <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-red-600">
+            <div className="mb-6 rounded-lg border border-destructive/20 bg-destructive/10 p-4 text-destructive">
               {error}
             </div>
           )}

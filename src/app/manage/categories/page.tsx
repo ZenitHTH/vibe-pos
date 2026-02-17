@@ -30,7 +30,7 @@ export default function CategoriesPage() {
       headerActions={
         <button
           onClick={handleCreate}
-          className="bg-primary flex items-center gap-2 rounded-xl px-4 py-2 text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-600"
+          className="bg-primary flex items-center gap-2 rounded-xl px-4 py-2 text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90"
         >
           <FaPlus />
           <span>New Category</span>

@@ -42,7 +42,7 @@ export default function SettingPage() {
           disabled={isSaving}
           className={`flex items-center gap-2 rounded-xl px-6 py-3 font-bold shadow-lg transition-all ${
             showSuccess
-              ? "bg-green-500 text-white shadow-green-500/20 hover:bg-green-600"
+              ? "bg-success text-success-foreground shadow-success/20 hover:bg-success/90"
               : "bg-primary text-primary-foreground shadow-primary/20 hover:opacity-90"
           }`}
         >

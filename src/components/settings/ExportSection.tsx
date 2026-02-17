@@ -95,7 +95,7 @@ export default function ExportSection() {
                   onClick={() => setFormat(f)}
                   className={`rounded-xl border px-4 py-2 font-medium uppercase transition-all ${
                     format === f
-                      ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-blue-500/20"
+                      ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20"
                       : "bg-background border-border hover:bg-muted/10 text-muted-foreground"
                   }`}
                 >
@@ -104,7 +104,7 @@ export default function ExportSection() {
               ))}
             </div>
             {format === "ods" && (
-              <p className="mt-2 text-xs text-yellow-500">
+              <p className="mt-2 text-xs text-warning">
                 Note: ODS export is experimental.
               </p>
             )}
@@ -115,7 +115,7 @@ export default function ExportSection() {
           <button
             onClick={handleExport}
             disabled={loading}
-            className="bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-xl py-4 font-bold shadow-lg transition-colors hover:bg-blue-600 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
+            className="bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-xl py-4 font-bold shadow-lg transition-colors hover:bg-primary/90 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? (
               "Exporting..."

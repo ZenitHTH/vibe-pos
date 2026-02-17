@@ -64,7 +64,7 @@ export default function CategoryModal({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-primary flex-1 rounded-xl px-4 py-2.5 font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+            className="bg-primary flex-1 rounded-xl px-4 py-2.5 font-medium text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? "Saving..." : "Save Category"}
           </button>

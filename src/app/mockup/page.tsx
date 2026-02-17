@@ -52,8 +52,8 @@ export default function MockupPage() {
 
   return (
     <>
-      <div className="relative box-border h-full border-4 border-yellow-400">
-        <div className="absolute top-0 right-0 z-50 rounded-bl-lg bg-yellow-400 px-4 py-1 font-bold text-black">
+      <div className="relative box-border h-full border-4 border-warning">
+        <div className="absolute top-0 right-0 z-50 rounded-bl-lg bg-warning px-4 py-1 font-bold text-warning-foreground">
           Design Mode
         </div>
         <POSClient initialProducts={products} />

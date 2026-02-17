@@ -36,7 +36,7 @@ export default function ProductFilter({
             onClick={() => onCategoryChange(cat)}
             className={`rounded-xl px-5 py-2.5 font-medium whitespace-nowrap transition-all ${
               selectedCategory === cat
-                ? "bg-primary text-primary-foreground shadow-lg shadow-blue-500/20"
+                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
                 : "bg-card text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground border"
             }`}
           >

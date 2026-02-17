@@ -1,6 +1,7 @@
 "use client";
 
 import { useMockup } from "../../context/MockupContext";
+import { cn } from "@/lib/utils";
 
 interface SelectableOverlayProps {
   id: string;
@@ -19,11 +20,13 @@ export default function SelectableOverlay({
 
   return (
     <div
-      className={`pointer-events-auto absolute inset-0 z-50 cursor-pointer transition-all duration-200 ${
+      className={cn(
+        "pointer-events-auto absolute inset-0 z-10 cursor-pointer rounded-xl transition-all duration-200",
         isSelected
-          ? "border-4 border-blue-500 bg-blue-500/10"
-          : "border-2 border-transparent hover:border-blue-300 hover:bg-blue-500/5"
-      } ${className} `}
+          ? "border-4 border-primary bg-primary/10"
+          : "border-2 border-transparent hover:border-primary/50 hover:bg-primary/5",
+        className,
+      )}
       onClick={(e) => {
         // Prevent click from triggering underlying elements
         e.preventDefault();

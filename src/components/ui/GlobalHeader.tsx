@@ -2,9 +2,12 @@
 
 import { useSettings } from "@/context/SettingsContext";
 
+import { ComponentType } from "react";
+
 interface GlobalHeaderProps {
   title: string;
   subtitle?: string;
+  icon?: ComponentType<{ className?: string }>;
   children?: React.ReactNode;
   className?: string;
 }
@@ -12,6 +15,7 @@ interface GlobalHeaderProps {
 export default function GlobalHeader({
   title,
   subtitle,
+  icon: Icon,
   children,
   className = "",
 }: GlobalHeaderProps) {
@@ -24,9 +28,10 @@ export default function GlobalHeader({
     >
       <div className="flex-1">
         <h1
-          className="text-foreground mb-1 text-2xl font-bold"
+          className="text-foreground mb-1 flex items-center gap-2 text-2xl font-bold"
           style={{ fontSize: "1.5em" }}
         >
+          {Icon && <Icon className="text-primary" />}
           {title}
         </h1>
         {subtitle && (

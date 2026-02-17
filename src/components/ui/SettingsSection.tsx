@@ -1,8 +1,7 @@
-"use client";
-
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import { cn } from "@/lib/utils";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 
 interface SettingsSectionProps {
   title: string;
@@ -18,19 +17,14 @@ export default function SettingsSection({
   className = "",
 }: SettingsSectionProps) {
   return (
-    <section
-      className={cn(
-        "bg-card text-card-foreground border-border mb-8 rounded-xl border p-6 shadow-sm",
-        className,
-      )}
-    >
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-foreground flex items-center gap-2 text-xl font-bold">
+    <Card className={cn("mb-8 shadow-sm", className)}>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-xl">
           {Icon && <Icon className="text-primary" />}
           {title}
-        </h2>
-      </div>
-      <div className="text-card-foreground">{children}</div>
-    </section>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>{children}</CardContent>
+    </Card>
   );
 }

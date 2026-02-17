@@ -58,7 +58,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile Header */}
-      <div className="bg-card-bg border-border fixed top-0 right-0 left-0 z-40 flex h-16 items-center border-b px-4 shadow-sm lg:hidden">
+      <div className="bg-card border-border fixed top-0 right-0 left-0 z-40 flex h-16 items-center border-b px-4 shadow-sm lg:hidden">
         <button
           onClick={() => setIsOpen(true)}
           className="text-muted hover:text-foreground -ml-2 p-2 transition-colors"

@@ -235,7 +235,7 @@ export default function ProductModal({
           <button
             type="submit"
             disabled={isSubmitting || isUploading}
-            className="bg-primary rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-600 disabled:opacity-50"
+            className="bg-primary rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90 disabled:opacity-50"
           >
             {isSubmitting ? "Saving..." : "Save Product"}
           </button>

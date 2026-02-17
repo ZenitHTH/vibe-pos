@@ -1,3 +1,4 @@
+import { Card, CardContent } from "@/components/ui/Card";
 import { memo } from "react";
 import { formatCurrency } from "./utils";
 
@@ -7,14 +8,16 @@ interface AmountSummaryProps {
 }
 
 const AmountSummary = memo(({ total, currency }: AmountSummaryProps) => (
-  <div className="space-y-1 text-center">
-    <p className="text-muted text-sm font-semibold tracking-wider uppercase">
-      Total Amount
-    </p>
-    <div className="text-primary text-4xl font-bold">
-      {formatCurrency(total, currency)}
-    </div>
-  </div>
+  <Card className="bg-primary/5 border-primary/10 shadow-none">
+    <CardContent className="flex h-full flex-col justify-center space-y-1 p-3 text-center">
+      <p className="text-muted text-sm font-semibold tracking-wider uppercase">
+        Total Amount
+      </p>
+      <div className="text-primary text-4xl font-bold">
+        {formatCurrency(total, currency)}
+      </div>
+    </CardContent>
+  </Card>
 ));
 
 AmountSummary.displayName = "AmountSummary";

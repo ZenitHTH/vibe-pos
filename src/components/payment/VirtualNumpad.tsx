@@ -35,7 +35,7 @@ const VirtualNumpad = memo(
         <div className="col-span-1 grid grid-cols-1 gap-3">
           <button
             onClick={onBackspace}
-            className="flex items-center justify-center rounded-2xl border border-red-500/20 bg-red-500/10 text-red-500 transition-all hover:bg-red-500/20 active:scale-95"
+            className="flex items-center justify-center rounded-2xl border border-destructive/20 bg-destructive/10 text-destructive transition-all hover:bg-destructive/20 active:scale-95"
             type="button"
             aria-label="Backspace"
           >

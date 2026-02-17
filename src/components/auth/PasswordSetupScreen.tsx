@@ -120,7 +120,7 @@ export default function PasswordSetupScreen({
 
           {(/[^\x00-\x7F]/.test(password) ||
             /[^\x00-\x7F]/.test(confirmPassword)) && (
-            <div className="mb-4 flex items-center rounded-lg border border-yellow-200 bg-yellow-500/10 p-3 text-sm font-medium text-yellow-600">
+            <div className="mb-4 flex items-center rounded-lg border border-warning/20 bg-warning/10 p-3 text-sm font-medium text-warning">
               <FaExclamationTriangle className="mr-2 h-4 w-4 shrink-0" />
               Warning: detailed characters detected. Please check your keyboard
               language (English recommended).

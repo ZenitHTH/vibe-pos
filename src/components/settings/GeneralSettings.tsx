@@ -2,7 +2,9 @@
 
 import { useSettings } from "@/context/SettingsContext";
 import { open } from "@tauri-apps/plugin-dialog";
-import { FaFolderOpen } from "react-icons/fa";
+import { FaFolderOpen, FaCog } from "react-icons/fa";
+import SettingsSection from "@/components/ui/SettingsSection";
+import { Button } from "@/components/ui/Button";
 
 export default function GeneralSettings() {
   const { settings, updateSettings } = useSettings();
@@ -28,17 +30,8 @@ export default function GeneralSettings() {
   };
 
   return (
-    <section className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">General Settings</h2>
-          <p className="text-muted-foreground">
-            Manage general application configurations
-          </p>
-        </div>
-      </div>
-
-      <div className="bg-card border-border space-y-6 rounded-xl border p-6">
+    <SettingsSection title="General Settings" icon={FaCog}>
+      <div className="space-y-6">
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Image Storage</h3>
           <div className="flex flex-col gap-2">
@@ -54,20 +47,14 @@ export default function GeneralSettings() {
                   </span>
                 )}
               </div>
-              <button
-                onClick={handleSelectImageStorage}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2 rounded-lg px-4 py-2 transition-colors"
-              >
+              <Button onClick={handleSelectImageStorage} className="gap-2">
                 <FaFolderOpen />
                 Browse
-              </button>
+              </Button>
               {settings.image_storage_path && (
-                <button
-                  onClick={handleResetStorage}
-                  className="bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-lg px-4 py-2 transition-colors"
-                >
+                <Button variant="secondary" onClick={handleResetStorage}>
                   Reset
-                </button>
+                </Button>
               )}
             </div>
           </div>
@@ -80,7 +67,7 @@ export default function GeneralSettings() {
               The application database (database.db) will be stored in this
               directory.
             </label>
-            <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 p-3 text-sm text-amber-600">
+            <div className="rounded-lg border border-warning/20 bg-warning/10 p-3 text-sm text-warning">
               <strong>Note:</strong> Changing this setting requires an
               application restart. You must manually move your existing
               &apos;database.db&apos; to the new location, or a new empty
@@ -94,7 +81,7 @@ export default function GeneralSettings() {
                   </span>
                 )}
               </div>
-              <button
+              <Button
                 onClick={async () => {
                   try {
                     const selected = await open({
@@ -110,23 +97,23 @@ export default function GeneralSettings() {
                     console.error("Failed to select directory:", error);
                   }
                 }}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2 rounded-lg px-4 py-2 transition-colors"
+                className="gap-2"
               >
                 <FaFolderOpen />
                 Browse
-              </button>
+              </Button>
               {settings.db_storage_path && (
-                <button
+                <Button
+                  variant="secondary"
                   onClick={() => updateSettings({ db_storage_path: undefined })}
-                  className="bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-lg px-4 py-2 transition-colors"
                 >
                   Reset
-                </button>
+                </Button>
               )}
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </SettingsSection>
   );
 }
