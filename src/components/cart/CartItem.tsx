@@ -22,56 +22,70 @@ export default function CartItem({
     : null;
 
   return (
-    <div className="bg-background border-border group hover:border-primary/30 flex items-center gap-4 rounded-xl border p-3 transition-colors">
-      <div
-        className="border-border bg-muted/20 relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border"
-        style={{
-          backgroundColor: !imageSrc ? item.color || "#e2e8f0" : undefined,
-        }}
-      >
-        {imageSrc ? (
-          <img
-            src={imageSrc}
-            alt={item.name}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div className="text-muted absolute inset-0 flex items-center justify-center text-lg font-bold opacity-20">
-            {item.name.charAt(0)}
+    <div className="bg-background rounded-lg border border-border overflow-hidden group hover:border-primary/30 transition-colors">
+      {/* Top row: image + info + delete */}
+      <div className="flex items-center gap-3 p-2.5">
+        {/* Thumbnail */}
+        <div
+          className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-border/50"
+          style={{
+            backgroundColor: !imageSrc ? item.color || "#e2e8f0" : undefined,
+          }}
+        >
+          {imageSrc ? (
+            <img
+              src={imageSrc}
+              alt={item.name}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="flex items-center justify-center w-full h-full text-muted font-bold text-[1em] opacity-30">
+              {item.name.charAt(0)}
+            </div>
+          )}
+        </div>
+
+        {/* Name + Price */}
+        <div className="min-w-0 flex-1">
+          <h4 className="text-foreground text-[0.875em] font-medium truncate leading-tight">
+            {item.name}
+          </h4>
+          <div className="text-primary text-[1em] font-bold mt-0.5">
+            {currency}
+            {(item.price * item.quantity).toFixed(2)}
           </div>
-        )}
+        </div>
+
+        {/* Delete — touch-friendly 44px target */}
+        <button
+          onClick={() => onRemove(item.id)}
+          className="text-muted/40 hover:text-destructive active:text-destructive hover:bg-destructive/10 active:bg-destructive/15 w-11 h-11 flex items-center justify-center rounded-lg transition-colors shrink-0"
+        >
+          <FaTrash size={14} />
+        </button>
       </div>
 
-      <div className="min-w-0 flex-1">
-        <h4 className="text-foreground truncate font-medium">{item.name}</h4>
-        <div className="text-primary font-bold">
-          {currency}
-          {(item.price * item.quantity).toFixed(2)}
+      {/* Bottom row: unit price + quantity controls */}
+      <div className="flex items-center justify-between px-2.5 pb-2.5">
+        <span className="text-[0.75em] text-muted-foreground">
+          {currency}{item.price.toFixed(2)} each
+        </span>
+        <div className="flex items-center bg-card border border-border rounded-lg">
+          <button
+            onClick={() => onUpdateQuantity(item.id, -1)}
+            className="w-11 h-11 flex items-center justify-center rounded-l-lg hover:bg-muted/20 active:bg-muted/30 text-muted hover:text-foreground transition-colors"
+          >
+            <FaMinus size={12} />
+          </button>
+          <span className="w-8 text-center text-[0.875em] font-semibold select-none">{item.quantity}</span>
+          <button
+            onClick={() => onUpdateQuantity(item.id, 1)}
+            className="w-11 h-11 flex items-center justify-center rounded-r-lg hover:bg-muted/20 active:bg-muted/30 text-muted hover:text-foreground transition-colors"
+          >
+            <FaPlus size={12} />
+          </button>
         </div>
       </div>
-
-      <div className="bg-card border-border flex items-center gap-3 rounded-lg border p-1">
-        <button
-          onClick={() => onUpdateQuantity(item.id, -1)}
-          className="hover:bg-muted/20 text-muted hover:text-foreground flex h-8 w-8 items-center justify-center rounded-md transition-colors"
-        >
-          <FaMinus size={10} />
-        </button>
-        <span className="w-4 text-center font-medium">{item.quantity}</span>
-        <button
-          onClick={() => onUpdateQuantity(item.id, 1)}
-          className="hover:bg-muted/20 text-muted hover:text-foreground flex h-8 w-8 items-center justify-center rounded-md transition-colors"
-        >
-          <FaPlus size={10} />
-        </button>
-      </div>
-
-      <button
-        onClick={() => onRemove(item.id)}
-        className="text-muted/50 ml-1 flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-destructive/10 hover:text-destructive"
-      >
-        <FaTrash size={14} />
-      </button>
     </div>
   );
 }

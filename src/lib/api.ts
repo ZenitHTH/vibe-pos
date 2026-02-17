@@ -132,8 +132,8 @@ export const imageApi = {
   ): Promise<ProductImage> => {
     return await invoke("link_product_image", {
       key,
-      product_id: productId,
-      image_id: imageId,
+      productId,
+      imageId,
     });
   },
 
@@ -144,12 +144,12 @@ export const imageApi = {
   ): Promise<number> => {
     return await invoke("unlink_product_image", {
       key,
-      product_id: productId,
-      image_id: imageId,
+      productId,
+      imageId,
     });
   },
 
   getByProduct: async (key: string, productId: number): Promise<Image[]> => {
-    return await invoke("get_product_images", { key, product_id: productId });
+    return await invoke("get_product_images", { key, productId });
   },
 };

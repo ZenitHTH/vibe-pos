@@ -1,17 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FaPalette, FaFont, FaMousePointer } from "react-icons/fa";
+import { FaPalette, FaFont, FaMousePointer, FaShoppingCart } from "react-icons/fa";
 import { SelectorTuner } from "@/components/design-tuner/SelectorTuner";
 import { ButtonTuner } from "@/components/design-tuner/ButtonTuner";
 import { TypographyTuner } from "@/components/design-tuner/TypographyTuner";
+import { CartItemTuner } from "@/components/design-tuner/CartItemTuner";
 import { NavButton } from "@/components/design-tuner/NavButton";
 
 import GlobalHeader from "@/components/ui/GlobalHeader";
 
 export default function DesignTunerPage() {
   const [activeTab, setActiveTab] = useState<
-    "selector" | "button" | "typography"
+    "selector" | "button" | "typography" | "cart"
   >("selector");
 
   // State for tuning variables
@@ -56,6 +57,12 @@ export default function DesignTunerPage() {
             onClick={() => setActiveTab("typography")}
             icon={<FaFont />}
             label="Typography"
+          />
+          <NavButton
+            active={activeTab === "cart"}
+            onClick={() => setActiveTab("cart")}
+            icon={<FaShoppingCart />}
+            label="Cart Item"
           />
         </div>
 
@@ -153,6 +160,7 @@ export default function DesignTunerPage() {
           {activeTab === "selector" && <SelectorTuner />}
           {activeTab === "button" && <ButtonTuner />}
           {activeTab === "typography" && <TypographyTuner />}
+          {activeTab === "cart" && <CartItemTuner />}
         </div>
       </div>
     </div>

@@ -49,8 +49,8 @@ export default function Cart({
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="scrollbar-thin flex-1 overflow-y-auto p-4">
-        <div className="space-y-3">
+      <CardContent className="scrollbar-thin flex-1 overflow-y-auto px-2 py-2">
+        <div className="space-y-2">
           {items.map((item) => (
             <CartItem
               key={item.id}
