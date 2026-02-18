@@ -67,8 +67,39 @@ const menuEntries: MenuEntry[] = [
   },
   {
     name: "System Setting",
-    path: "/setting",
     icon: <FaCog size={20} />,
+    children: [
+      {
+        name: "General",
+        path: "/setting/general",
+        icon: <FaCog size={18} />,
+      },
+      {
+        name: "Theme",
+        path: "/setting/theme",
+        icon: <FaTags size={18} />,
+      },
+      {
+        name: "Display",
+        path: "/setting/display",
+        icon: <FaBoxOpen size={18} />,
+      },
+      {
+        name: "Currency",
+        path: "/setting/currency",
+        icon: <FaTags size={18} />,
+      },
+      {
+        name: "Tax",
+        path: "/setting/tax",
+        icon: <FaTags size={18} />,
+      },
+      {
+        name: "Export",
+        path: "/setting/export",
+        icon: <FaClipboardList size={18} />,
+      },
+    ],
   },
 ];
 
