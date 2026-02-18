@@ -35,7 +35,7 @@ export function TunerSidebar({
   updateSettings,
 }: TunerSidebarProps) {
   return (
-    <div className="border-border bg-card w-64 shrink-0 space-y-2 border-r p-4">
+    <div className="border-border bg-card flex h-full w-64 shrink-0 flex-col border-r p-4">
       <GlobalHeader
         title="Design Tuner"
         icon={FaPalette}
@@ -68,21 +68,23 @@ export function TunerSidebar({
         />
       </div>
 
-      <GlobalStylesPanel
-        radius={radius}
-        setRadius={setRadius}
-        baseFontSize={baseFontSize}
-        setBaseFontSize={setBaseFontSize}
-        primaryColor={primaryColor}
-        setPrimaryColor={setPrimaryColor}
-      />
-
-      {activeTab === "cart" && (
-        <CartItemStylesPanel
-          settings={settings}
-          updateSettings={updateSettings}
+      <div className="mt-2 min-h-0 flex-1 space-y-2 overflow-y-auto pb-30">
+        <GlobalStylesPanel
+          radius={radius}
+          setRadius={setRadius}
+          baseFontSize={baseFontSize}
+          setBaseFontSize={setBaseFontSize}
+          primaryColor={primaryColor}
+          setPrimaryColor={setPrimaryColor}
         />
-      )}
+
+        {activeTab === "cart" && (
+          <CartItemStylesPanel
+            settings={settings}
+            updateSettings={updateSettings}
+          />
+        )}
+      </div>
     </div>
   );
 }
