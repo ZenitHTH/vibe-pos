@@ -1,6 +1,4 @@
-"use client";
-
-import { useCurrency } from "@/hooks/useCurrency";
+import { memo } from "react";
 import { FaCoins } from "react-icons/fa";
 import { Select } from "@/components/ui/Select";
 import SettingsSection from "@/components/ui/SettingsSection";
@@ -27,9 +25,15 @@ export const CURRENCIES = [
   { country: "Canada", code: "CAD", symbol: "C$" },
 ];
 
-export default function CurrencySettings() {
-  const { currency, updateCurrency } = useCurrency();
+interface CurrencySettingsProps {
+  currency: string;
+  onUpdateCurrency: (symbol: string) => void;
+}
 
+const CurrencySettings = memo(function CurrencySettings({
+  currency,
+  onUpdateCurrency,
+}: CurrencySettingsProps) {
   const options = [
     ...CURRENCIES.map((c) => ({
       value: c.code,
@@ -60,7 +64,7 @@ export default function CurrencySettings() {
             const code = val as string;
             const selected = CURRENCIES.find((c) => c.code === code);
             if (selected) {
-              updateCurrency(selected.symbol);
+              onUpdateCurrency(selected.symbol);
             }
           }}
           options={options}
@@ -74,4 +78,6 @@ export default function CurrencySettings() {
       {/* Warning Modal */}
     </SettingsSection>
   );
-}
+});
+
+export default CurrencySettings;

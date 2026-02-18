@@ -1,14 +1,21 @@
-"use client";
-
-import { useSettings } from "@/context/SettingsContext";
+import { memo } from "react";
+import { AppSettings } from "@/lib/settings";
 import { open } from "@tauri-apps/plugin-dialog";
 import { FaFolderOpen, FaCog } from "react-icons/fa";
 import SettingsSection from "@/components/ui/SettingsSection";
 import { Button } from "@/components/ui/Button";
 
-export default function GeneralSettings() {
-  const { settings, updateSettings } = useSettings();
+interface GeneralSettingsProps {
+  imageStoragePath?: string;
+  dbStoragePath?: string;
+  onUpdateSettings: (updates: Partial<AppSettings>) => void;
+}
 
+const GeneralSettings = memo(function GeneralSettings({
+  imageStoragePath,
+  dbStoragePath,
+  onUpdateSettings,
+}: GeneralSettingsProps) {
   const handleSelectImageStorage = async () => {
     try {
       const selected = await open({
@@ -18,7 +25,7 @@ export default function GeneralSettings() {
       });
 
       if (selected && typeof selected === "string") {
-        updateSettings({ image_storage_path: selected });
+        onUpdateSettings({ image_storage_path: selected });
       }
     } catch (error) {
       console.error("Failed to specific directory:", error);
@@ -26,7 +33,7 @@ export default function GeneralSettings() {
   };
 
   const handleResetStorage = () => {
-    updateSettings({ image_storage_path: undefined });
+    onUpdateSettings({ image_storage_path: undefined });
   };
 
   return (
@@ -41,7 +48,7 @@ export default function GeneralSettings() {
             </label>
             <div className="flex items-center gap-3">
               <div className="bg-muted/30 border-border flex-1 truncate rounded-lg border p-3 font-mono text-sm">
-                {settings.image_storage_path || (
+                {imageStoragePath || (
                   <span className="text-muted-foreground italic">
                     Default (App Data)
                   </span>
@@ -51,7 +58,7 @@ export default function GeneralSettings() {
                 <FaFolderOpen />
                 Browse
               </Button>
-              {settings.image_storage_path && (
+              {imageStoragePath && (
                 <Button variant="secondary" onClick={handleResetStorage}>
                   Reset
                 </Button>
@@ -67,7 +74,7 @@ export default function GeneralSettings() {
               The application database (database.db) will be stored in this
               directory.
             </label>
-            <div className="rounded-lg border border-warning/20 bg-warning/10 p-3 text-sm text-warning">
+            <div className="border-warning/20 bg-warning/10 text-warning rounded-lg border p-3 text-sm">
               <strong>Note:</strong> Changing this setting requires an
               application restart. You must manually move your existing
               &apos;database.db&apos; to the new location, or a new empty
@@ -75,7 +82,7 @@ export default function GeneralSettings() {
             </div>
             <div className="flex items-center gap-3">
               <div className="bg-muted/30 border-border flex-1 truncate rounded-lg border p-3 font-mono text-sm">
-                {settings.db_storage_path || (
+                {dbStoragePath || (
                   <span className="text-muted-foreground italic">
                     Default (App Data)
                   </span>
@@ -91,7 +98,7 @@ export default function GeneralSettings() {
                     });
 
                     if (selected && typeof selected === "string") {
-                      updateSettings({ db_storage_path: selected });
+                      onUpdateSettings({ db_storage_path: selected });
                     }
                   } catch (error) {
                     console.error("Failed to select directory:", error);
@@ -102,10 +109,12 @@ export default function GeneralSettings() {
                 <FaFolderOpen />
                 Browse
               </Button>
-              {settings.db_storage_path && (
+              {dbStoragePath && (
                 <Button
                   variant="secondary"
-                  onClick={() => updateSettings({ db_storage_path: undefined })}
+                  onClick={() =>
+                    onUpdateSettings({ db_storage_path: undefined })
+                  }
                 >
                   Reset
                 </Button>
@@ -116,4 +125,6 @@ export default function GeneralSettings() {
       </div>
     </SettingsSection>
   );
-}
+});
+
+export default GeneralSettings;

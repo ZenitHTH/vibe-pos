@@ -190,7 +190,7 @@ export default function Sidebar() {
             isExpanded ? "mt-1 max-h-96 opacity-100" : "max-h-0 opacity-0",
           )}
         >
-          <div className="ml-4 space-y-1 border-l-2 border-border/50 pl-3">
+          <div className="border-border/50 ml-4 space-y-1 border-l-2 pl-3">
             {group.children.map((child) => {
               const isActive = pathname === child.path;
               return (
@@ -274,11 +274,12 @@ export default function Sidebar() {
             </button>
           </div>
 
-          <nav className="flex-1 space-y-2 overflow-y-auto px-4 py-4">
+          <nav
+            className="flex-1 space-y-2 overflow-y-auto px-4 py-4"
+            data-lenis-prevent
+          >
             {menuEntries.map((entry) =>
-              isGroup(entry)
-                ? renderMenuGroup(entry)
-                : renderMenuItem(entry),
+              isGroup(entry) ? renderMenuGroup(entry) : renderMenuItem(entry),
             )}
           </nav>
 

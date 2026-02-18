@@ -1,6 +1,11 @@
 "use client";
 
-import { FaPalette, FaFont, FaMousePointer, FaShoppingCart } from "react-icons/fa";
+import {
+  FaPalette,
+  FaFont,
+  FaMousePointer,
+  FaShoppingCart,
+} from "react-icons/fa";
 import { NavButton } from "./NavButton";
 import { GlobalStylesPanel } from "./GlobalStylesPanel";
 import { CartItemStylesPanel } from "./CartItemStylesPanel";
@@ -68,7 +73,10 @@ export function TunerSidebar({
         />
       </div>
 
-      <div className="mt-2 min-h-0 flex-1 space-y-2 overflow-y-auto pb-30">
+      <div
+        className="mt-2 min-h-0 flex-1 space-y-2 overflow-y-auto pb-30"
+        data-lenis-prevent
+      >
         <GlobalStylesPanel
           radius={radius}
           setRadius={setRadius}

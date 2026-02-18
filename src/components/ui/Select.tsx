@@ -73,7 +73,10 @@ export function Select({
         </div>
 
         {isOpen && (
-          <div className="bg-popover border-border absolute z-50 mt-1 max-h-60 w-full overflow-y-auto rounded-lg border shadow-lg">
+          <div
+            className="bg-popover border-border absolute z-50 mt-1 max-h-60 w-full overflow-y-auto rounded-lg border shadow-lg"
+            data-lenis-prevent
+          >
             {options.map((opt) => (
               <div
                 key={opt.value}

@@ -94,7 +94,10 @@ export default function PaymentModal({
     >
       <SelectableOverlay id="payment_modal_scale" />
 
-      <div className="custom-scrollbar space-y-4 overflow-y-auto p-4 lg:space-y-5 lg:p-5">
+      <div
+        className="custom-scrollbar space-y-4 overflow-y-auto p-4 lg:space-y-5 lg:p-5"
+        data-lenis-prevent
+      >
         {/* Compact Summary Row */}
         <div className="grid grid-cols-2 gap-4">
           <AmountSummary total={total} currency={currency} />

@@ -4,12 +4,7 @@ import CartSummary from "./CartSummary";
 import CartEmpty from "./CartEmpty";
 import { useTax } from "@/hooks/useTax";
 import { useSettings } from "@/context/SettingsContext";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/Card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 
 interface CartProps {
   items: CartItemType[];
@@ -51,7 +46,10 @@ export default function Cart({
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="scrollbar-thin flex-1 overflow-y-auto px-2 py-2">
+      <CardContent
+        className="scrollbar-thin flex-1 overflow-y-auto px-2 py-2"
+        data-lenis-prevent
+      >
         <div
           style={{
             display: "flex",

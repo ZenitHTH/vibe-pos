@@ -1,14 +1,22 @@
-"use client";
-
-import { useTax } from "@/hooks/useTax";
+import { memo } from "react";
 import SettingsSection from "@/components/ui/SettingsSection";
 import { Switch } from "@/components/ui/Switch";
 import { Input } from "@/components/ui/Input";
 import { FaPercent } from "react-icons/fa";
 
-export default function TaxSettings() {
-  const { isTaxEnabled, toggleTax, taxPercentage, setTaxPercentage } = useTax();
+interface TaxSettingsProps {
+  isTaxEnabled: boolean;
+  taxPercentage: number;
+  onToggleTax: () => void;
+  onUpdateTaxRate: (rate: number) => void;
+}
 
+const TaxSettings = memo(function TaxSettings({
+  isTaxEnabled,
+  taxPercentage,
+  onToggleTax,
+  onUpdateTaxRate,
+}: TaxSettingsProps) {
   return (
     <SettingsSection title="Tax Settings" icon={FaPercent}>
       <div className="flex items-center justify-between">
@@ -27,19 +35,18 @@ export default function TaxSettings() {
                 max={100}
                 value={taxPercentage}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setTaxPercentage(Number(e.target.value))
+                  onUpdateTaxRate(Number(e.target.value))
                 }
                 className="w-20 text-right"
               />
               <span className="text-muted-foreground font-medium">%</span>
             </div>
           )}
-          <Switch
-            checked={isTaxEnabled}
-            onClick={toggleTax}
-          />
+          <Switch checked={isTaxEnabled} onClick={onToggleTax} />
         </div>
       </div>
     </SettingsSection>
   );
-}
+});
+
+export default TaxSettings;

@@ -6,7 +6,6 @@ import ScalableContainer from "../design-mode/ScalableContainer";
 import ScrollableContainer from "../ui/ScrollableContainer";
 
 import { AppSettings } from "@/lib/settings";
-import { useSettings } from "@/context/SettingsContext";
 
 interface ManagementPageLayoutProps {
   title: string;
@@ -21,6 +20,7 @@ interface ManagementPageLayoutProps {
   modal?: React.ReactNode;
   floatingActions?: React.ReactNode;
   scrollable?: boolean;
+  layoutMaxWidth?: number;
 }
 
 export default function ManagementPageLayout({
@@ -36,8 +36,9 @@ export default function ManagementPageLayout({
   modal,
   floatingActions,
   scrollable = false,
+  layoutMaxWidth,
 }: ManagementPageLayoutProps) {
-  const { settings } = useSettings();
+  // useSettings() removed for better performance (prop drilling)
   const ContentWrapper = scrollable
     ? ScrollableContainer
     : ({ children }: { children: React.ReactNode }) => <>{children}</>;
@@ -46,7 +47,7 @@ export default function ManagementPageLayout({
     <ContentWrapper>
       <div
         className={`mx-auto w-full p-8 transition-all duration-300 ${scrollable ? "pb-24" : ""}`}
-        style={{ maxWidth: `${settings.layout_max_width || 1280}px` }}
+        style={{ maxWidth: `${layoutMaxWidth || 1280}px` }}
       >
         <GlobalHeader title={title} subtitle={subtitle}>
           {headerActions}
@@ -67,7 +68,7 @@ export default function ManagementPageLayout({
           )}
 
           {error && (
-            <div className="mb-6 rounded-lg border border-destructive/20 bg-destructive/10 p-4 text-destructive">
+            <div className="border-destructive/20 bg-destructive/10 text-destructive mb-6 rounded-lg border p-4">
               {error}
             </div>
           )}

@@ -1,12 +1,12 @@
 import { memo } from "react";
-import { useSettings } from "@/context/SettingsContext";
 import { useMockup } from "@/context/MockupContext";
 import { FaDesktop } from "react-icons/fa";
 import { Switch } from "@/components/ui/Switch";
 import SettingsSection from "@/components/ui/SettingsSection";
 
 const DisplaySettings = memo(() => {
-  useSettings();
+  // useSettings() removed - no longer needed here as this component focuses on Mockup Mode
+  // If it needed settings later, they should be passed as props.
   const { isMockupMode, toggleMockupMode } = useMockup();
 
   return (
@@ -23,10 +23,7 @@ const DisplaySettings = memo(() => {
                 Enable visual resizing of UI components
               </p>
             </div>
-          <Switch
-            checked={isMockupMode}
-            onClick={toggleMockupMode}
-          />
+            <Switch checked={isMockupMode} onClick={toggleMockupMode} />
           </div>
 
           {/* Information / Help Text */}

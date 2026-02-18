@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { FaSearch } from "react-icons/fa";
 
 interface ProductFilterProps {
@@ -9,7 +9,7 @@ interface ProductFilterProps {
   onCategoryChange: (category: string) => void;
 }
 
-export default function ProductFilter({
+const ProductFilter = memo(function ProductFilter({
   searchQuery,
   onSearchChange,
   categories,
@@ -36,7 +36,7 @@ export default function ProductFilter({
             onClick={() => onCategoryChange(cat)}
             className={`rounded-xl px-5 py-2.5 font-medium whitespace-nowrap transition-all ${
               selectedCategory === cat
-                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                ? "bg-primary text-primary-foreground shadow-primary/20 shadow-lg"
                 : "bg-card text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground border"
             }`}
           >
@@ -46,4 +46,6 @@ export default function ProductFilter({
       </div>
     </div>
   );
-}
+});
+
+export default ProductFilter;

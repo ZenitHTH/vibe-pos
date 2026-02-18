@@ -8,6 +8,7 @@ import DatabaseGuard from "@/components/common/DatabaseGuard";
 import { MockupProvider } from "@/context/MockupContext";
 import BottomControlPanel from "@/components/design-mode/BottomControlPanel";
 import { ThemeProvider } from "@/components/theme-provider";
+import SmoothScroll from "@/components/common/SmoothScroll";
 
 const notoSans = Noto_Sans({
   variable: "--font-noto-sans",
@@ -34,26 +35,28 @@ export default function RootLayout({
       <body
         className={`${notoSans.variable} ${notoMono.variable} bg-background text-foreground flex antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <SettingsProvider>
-            <DatabaseProvider>
-              <MockupProvider>
-                <DatabaseGuard>
-                  <Sidebar />
-                  <main className="flex h-screen flex-1 flex-col overflow-hidden pt-16 lg:pt-0">
-                    {children}
-                  </main>
-                  <BottomControlPanel />
-                </DatabaseGuard>
-              </MockupProvider>
-            </DatabaseProvider>
-          </SettingsProvider>
-        </ThemeProvider>
+        <SmoothScroll>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <SettingsProvider>
+              <DatabaseProvider>
+                <MockupProvider>
+                  <DatabaseGuard>
+                    <Sidebar />
+                    <main className="flex h-screen flex-1 flex-col overflow-hidden pt-16 lg:pt-0">
+                      {children}
+                    </main>
+                    <BottomControlPanel />
+                  </DatabaseGuard>
+                </MockupProvider>
+              </DatabaseProvider>
+            </SettingsProvider>
+          </ThemeProvider>
+        </SmoothScroll>
       </body>
     </html>
   );

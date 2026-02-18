@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { CardFooter } from "@/components/ui/Card";
 
 interface CartSummaryProps {
@@ -8,9 +9,7 @@ interface CartSummaryProps {
   onCheckout: () => void;
 }
 
-
-
-export default function CartSummary({
+const CartSummary = memo(function CartSummary({
   subtotal,
   tax,
   total,
@@ -45,10 +44,12 @@ export default function CartSummary({
 
       <button
         onClick={onCheckout}
-        className="bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-xl py-4 text-[1.125em] font-bold shadow-lg shadow-primary/30 transition-all hover:bg-primary/90 active:scale-[0.98]"
+        className="bg-primary text-primary-foreground shadow-primary/30 hover:bg-primary/90 flex w-full items-center justify-center gap-2 rounded-xl py-4 text-[1.125em] font-bold shadow-lg transition-all active:scale-[0.98]"
       >
         Checkout Now
       </button>
     </CardFooter>
   );
-}
+});
+
+export default CartSummary;

@@ -7,15 +7,16 @@ import ThemeSettings from "@/components/settings/ThemeSettings";
 import DisplaySettings from "@/components/settings/DisplaySettings";
 import { useSettings } from "@/context/SettingsContext";
 import { FaSave, FaCheck } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import ResetSettingsButton from "@/components/settings/ResetSettingsButton";
 import ManagementPageLayout from "@/components/layout/ManagementPageLayout";
 import GeneralSettings from "@/components/settings/GeneralSettings";
 
 export default function SettingPage() {
-  const { save } = useSettings();
+  const { settings, updateSettings, save } = useSettings();
   const [isSaving, setIsSaving] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+
   const handleSave = async () => {
     setIsSaving(true);
     try {
@@ -29,6 +30,33 @@ export default function SettingPage() {
     }
   };
 
+  // Handlers for specific settings to avoid passing the entire updateSettings object if possible
+  // and to ensure referential stability for memoized children.
+  const handleUpdateSettings = useCallback(
+    (updates: Partial<typeof settings>) => {
+      updateSettings(updates);
+    },
+    [updateSettings],
+  );
+
+  const handleUpdateCurrency = useCallback(
+    (symbol: string) => {
+      updateSettings({ currency_symbol: symbol });
+    },
+    [updateSettings],
+  );
+
+  const handleToggleTax = useCallback(() => {
+    updateSettings({ tax_enabled: !settings.tax_enabled });
+  }, [updateSettings, settings.tax_enabled]);
+
+  const handleUpdateTaxRate = useCallback(
+    (rate: number) => {
+      updateSettings({ tax_rate: rate });
+    },
+    [updateSettings],
+  );
+
   return (
     <ManagementPageLayout
       title="System Settings"
@@ -36,6 +64,7 @@ export default function SettingPage() {
       headerActions={<ResetSettingsButton />}
       scaleKey="setting_page_scale"
       scrollable={true}
+      layoutMaxWidth={settings.layout_max_width}
       floatingActions={
         <button
           onClick={handleSave}
@@ -61,21 +90,33 @@ export default function SettingPage() {
       }
     >
       {/* General Settings */}
-      <GeneralSettings />
+      <GeneralSettings
+        imageStoragePath={settings.image_storage_path}
+        dbStoragePath={settings.db_storage_path}
+        onUpdateSettings={handleUpdateSettings}
+      />
 
-      {/* Theme Settings */}
+      {/* Theme Settings - Manages its own state via next-themes */}
       <ThemeSettings />
 
-      {/* Display Settings */}
+      {/* Display Settings - Manages its own state via MockupContext */}
       <DisplaySettings />
 
       {/* Currency Settings */}
-      <CurrencySettings />
+      <CurrencySettings
+        currency={settings.currency_symbol}
+        onUpdateCurrency={handleUpdateCurrency}
+      />
 
       {/* Tax Settings */}
-      <TaxSettings />
+      <TaxSettings
+        isTaxEnabled={settings.tax_enabled}
+        taxPercentage={settings.tax_rate}
+        onToggleTax={handleToggleTax}
+        onUpdateTaxRate={handleUpdateTaxRate}
+      />
 
-      {/* Export Section */}
+      {/* Export Section - Manages its own logic/state mainly */}
       <ExportSection />
     </ManagementPageLayout>
   );

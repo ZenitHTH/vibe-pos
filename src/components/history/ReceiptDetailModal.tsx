@@ -32,7 +32,7 @@ export default function ReceiptDetailModal({
           </button>
         </div>
 
-        <div className="overflow-y-auto p-6">
+        <div className="overflow-y-auto p-6" data-lenis-prevent>
           <div className="mb-4 text-center">
             <div className="text-muted-foreground text-sm">Date</div>
             <div className="text-lg font-bold">

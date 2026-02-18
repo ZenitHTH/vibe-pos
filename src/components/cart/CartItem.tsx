@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { CartItem as CartItemType } from "../../types";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import { convertFileSrc } from "@tauri-apps/api/core";
@@ -14,7 +15,7 @@ interface CartItemProps {
   itemPadding?: number;
 }
 
-export default function CartItem({
+const CartItem = memo(function CartItem({
   item,
   currency,
   onUpdateQuantity,
@@ -50,14 +51,14 @@ export default function CartItem({
 
   return (
     <div
-      className="bg-background rounded-lg border border-border overflow-hidden group hover:border-primary/30 transition-colors"
+      className="bg-background border-border group hover:border-primary/30 overflow-hidden rounded-lg border transition-colors"
       style={containerStyle}
     >
       {/* Top row: image + info + delete */}
       <div className="flex items-center gap-3 p-2.5">
         {/* Thumbnail */}
         <div
-          className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-border/50"
+          className="border-border/50 h-14 w-14 shrink-0 overflow-hidden rounded-lg border"
           style={{
             backgroundColor: !imageSrc ? item.color || "#e2e8f0" : undefined,
           }}
@@ -66,10 +67,10 @@ export default function CartItem({
             <img
               src={imageSrc}
               alt={item.name}
-              className="w-full h-full object-cover"
+              className="h-full w-full object-cover"
             />
           ) : (
-            <div className="flex items-center justify-center w-full h-full text-muted font-bold text-[1em] opacity-30">
+            <div className="text-muted flex h-full w-full items-center justify-center text-[1em] font-bold opacity-30">
               {item.name.charAt(0)}
             </div>
           )}
@@ -78,13 +79,13 @@ export default function CartItem({
         {/* Name + Price */}
         <div className="min-w-0 flex-1">
           <h4
-            className="text-foreground text-[0.875em] font-medium truncate leading-tight"
+            className="text-foreground truncate text-[0.875em] leading-tight font-medium"
             style={headerStyle}
           >
             {item.name}
           </h4>
           <div
-            className="text-primary text-[1em] font-bold mt-0.5"
+            className="text-primary mt-0.5 text-[1em] font-bold"
             style={priceStyle}
           >
             {currency}
@@ -95,7 +96,7 @@ export default function CartItem({
         {/* Delete — touch-friendly 44px target */}
         <button
           onClick={() => onRemove(item.id)}
-          className="text-muted/40 hover:text-destructive active:text-destructive hover:bg-destructive/10 active:bg-destructive/15 w-11 h-11 flex items-center justify-center rounded-lg transition-colors shrink-0"
+          className="text-muted/40 hover:text-destructive active:text-destructive hover:bg-destructive/10 active:bg-destructive/15 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors"
         >
           <FaTrash size={14} />
         </button>
@@ -103,20 +104,23 @@ export default function CartItem({
 
       {/* Bottom row: unit price + quantity controls */}
       <div className="flex items-center justify-between px-2.5 pb-2.5">
-        <span className="text-[0.75em] text-muted-foreground">
-          {currency}{item.price.toFixed(2)} each
+        <span className="text-muted-foreground text-[0.75em]">
+          {currency}
+          {item.price.toFixed(2)} each
         </span>
-        <div className="flex items-center bg-card border border-border rounded-lg">
+        <div className="bg-card border-border flex items-center rounded-lg border">
           <button
             onClick={() => onUpdateQuantity(item.id, -1)}
-            className="w-11 h-11 flex items-center justify-center rounded-l-lg hover:bg-muted/20 active:bg-muted/30 text-muted hover:text-foreground transition-colors"
+            className="hover:bg-muted/20 active:bg-muted/30 text-muted hover:text-foreground flex h-11 w-11 items-center justify-center rounded-l-lg transition-colors"
           >
             <FaMinus size={12} />
           </button>
-          <span className="w-8 text-center text-[0.875em] font-semibold select-none">{item.quantity}</span>
+          <span className="w-8 text-center text-[0.875em] font-semibold select-none">
+            {item.quantity}
+          </span>
           <button
             onClick={() => onUpdateQuantity(item.id, 1)}
-            className="w-11 h-11 flex items-center justify-center rounded-r-lg hover:bg-muted/20 active:bg-muted/30 text-muted hover:text-foreground transition-colors"
+            className="hover:bg-muted/20 active:bg-muted/30 text-muted hover:text-foreground flex h-11 w-11 items-center justify-center rounded-r-lg transition-colors"
           >
             <FaPlus size={12} />
           </button>
@@ -124,4 +128,6 @@ export default function CartItem({
       </div>
     </div>
   );
-}
+});
+
+export default CartItem;

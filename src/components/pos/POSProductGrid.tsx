@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, memo } from "react";
 import ProductCard from "./ProductCard";
 import ProductFilter from "../filters/ProductFilter";
 import SelectableOverlay from "../design-mode/SelectableOverlay";
@@ -19,7 +19,7 @@ interface POSProductGridProps {
   currency: string;
 }
 
-export default function POSProductGrid({
+const POSProductGrid = memo(function POSProductGrid({
   products,
   categories,
   selectedCategory,
@@ -73,7 +73,10 @@ export default function POSProductGrid({
       </div>
 
       {/* Product Grid - Scrollable Area */}
-      <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto pr-2">
+      <div
+        className="custom-scrollbar min-h-0 flex-1 overflow-y-auto pr-2"
+        data-lenis-prevent
+      >
         <div
           className={`grid ${gridColsClass} relative gap-4 pb-4`}
           style={{ fontSize: `${settings?.grid_font_scale || 100}%` }}
@@ -91,4 +94,6 @@ export default function POSProductGrid({
       </div>
     </>
   );
-}
+});
+
+export default POSProductGrid;

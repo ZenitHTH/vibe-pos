@@ -1,10 +1,10 @@
-"use client";
+import { memo } from "react";
 
 import { FaReceipt } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import GlobalHeader from "../ui/GlobalHeader";
 
-export default function POSHeader() {
+const POSHeader = memo(function POSHeader() {
   const router = useRouter();
 
   return (
@@ -17,4 +17,6 @@ export default function POSHeader() {
       </button>
     </GlobalHeader>
   );
-}
+});
+
+export default POSHeader;

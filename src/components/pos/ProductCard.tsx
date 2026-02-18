@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Product } from "@/types";
 import { convertFileSrc } from "@tauri-apps/api/core";
 
@@ -7,7 +8,7 @@ interface ProductCardProps {
   currency: string;
 }
 
-export default function ProductCard({
+const ProductCard = memo(function ProductCard({
   product,
   onAdd,
   currency,
@@ -63,4 +64,6 @@ export default function ProductCard({
       </div>
     </div>
   );
-}
+});
+
+export default ProductCard;

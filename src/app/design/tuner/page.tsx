@@ -43,6 +43,7 @@ export default function DesignTunerPage() {
       {/* Main Content */}
       <div
         className="bg-background/50 flex-1 overflow-y-auto p-8"
+        data-lenis-prevent
         style={{
           zoom: baseFontSize / 16,
         }}
