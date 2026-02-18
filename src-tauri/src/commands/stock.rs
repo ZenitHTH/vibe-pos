@@ -9,6 +9,12 @@ pub fn get_stock(key: String, product_id: i32) -> Result<Stock, String> {
 }
 
 #[tauri::command]
+pub fn get_all_stocks(key: String) -> Result<Vec<Stock>, String> {
+    let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
+    stock::get_all_stocks(&mut conn).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
 pub fn insert_stock(key: String, product_id: i32, quantity: i32) -> Result<Stock, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
     let new_stock = NewStock {

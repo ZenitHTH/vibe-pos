@@ -27,6 +27,7 @@ pub fn run() {
             delete_product,
             // Stock Commands
             get_stock,
+            get_all_stocks,
             insert_stock,
             update_stock,
             remove_stock,

@@ -36,3 +36,7 @@ pub fn get_stock(conn: &mut SqliteConnection, product_id_target: i32) -> Result<
         .filter(stock_schemata::product_id.eq(product_id_target))
         .first::<Stock>(conn)
 }
+
+pub fn get_all_stocks(conn: &mut SqliteConnection) -> Result<Vec<Stock>, Error> {
+    stock_schemata::table.load::<Stock>(conn)
+}

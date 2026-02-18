@@ -55,6 +55,7 @@ diesel::table! {
         product_id -> Integer,
         catagory -> Text,
         satang -> Integer,
+        quantity -> Integer,
     }
 }
 

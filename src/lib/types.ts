@@ -45,3 +45,9 @@ export interface ProductImage {
   product_id: number;
   image_id: number;
 }
+
+export interface Stock {
+  stock_id: number;
+  product_id: number;
+  quantity: number;
+}
