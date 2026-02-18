@@ -7,6 +7,11 @@ interface CartItemProps {
   currency: string;
   onUpdateQuantity: (id: number, delta: number) => void;
   onRemove: (id: number) => void;
+  /** Override font sizes & padding (from tuner or settings) */
+  itemFontSize?: number;
+  headerFontSize?: number;
+  priceFontSize?: number;
+  itemPadding?: number;
 }
 
 export default function CartItem({
@@ -14,6 +19,10 @@ export default function CartItem({
   currency,
   onUpdateQuantity,
   onRemove,
+  itemFontSize,
+  headerFontSize,
+  priceFontSize,
+  itemPadding,
 }: CartItemProps) {
   const imageSrc = item.image
     ? item.image.startsWith("http")
@@ -21,8 +30,29 @@ export default function CartItem({
       : convertFileSrc(item.image)
     : null;
 
+  // Build dynamic styles from props (percentages → em scale, padding → px)
+  const containerStyle: React.CSSProperties = {
+    ...(itemFontSize != null && itemFontSize !== 100
+      ? { fontSize: `${itemFontSize}%` }
+      : {}),
+    ...(itemPadding != null ? { padding: `${itemPadding}px` } : {}),
+  };
+
+  const headerStyle: React.CSSProperties =
+    headerFontSize != null && headerFontSize !== 100
+      ? { fontSize: `${headerFontSize}%` }
+      : {};
+
+  const priceStyle: React.CSSProperties =
+    priceFontSize != null && priceFontSize !== 100
+      ? { fontSize: `${priceFontSize}%` }
+      : {};
+
   return (
-    <div className="bg-background rounded-lg border border-border overflow-hidden group hover:border-primary/30 transition-colors">
+    <div
+      className="bg-background rounded-lg border border-border overflow-hidden group hover:border-primary/30 transition-colors"
+      style={containerStyle}
+    >
       {/* Top row: image + info + delete */}
       <div className="flex items-center gap-3 p-2.5">
         {/* Thumbnail */}
@@ -47,10 +77,16 @@ export default function CartItem({
 
         {/* Name + Price */}
         <div className="min-w-0 flex-1">
-          <h4 className="text-foreground text-[0.875em] font-medium truncate leading-tight">
+          <h4
+            className="text-foreground text-[0.875em] font-medium truncate leading-tight"
+            style={headerStyle}
+          >
             {item.name}
           </h4>
-          <div className="text-primary text-[1em] font-bold mt-0.5">
+          <div
+            className="text-primary text-[1em] font-bold mt-0.5"
+            style={priceStyle}
+          >
             {currency}
             {(item.price * item.quantity).toFixed(2)}
           </div>

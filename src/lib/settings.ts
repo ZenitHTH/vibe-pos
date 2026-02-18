@@ -23,6 +23,11 @@ export interface AppSettings {
   payment_modal_font_scale: number;
   payment_numpad_height?: number;
   history_font_scale?: number;
+  cart_item_font_size?: number;
+  cart_item_header_font_size?: number;
+  cart_item_price_font_size?: number;
+  cart_item_padding?: number;
+  cart_item_margin?: number;
   image_storage_path?: string;
   db_storage_path?: string;
 }

@@ -33,7 +33,21 @@ const SAMPLE_ITEMS = [
     },
 ];
 
-export function CartItemTuner() {
+interface CartItemTunerProps {
+    itemFontSize: number;
+    headerFontSize: number;
+    priceFontSize: number;
+    padding: number;
+    margin: number;
+}
+
+export function CartItemTuner({
+    itemFontSize,
+    headerFontSize,
+    priceFontSize,
+    padding,
+    margin,
+}: CartItemTunerProps) {
     const [items, setItems] = useState(SAMPLE_ITEMS);
 
     const handleUpdateQuantity = (id: number, delta: number) => {
@@ -57,57 +71,43 @@ export function CartItemTuner() {
             <div>
                 <h2 className="mb-2 text-3xl font-bold">Cart Item</h2>
                 <p className="text-muted-foreground">
-                    Preview the cart item component at different scales.
+                    Adjust cart item styling with the sidebar sliders.
                 </p>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2">
-                {/* Interactive Preview */}
-                <div className="border-border bg-card rounded-xl border p-6 shadow-sm">
-                    <h3 className="mb-4 text-lg font-semibold">Interactive Preview</h3>
-                    <div className="space-y-2">
-                        {items.map((item) => (
-                            <CartItem
-                                key={item.id}
-                                item={item}
-                                currency="฿"
-                                onUpdateQuantity={handleUpdateQuantity}
-                                onRemove={handleRemove}
-                            />
-                        ))}
-                    </div>
+            {/* Live Preview */}
+            <div className="border-border bg-card rounded-xl border p-6 shadow-sm">
+                <h3 className="mb-4 text-lg font-semibold">Live Preview</h3>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: `${margin}px`,
+                    }}
+                >
+                    {items.map((item) => (
+                        <CartItem
+                            key={item.id}
+                            item={item}
+                            currency="฿"
+                            onUpdateQuantity={handleUpdateQuantity}
+                            onRemove={handleRemove}
+                            itemFontSize={itemFontSize}
+                            headerFontSize={headerFontSize}
+                            priceFontSize={priceFontSize}
+                            itemPadding={padding}
+                        />
+                    ))}
                 </div>
+            </div>
 
-                {/* Compact / Large previews */}
-                <div className="space-y-6">
-                    <div className="border-border bg-card rounded-xl border p-6 shadow-sm">
-                        <h3 className="mb-4 text-lg font-semibold">
-                            Small Scale (80%)
-                        </h3>
-                        <div style={{ fontSize: "80%" }}>
-                            <CartItem
-                                item={SAMPLE_ITEMS[0]}
-                                currency="฿"
-                                onUpdateQuantity={() => { }}
-                                onRemove={() => { }}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="border-border bg-card rounded-xl border p-6 shadow-sm">
-                        <h3 className="mb-4 text-lg font-semibold">
-                            Large Scale (120%)
-                        </h3>
-                        <div style={{ fontSize: "120%" }}>
-                            <CartItem
-                                item={SAMPLE_ITEMS[1]}
-                                currency="฿"
-                                onUpdateQuantity={() => { }}
-                                onRemove={() => { }}
-                            />
-                        </div>
-                    </div>
-                </div>
+            {/* Info card */}
+            <div className="bg-muted/30 rounded-lg p-4 text-sm text-muted-foreground">
+                <p>
+                    <strong>Tip:</strong> Use the sliders in the sidebar to adjust font sizes,
+                    padding, and margins. Click <strong>Save Changes</strong> in the bottom bar
+                    to apply these settings to the real POS cart.
+                </p>
             </div>
         </div>
     );

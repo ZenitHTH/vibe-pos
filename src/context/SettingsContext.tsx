@@ -40,6 +40,11 @@ const DEFAULT_SETTINGS: AppSettings = {
   payment_modal_scale: 100.0,
   payment_modal_font_scale: 100.0,
   payment_numpad_height: 320, // Default h-80 equivalent (approx)
+  cart_item_font_size: 100,
+  cart_item_header_font_size: 100,
+  cart_item_price_font_size: 100,
+  cart_item_padding: 10,
+  cart_item_margin: 8,
   image_storage_path: undefined,
   db_storage_path: undefined,
 };

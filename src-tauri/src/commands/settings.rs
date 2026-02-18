@@ -28,6 +28,11 @@ pub struct AppSettings {
     pub payment_modal_font_scale: f64,
     pub payment_numpad_height: Option<f64>,
     pub history_font_scale: Option<f64>,
+    pub cart_item_font_size: Option<f64>,
+    pub cart_item_header_font_size: Option<f64>,
+    pub cart_item_price_font_size: Option<f64>,
+    pub cart_item_padding: Option<f64>,
+    pub cart_item_margin: Option<f64>,
     pub image_storage_path: Option<String>,
     pub db_storage_path: Option<String>,
 }
@@ -57,6 +62,11 @@ impl Default for AppSettings {
             payment_modal_font_scale: 100.0,
             payment_numpad_height: Some(320.0),
             history_font_scale: Some(100.0),
+            cart_item_font_size: Some(100.0),
+            cart_item_header_font_size: Some(100.0),
+            cart_item_price_font_size: Some(100.0),
+            cart_item_padding: Some(10.0),
+            cart_item_margin: Some(8.0),
             image_storage_path: None,
             db_storage_path: None,
         }

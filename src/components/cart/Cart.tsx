@@ -3,6 +3,7 @@ import CartItem from "./CartItem";
 import CartSummary from "./CartSummary";
 import CartEmpty from "./CartEmpty";
 import { useTax } from "@/hooks/useTax";
+import { useSettings } from "@/context/SettingsContext";
 import {
   Card,
   CardHeader,
@@ -26,6 +27,7 @@ export default function Cart({
   currency,
 }: CartProps) {
   const { taxRate } = useTax();
+  const { settings } = useSettings();
 
   const subtotal = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -50,7 +52,13 @@ export default function Cart({
       </CardHeader>
 
       <CardContent className="scrollbar-thin flex-1 overflow-y-auto px-2 py-2">
-        <div className="space-y-2">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: `${settings.cart_item_margin ?? 8}px`,
+          }}
+        >
           {items.map((item) => (
             <CartItem
               key={item.id}
@@ -58,6 +66,10 @@ export default function Cart({
               currency={currency}
               onUpdateQuantity={onUpdateQuantity}
               onRemove={onRemove}
+              itemFontSize={settings.cart_item_font_size}
+              headerFontSize={settings.cart_item_header_font_size}
+              priceFontSize={settings.cart_item_price_font_size}
+              itemPadding={settings.cart_item_padding}
             />
           ))}
         </div>
