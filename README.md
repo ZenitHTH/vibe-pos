@@ -22,8 +22,14 @@ A modern, lightweight Point of Sale (POS) system built with **Tauri v2** and **N
   - View past transactions with date filtering.
   - Search receipts by unique ID.
   - Detailed receipt view with items and pricing.
-- **Category Management**: Organize products into custom categories for easier navigation.
-- **Settings**: Configure tax, currency, and display preferences.
+- **Stock Management (New)**:
+  - **Real-time Tracking**: Monitor inventory levels for all products.
+  - **Low Stock Alerts**: Visual indicators for items running low.
+  - **Easy Updates**: Quick adjustment of stock quantities.
+- **Settings**:
+  - **Modular Architecture**: Split into dedicated pages (General, Theme, Display, Currency, Tax, Export) for better performance.
+  - **Route-based Logic**: Only renders the components needed for the active settings tab.
+  - **Configure**: Tax rates, currency symbols, and display preferences.
 - **Cross-Platform**: Runs natively on Linux, macOS, and Windows.
 
 ## Tech Stack
@@ -33,6 +39,9 @@ A modern, lightweight Point of Sale (POS) system built with **Tauri v2** and **N
 - **Database**: SQLite (via Diesel ORM in Rust)
   - **Automatic Path Resolution**: Uses `directories` crate to store data securely in the system's local data directory (e.g., `~/.local/share/simple-pos` on Linux).
 - **State Management**: React Hooks & Context
+- **Performance**:
+  - **Code Splitting**: Next.js App Router for optimal load times.
+  - **Memoization**: `React.memo` and `useCallback` to minimize re-renders.
 
 ## Prerequisites
 
@@ -43,7 +52,7 @@ Before you begin, ensure you have the following installed:
 - **System Dependencies**:
   - **Linux**: Build essentials, webkit2gtk (see [Tauri Linux Setup](https://v2.tauri.app/start/prerequisites/#linux))
   - **macOS**: Build your own , i don't have mac.
-  - **Windows**: 
+  - **Windows**:
     - Microsoft Visual Studio C++ Build Tools
     - **OpenSSL**: Required for database encryption (`sqlcipher`). Set `OPENSSL_DIR` and `OPENSSL_LIB_DIR` environment variables.
 
@@ -100,8 +109,16 @@ or add it to your profile/environment variables.
     - `about/`: About page.
     - `history/`: Order history page.
     - `manage/`: Management interface.
+      - `categories/`: Category management.
+      - `stock/`: Stock management.
     - `mockup/`: Mockup data interface.
-    - `setting/`: Settings page.
+    - `setting/`: Settings section.
+      - `general/`: General settings.
+      - `theme/`: Appearance settings.
+      - `display/`: Display scaling.
+      - `currency/`: Currency configuration.
+      - `tax/`: Tax rules.
+      - `export/`: Data export.
   - `components/`: Reusable React components (`cart`, `design-mode`, `filters`, `layout`, `payment`, `pos`, `ui`).
   - `context/`: Global state management (`DatabaseContext`, `SettingsContext`, `MockupContext`).
   - `hooks/`: Custom React hooks.

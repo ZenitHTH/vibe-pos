@@ -26,6 +26,22 @@ This directory contains the Rust backend for the Simple POS application, built w
 ## Key Commands
 
 The backend exposes several commands to the frontend:
-- **`get_settings` / `save_settings`**: Manage application settings (persisted to `settings.json` in user data directory).
-- **`get_products` / `create_product`**: CRUD operations for products.
-- **`process_transaction`**: Handle sales and stock updates.
+
+- **Product & Stock**:
+  - `get_products`, `create_product`, `update_product`, `delete_product`
+  - `get_stock`, `get_all_stocks`, `insert_stock`, `update_stock`, `remove_stock`
+- **Transactions**:
+  - `create_invoice`: Create a new sale record.
+  - `get_invoices_by_date`, `get_invoice_detail`: Retrieve order history.
+  - `process_transaction`: Handle sales logic (deprecated/internal).
+- **Categories**:
+  - `get_categories`, `create_category`, `update_category`, `delete_category`
+- **Images**:
+  - `save_image`: Save uploaded image to local storage.
+  - `link_product_image`, `unlink_product_image`: Manage product-image relationships.
+- **Settings**:
+  - `get_settings`, `save_settings`: Manage application settings (persisted to `settings.json` in user data directory).
+- **Export**:
+  - `export_receipts`: Export transaction data to CSV/Excel/ODS.
+- **System**:
+  - `initialize_database`, `check_database_exists`

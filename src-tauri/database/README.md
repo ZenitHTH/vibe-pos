@@ -36,6 +36,8 @@ The following ER diagram illustrates the relationships between the database enti
 - **IMAGES**: Image file metadata (`id`, `file_name`, `file_hash`, `file_path`, `created_at`).
 - **PRODUCT_IMAGES**: Link between products and images (`product_id`, `image_id`).
 
+> **Terminology Note**: The backend commands often use the term **Invoice** (e.g., `create_invoice`, `get_invoices_by_date`), which corresponds directly to the **RECEIPT** entity in the database.
+
 > **Note**: Application settings (currency, tax, layout) are **not** stored in the database. They are persisted in a JSON file (`settings.json`) in the user's data directory.
 
 ## Development
