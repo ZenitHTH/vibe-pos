@@ -6,33 +6,46 @@ use tauri::command;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct AppSettings {
+    // ── General ──
     pub currency_symbol: String,
     pub tax_enabled: bool,
     pub tax_rate: f64,
+
+    // ── Global Display ──
     pub display_scale: f64,
+    pub layout_max_width: f64,
+
+    // ── Component Scales ──
     pub sidebar_scale: f64,
     pub cart_scale: f64,
+    pub grid_scale: f64,
     pub manage_table_scale: f64,
     pub category_table_scale: f64,
+    pub setting_page_scale: f64,
+    pub payment_modal_scale: f64,
+
+    // ── Font Scales ──
+    pub header_font_scale: f64,
     pub sidebar_font_scale: f64,
     pub cart_font_scale: f64,
     pub grid_font_scale: f64,
-    pub grid_scale: f64,
     pub manage_table_font_scale: f64,
     pub category_table_font_scale: f64,
-    pub setting_page_scale: f64,
     pub setting_page_font_scale: f64,
-    pub header_font_scale: f64,
-    pub layout_max_width: f64,
-    pub payment_modal_scale: f64,
     pub payment_modal_font_scale: f64,
-    pub payment_numpad_height: Option<f64>,
     pub history_font_scale: Option<f64>,
+
+    // ── Cart Item Styling ──
     pub cart_item_font_size: Option<f64>,
     pub cart_item_header_font_size: Option<f64>,
     pub cart_item_price_font_size: Option<f64>,
     pub cart_item_padding: Option<f64>,
     pub cart_item_margin: Option<f64>,
+
+    // ── Payment ──
+    pub payment_numpad_height: Option<f64>,
+
+    // ── Storage Paths ──
     pub image_storage_path: Option<String>,
     pub db_storage_path: Option<String>,
 }
@@ -40,33 +53,46 @@ pub struct AppSettings {
 impl Default for AppSettings {
     fn default() -> Self {
         Self {
+            // ── General ──
             currency_symbol: "$".to_string(),
             tax_enabled: true,
             tax_rate: 7.0,
+
+            // ── Global Display ──
             display_scale: 100.0,
+            layout_max_width: 1280.0,
+
+            // ── Component Scales ──
             sidebar_scale: 100.0,
             cart_scale: 100.0,
             grid_scale: 100.0,
             manage_table_scale: 100.0,
             category_table_scale: 100.0,
+            setting_page_scale: 100.0,
+            payment_modal_scale: 100.0,
+
+            // ── Font Scales ──
+            header_font_scale: 100.0,
             sidebar_font_scale: 100.0,
             cart_font_scale: 100.0,
             grid_font_scale: 100.0,
             manage_table_font_scale: 100.0,
             category_table_font_scale: 100.0,
-            setting_page_scale: 100.0,
             setting_page_font_scale: 100.0,
-            header_font_scale: 100.0,
-            layout_max_width: 1280.0,
-            payment_modal_scale: 100.0,
             payment_modal_font_scale: 100.0,
-            payment_numpad_height: Some(320.0),
             history_font_scale: Some(100.0),
+
+            // ── Cart Item Styling ──
             cart_item_font_size: Some(100.0),
             cart_item_header_font_size: Some(100.0),
             cart_item_price_font_size: Some(100.0),
             cart_item_padding: Some(10.0),
             cart_item_margin: Some(8.0),
+
+            // ── Payment ──
+            payment_numpad_height: Some(320.0),
+
+            // ── Storage Paths ──
             image_storage_path: None,
             db_storage_path: None,
         }
