@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
+import { ReactLenis } from "lenis/react";
 
 interface ScrollableContainerProps {
   children: ReactNode;
@@ -12,8 +13,18 @@ export default function ScrollableContainer({
   className = "",
 }: ScrollableContainerProps) {
   return (
-    <div className={`custom-scrollbar h-full w-full ${className}`}>
+    <ReactLenis
+      root={false}
+      className={`custom-scrollbar h-full w-full ${className}`}
+      options={{
+        lerp: 0.1,
+        duration: 1.2,
+        autoRaf: true,
+        prevent: (node: HTMLElement) =>
+          node.closest("[data-lenis-prevent]") !== null,
+      }}
+    >
       {children}
-    </div>
+    </ReactLenis>
   );
 }

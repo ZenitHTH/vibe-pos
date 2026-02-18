@@ -75,16 +75,6 @@ const menuEntries: MenuEntry[] = [
         icon: <FaCog size={18} />,
       },
       {
-        name: "Theme",
-        path: "/setting/theme",
-        icon: <FaTags size={18} />,
-      },
-      {
-        name: "Display",
-        path: "/setting/display",
-        icon: <FaBoxOpen size={18} />,
-      },
-      {
         name: "Currency",
         path: "/setting/currency",
         icon: <FaTags size={18} />,
