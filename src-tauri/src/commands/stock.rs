@@ -1,4 +1,5 @@
 use database::establish_connection;
+use database::product;
 use database::stock;
 use database::{NewStock, Stock};
 
@@ -17,9 +18,15 @@ pub fn get_all_stocks(key: String) -> Result<Vec<Stock>, String> {
 #[tauri::command]
 pub fn insert_stock(key: String, product_id: i32, quantity: i32) -> Result<Stock, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
+
+    // Fetch product details first
+    let product_info = product::find_product(&mut conn, product_id).map_err(|e| e.to_string())?;
+
     let new_stock = NewStock {
         product_id,
         quantity,
+        catagory: &product_info.catagory,
+        satang: product_info.satang,
     };
     stock::insert_stock(&mut conn, &new_stock).map_err(|e| e.to_string())
 }

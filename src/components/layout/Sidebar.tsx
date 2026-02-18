@@ -14,6 +14,7 @@ import {
   FaChevronRight,
   FaWarehouse,
   FaClipboardList,
+  FaImages,
 } from "react-icons/fa";
 
 import { useSettings } from "@/context/SettingsContext";
@@ -59,6 +60,11 @@ const menuEntries: MenuEntry[] = [
         icon: <FaWarehouse size={18} />,
       },
       {
+        name: "Images",
+        path: "/manage/images",
+        icon: <FaImages size={18} />,
+      },
+      {
         name: "Categories",
         path: "/manage/categories",
         icon: <FaTags size={18} />,
@@ -75,13 +81,8 @@ const menuEntries: MenuEntry[] = [
         icon: <FaCog size={18} />,
       },
       {
-        name: "Currency",
-        path: "/setting/currency",
-        icon: <FaTags size={18} />,
-      },
-      {
-        name: "Tax",
-        path: "/setting/tax",
+        name: "Finance",
+        path: "/setting/finance",
         icon: <FaTags size={18} />,
       },
       {

@@ -1,7 +1,9 @@
 import { memo } from "react";
 import { AppSettings } from "@/lib/settings";
 import { open } from "@tauri-apps/plugin-dialog";
+import { invoke } from "@tauri-apps/api/core";
 import { FaFolderOpen, FaCog } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import SettingsSection from "@/components/ui/SettingsSection";
 import { Button } from "@/components/ui/Button";
 
@@ -16,6 +18,14 @@ const GeneralSettings = memo(function GeneralSettings({
   dbStoragePath,
   onUpdateSettings,
 }: GeneralSettingsProps) {
+  const [storageInfo, setStorageInfo] = useState<{ image_path: string; db_path: string } | null>(null);
+
+  useEffect(() => {
+    invoke<{ image_path: string; db_path: string }>("get_storage_info")
+      .then(setStorageInfo)
+      .catch(console.error);
+  }, []);
+
   const handleSelectImageStorage = async () => {
     try {
       const selected = await open({
@@ -50,7 +60,7 @@ const GeneralSettings = memo(function GeneralSettings({
               <div className="bg-muted/30 border-border flex-1 truncate rounded-lg border p-3 font-mono text-sm">
                 {imageStoragePath || (
                   <span className="text-muted-foreground italic">
-                    Default (App Data)
+                    {storageInfo?.image_path || "Default (App Data)"}
                   </span>
                 )}
               </div>
@@ -84,7 +94,7 @@ const GeneralSettings = memo(function GeneralSettings({
               <div className="bg-muted/30 border-border flex-1 truncate rounded-lg border p-3 font-mono text-sm">
                 {dbStoragePath || (
                   <span className="text-muted-foreground italic">
-                    Default (App Data)
+                    {storageInfo?.db_path || "Default (App Data)"}
                   </span>
                 )}
               </div>

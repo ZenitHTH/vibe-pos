@@ -56,3 +56,13 @@ pub fn get_product_images(
         .select(model::ProductImage::as_select())
         .load(conn)
 }
+
+pub fn get_all_links(
+    conn: &mut SqliteConnection,
+) -> Result<Vec<model::ProductImage>, diesel::result::Error> {
+    use crate::schema::product_images::dsl::*;
+
+    product_images
+        .select(model::ProductImage::as_select())
+        .load(conn)
+}

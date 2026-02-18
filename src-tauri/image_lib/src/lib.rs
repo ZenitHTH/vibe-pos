@@ -119,3 +119,11 @@ pub fn verify_image(image_id: i32, key: &str) -> Result<bool, ImageError> {
 
     Ok(hash == img.file_hash)
 }
+
+pub fn delete_image_file(file_path: &str) -> Result<(), ImageError> {
+    let path = Path::new(file_path);
+    if path.exists() {
+        std::fs::remove_file(path).map_err(ImageError::Io)?;
+    }
+    Ok(())
+}

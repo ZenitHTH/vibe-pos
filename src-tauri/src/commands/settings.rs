@@ -131,3 +131,31 @@ pub fn save_settings(settings: AppSettings) -> Result<(), String> {
     fs::write(path, content).map_err(|e| e.to_string())?;
     Ok(())
 }
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct StorageInfo {
+    pub image_path: String,
+    pub db_path: String,
+}
+
+#[command]
+pub fn get_storage_info() -> Result<StorageInfo, String> {
+    let db_path_buf = database::get_database_path().map_err(|e| e.to_string())?;
+    let db_path = db_path_buf.to_string_lossy().to_string();
+
+    let settings = get_settings()?;
+    let image_path = if let Some(p) = settings.image_storage_path {
+        p
+    } else {
+        if let Some(parent) = db_path_buf.parent() {
+            parent.join("images").to_string_lossy().to_string()
+        } else {
+            return Err("Cannot determine image path".to_string());
+        }
+    };
+
+    Ok(StorageInfo {
+        image_path,
+        db_path,
+    })
+}

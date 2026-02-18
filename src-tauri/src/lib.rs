@@ -46,6 +46,7 @@ pub fn run() {
             // Settings Commands
             get_settings,
             save_settings,
+            get_storage_info,
             // Database Commands
             initialize_database,
             check_database_exists,
@@ -53,7 +54,10 @@ pub fn run() {
             save_image,
             link_product_image,
             unlink_product_image,
-            get_product_images
+            get_product_images,
+            get_all_images,
+            delete_image,
+            get_all_image_links
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

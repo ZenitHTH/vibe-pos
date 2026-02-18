@@ -38,3 +38,20 @@ pub fn get_image_by_hash(
         .first(conn)
         .optional()
 }
+
+pub fn get_all_images(
+    conn: &mut SqliteConnection,
+) -> Result<Vec<model::Image>, diesel::result::Error> {
+    use crate::schema::images::dsl::*;
+
+    images.order(created_at.desc()).load::<model::Image>(conn)
+}
+
+pub fn delete_image(
+    conn: &mut SqliteConnection,
+    image_id: i32,
+) -> Result<usize, diesel::result::Error> {
+    use crate::schema::images::dsl::*;
+
+    diesel::delete(images.find(image_id)).execute(conn)
+}

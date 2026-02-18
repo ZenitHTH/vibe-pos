@@ -1,5 +1,6 @@
 use database::establish_connection;
 use database::receipt;
+use database::stock;
 use database::{NewReceipt, Receipt, ReceiptList};
 
 #[tauri::command]
@@ -22,17 +23,32 @@ pub fn add_invoice_item(
         product_id,
         quantity,
     };
-    receipt::add_item(&mut conn, &item).map_err(|e| e.to_string())
+    let saved_item = receipt::add_item(&mut conn, &item).map_err(|e| e.to_string())?;
+
+    // Update stock
+    if let Ok(current_stock) = stock::get_stock(&mut conn, product_id) {
+        let new_qty = current_stock.quantity - quantity;
+        let _ = stock::update_stock(&mut conn, product_id, new_qty).map_err(|e| e.to_string())?;
+    }
+
+    Ok(saved_item)
 }
 
 #[tauri::command]
-pub fn get_invoice_detail(key: String, receipt_id: i32) -> Result<(ReceiptList, Vec<Receipt>), String> {
+pub fn get_invoice_detail(
+    key: String,
+    receipt_id: i32,
+) -> Result<(ReceiptList, Vec<Receipt>), String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
     receipt::get_full_receipt(&mut conn, receipt_id).map_err(|e| e.to_string())
 }
 
 #[tauri::command]
-pub fn get_invoices_by_date(key: String, start_unix: i64, end_unix: i64) -> Result<Vec<ReceiptList>, String> {
+pub fn get_invoices_by_date(
+    key: String,
+    start_unix: i64,
+    end_unix: i64,
+) -> Result<Vec<ReceiptList>, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
     receipt::find_headers_by_date_range(&mut conn, start_unix, end_unix).map_err(|e| e.to_string())
 }

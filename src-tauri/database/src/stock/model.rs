@@ -14,12 +14,16 @@ use serde::Serialize;
 pub struct Stock {
     pub stock_id: i32,
     pub product_id: i32,
+    pub catagory: String,
+    pub satang: i32,
     pub quantity: i32,
 }
 
 #[derive(Insertable)]
 #[diesel(table_name = crate::stock::schema::stock)]
-pub struct NewStock {
+pub struct NewStock<'a> {
     pub product_id: i32,
     pub quantity: i32,
+    pub catagory: &'a str,
+    pub satang: i32,
 }
