@@ -17,6 +17,12 @@ pub fn create_product(
     satang: i32,
 ) -> Result<Product, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
+    
+    // Check if product with the same name already exists
+    if let Ok(Some(_)) = product::find_product_by_title(&mut conn, &title) {
+        return Err("A product with this name already exists.".to_string());
+    }
+
     let new_prod = NewProduct {
         title: &title,
         catagory: &catagory,
@@ -34,6 +40,14 @@ pub fn update_product(
     satang: i32,
 ) -> Result<Product, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
+
+    // Check if another product with the new name already exists
+    if let Ok(Some(existing)) = product::find_product_by_title(&mut conn, &title) {
+        if existing.product_id != id {
+            return Err("Another product with this name already exists.".to_string());
+        }
+    }
+
     let prod = Product {
         product_id: id,
         title,
@@ -46,5 +60,15 @@ pub fn update_product(
 #[tauri::command]
 pub fn delete_product(key: String, id: i32) -> Result<usize, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
+
+    // Check if the product is used in stock or receipts
+    let has_deps = product::check_product_dependencies(&mut conn, id).map_err(|e| e.to_string())?;
+    if has_deps {
+        return Err("Cannot delete product: it is currently referenced in stock or past receipts.".to_string());
+    }
+
+    // Clean up product images link
+    let _ = product::remove_product_images_link(&mut conn, id);
+
     product::remove_product(&mut conn, id).map_err(|e| e.to_string())
 }

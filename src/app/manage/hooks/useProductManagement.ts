@@ -54,7 +54,7 @@ export function useProductManagement() {
       setProducts(products.filter((p) => p.product_id !== id));
     } catch (err) {
       console.error("Failed to delete product:", err);
-      alert("Failed to delete product");
+      alert(err);
     }
   };
 
@@ -85,7 +85,7 @@ export function useProductManagement() {
       return result;
     } catch (err) {
       console.error("Failed to save product:", err);
-      alert("Failed to save product");
+      alert(err);
     } finally {
       setIsSubmitting(false);
     }
