@@ -2,6 +2,7 @@ import os from 'os';
 import path from 'path';
 import { spawn, spawnSync } from 'child_process';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -43,6 +44,12 @@ export const config = {
   },
   // ensure we are running `tauri-driver` before the session starts so that we can proxy the webdriver requests
   beforeSession: () => {
+    // Clear Tauri app data to ensure fresh E2E test runs
+    const appDataPath = path.resolve(os.homedir(), '.local', 'share', 'com.simple-pos.app');
+    if (fs.existsSync(appDataPath)) {
+      try { fs.rmSync(appDataPath, { recursive: true, force: true }); } catch (e) { }
+    }
+
     tauriDriver = spawn(
       path.resolve(os.homedir(), '.cargo', 'bin', 'tauri-driver'),
       [],
