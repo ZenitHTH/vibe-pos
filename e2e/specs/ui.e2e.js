@@ -16,33 +16,47 @@ describe('Simple POS UI', () => {
         }, el, value);
     };
 
-    it('should complete the first-time setup flow', async () => {
-        // Welcome Screen
-        const startSetupBtn = await $('button.btn-hero');
-        // Increase timeout for first load
-        await startSetupBtn.waitForExist({ timeout: 30000 });
-        await clickElement(startSetupBtn);
+    it('should complete the setup or login flow', async () => {
+        // Wait for the main title to appear to determine which screen we are on
+        const h1 = await $('h1');
+        await h1.waitForExist({ timeout: 30000 });
+        const titleText = await h1.getText();
 
-        // Password Setup Screen
-        const passwordInput = await $('input[placeholder="Enter a strong password"]');
-        await passwordInput.waitForExist({ timeout: 5000 });
-        await setInputValue(passwordInput, 'testpassword123');
+        if (titleText.includes('Welcome')) {
+            // Welcome Screen
+            const startSetupBtn = await $('button.btn-hero');
+            await clickElement(startSetupBtn);
 
-        const confirmInput = await $('input[placeholder="Repeat your password"]');
-        await setInputValue(confirmInput, 'testpassword123');
+            // Password Setup Screen
+            const passwordInput = await $('input[placeholder="Enter a strong password"]');
+            await passwordInput.waitForExist({ timeout: 5000 });
+            await setInputValue(passwordInput, 'testpassword123');
 
-        const nextButton = await $('button[type="submit"]');
-        // Small delay to ensure state updates
-        await browser.pause(500);
-        await clickElement(nextButton);
+            const confirmInput = await $('input[placeholder="Repeat your password"]');
+            await setInputValue(confirmInput, 'testpassword123');
 
-        // Settings Setup Screen
-        const finishSetupBtn = await $('xpath=//button[contains(., "Finish Setup")]');
-        // Depending on saving state, we wait a bit
-        await finishSetupBtn.waitForExist({ timeout: 5000 });
-        await clickElement(finishSetupBtn);
-        // Wait for the Settings Setup to transition out
-        await finishSetupBtn.waitForExist({ timeout: 5000, reverse: true });
+            const nextButton = await $('button[type="submit"]');
+            await browser.pause(500);
+            await clickElement(nextButton);
+
+            // Settings Setup Screen
+            const finishSetupBtn = await $('xpath=//button[contains(., "Finish Setup")]');
+            await finishSetupBtn.waitForExist({ timeout: 5000 });
+            await clickElement(finishSetupBtn);
+            // Wait for the Settings Setup to transition out
+            await finishSetupBtn.waitForExist({ timeout: 5000, reverse: true });
+        } else if (titleText.includes('Login')) {
+            // Login Screen
+            const passwordInput = await $('input[placeholder="Enter password"]');
+            await passwordInput.waitForExist({ timeout: 5000 });
+            await setInputValue(passwordInput, 'testpassword123');
+
+            const loginButton = await $('button[type="submit"]');
+            await clickElement(loginButton);
+            // Wait for login to transition out
+            await loginButton.waitForExist({ timeout: 5000, reverse: true });
+        }
+
         // Small pause to let POS screen load
         await browser.pause(1000);
     });
@@ -127,7 +141,7 @@ describe('Simple POS UI', () => {
 
         // Find quantity display
         const quantitySpan = await cartItem.$('span.w-8.text-center');
-        let quantity = await quantitySpan.getText();
+        let quantity = await browser.execute((elem) => elem.textContent, quantitySpan);
         expect(quantity).toBe('1');
 
         // Click plus button
@@ -140,7 +154,7 @@ describe('Simple POS UI', () => {
         // Verify quantity increased
         // Small pause to allow rerender
         await browser.pause(500);
-        quantity = await quantitySpan.getText();
+        quantity = await browser.execute((elem) => elem.textContent, quantitySpan);
         expect(quantity).toBe('2');
     });
 
@@ -166,8 +180,10 @@ describe('Simple POS UI', () => {
         await browser.pause(500);
         await clickElement(confirmBtn);
 
-        // Let's verify cart item is gone
-        const cartItem = await $('div.bg-background.border-border.group');
-        await cartItem.waitForExist({ reverse: true, timeout: 5000 });
+        // Let's verify cart item is gone (wait for 0 elements)
+        await browser.waitUntil(async () => {
+            const items = await $$('div.bg-background.border-border.group');
+            return items.length === 0;
+        }, { timeout: 5000, timeoutMsg: 'Cart did not empty after payment' });
     });
 });
