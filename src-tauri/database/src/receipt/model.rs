@@ -9,6 +9,7 @@ use serde::Serialize;
 pub struct ReceiptList {
     pub receipt_id: i32,
     pub datetime_unix: i64,
+    pub customer_id: Option<i32>,
 }
 
 impl ReceiptList {
@@ -30,6 +31,7 @@ impl ReceiptList {
 #[diesel(table_name = receipt_list)]
 pub struct NewReceiptList {
     pub datetime_unix: i64,
+    pub customer_id: Option<i32>,
 }
 
 // --- Receipt (Items) ---

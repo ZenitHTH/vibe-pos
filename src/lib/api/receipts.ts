@@ -2,8 +2,8 @@ import { invoke } from "@tauri-apps/api/core";
 import { ReceiptList, Receipt } from "../types";
 
 export const receiptApi = {
-  createInvoice: async (key: string): Promise<ReceiptList> => {
-    return await invoke("create_invoice", { key });
+  createInvoice: async (key: string, customerId?: number): Promise<ReceiptList> => {
+    return await invoke("create_invoice", { key, customerId });
   },
 
   addInvoiceItem: async (

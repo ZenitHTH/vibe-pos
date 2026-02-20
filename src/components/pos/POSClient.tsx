@@ -32,6 +32,9 @@ export default function POSClient({ initialProducts = [] }: POSClientProps) {
     handleConfirmPayment,
     currency,
     cartTotal,
+    customers,
+    selectedCustomerId,
+    setSelectedCustomerId,
   } = usePOSLogic(initialProducts);
 
   // Calculate Cart Width
@@ -73,6 +76,9 @@ export default function POSClient({ initialProducts = [] }: POSClientProps) {
           onRemove={handleRemove}
           onCheckout={handleCheckout}
           currency={currency}
+          customers={customers}
+          selectedCustomerId={selectedCustomerId}
+          onCustomerSelect={setSelectedCustomerId}
         />
       </div>
 

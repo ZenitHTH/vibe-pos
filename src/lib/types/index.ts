@@ -6,3 +6,4 @@ export * from "./stock";
 export * from "./settings";
 export * from "./material";
 export * from "./recipe";
+export * from "./customer";

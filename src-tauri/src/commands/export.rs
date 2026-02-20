@@ -1,9 +1,10 @@
 use chrono::DateTime;
+use database::customer;
 use database::establish_connection;
-use database::product;
 use database::receipt::{self, model::ReceiptList};
 
-use export_lib::{CellValue, ExportTable};
+use crate::commands::settings::get_settings;
+use export_lib::thai_accounting::{build_thai_sales_tax_report, TaxReportRow};
 use std::path::PathBuf;
 use tauri::command;
 
@@ -17,72 +18,75 @@ pub fn export_receipts(
 ) -> Result<String, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
 
-    // 1. Fetch Receipts in range
-    // Note: We need to implement get_invoices_by_date logic here or reuse it
-    // For simplicity, let's fetch headers first
+    // Fetch Receipts in range
     let headers: Vec<ReceiptList> =
         receipt::find_headers_by_date_range(&mut conn, start_date, end_date)
             .map_err(|e| e.to_string())?;
 
-    // 2. Fetch all products for lookup (optimization: lookup map)
-    let products = product::get_all_products(&mut conn).map_err(|e| e.to_string())?;
+    // Fetch customers
+    let customers = customer::get_all_customers(&mut conn).unwrap_or_default();
 
-    // 3. Prepare Export Table
-    let table_headers = vec![
-        "Receipt ID".to_string(),
-        "Date".to_string(),
-        "Product Name".to_string(),
-        "Quantity".to_string(),
-        "Price".to_string(),
-        "Total".to_string(),
-    ];
-    let mut export_table = ExportTable::new(table_headers);
+    // Fetch settings for VAT
+    let settings = get_settings().map_err(|e| e.to_string())?;
+    let vat_rate = settings.tax_rate;
+
+    let mut report_rows = Vec::new();
 
     for header in headers {
         let items = receipt::get_full_receipt(&mut conn, header.receipt_id)
             .map_err(|e| e.to_string())?
-            .1; // .1 is the items vector
+            .1;
 
         let date_str = DateTime::from_timestamp(header.datetime_unix, 0)
             .unwrap_or_default()
-            .format("%Y-%m-%d %H:%M:%S")
+            .format("%d/%m/%Y")
             .to_string();
 
+        let invoice_no = format!("INV-{:06}", header.receipt_id);
+
+        let (customer_name, tax_id, branch_address) = if let Some(cid) = header.customer_id {
+            if let Some(c) = customers.iter().find(|c| c.id == cid) {
+                (
+                    c.name.clone(),
+                    c.tax_id.clone().unwrap_or_else(|| "-".to_string()),
+                    c.address.clone().unwrap_or_else(|| "-".to_string()),
+                )
+            } else {
+                ("ลูกค้าทั่วไป".to_string(), "-".to_string(), "-".to_string())
+            }
+        } else {
+            ("ลูกค้าทั่วไป".to_string(), "-".to_string(), "-".to_string())
+        };
+
+        // Calculate total for this receipt
+        let mut grand_total = 0.0;
         for item in items {
-            let product_name = products
-                .iter()
-                .find(|p| p.product_id == item.product_id)
-                .map(|p| p.title.clone())
-                .unwrap_or_else(|| format!("Unknown Product {}", item.product_id));
-
-            let price = products
-                .iter()
-                .find(|p| p.product_id == item.product_id)
-                .map(|p| p.satang as f64 / 100.0)
-                .unwrap_or(0.0);
-
-            let total = price * item.quantity as f64;
-
-            let row = vec![
-                CellValue::Int(header.receipt_id as i64),
-                CellValue::Text(date_str.clone()),
-                CellValue::Text(product_name),
-                CellValue::Int(item.quantity as i64),
-                CellValue::Number(price),
-                CellValue::Number(total),
-            ];
-            export_table.add_row(row);
+            let price = item.satang_at_sale as f64 / 100.0;
+            grand_total += price * item.quantity as f64;
         }
+
+        let amount_before_vat = grand_total * 100.0 / (100.0 + vat_rate);
+        let vat_amount = grand_total * vat_rate / (100.0 + vat_rate);
+
+        report_rows.push(TaxReportRow {
+            date: date_str,
+            invoice_no,
+            customer_name,
+            tax_id,
+            branch_address,
+            amount_before_vat,
+            vat_amount,
+            grand_total,
+        });
     }
 
-    // 4. Export
+    let export_table = build_thai_sales_tax_report(report_rows);
+
     let path = PathBuf::from(&export_path);
     match format.as_str() {
         "csv" => export_table.export_csv(&path).map_err(|e| e.to_string())?,
         "xlsx" => export_table.export_xlsx(&path).map_err(|e| e.to_string())?,
-        // "ods" => {
-        //     export_table.export_ods(&path).map_err(|e| e.to_string())?
-        // }
+        // "ods" => export_table.export_ods(&path).map_err(|e| e.to_string())?,
         _ => return Err("Unsupported format".to_string()),
     }
 

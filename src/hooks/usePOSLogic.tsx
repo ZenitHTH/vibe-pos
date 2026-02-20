@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CartItem, Product } from "@/lib";
-import { categoryApi, receiptApi } from "@/lib";
+import { CartItem, Product, Customer } from "@/lib";
+import { categoryApi, receiptApi, customerApi } from "@/lib";
 import { useCurrency } from "./useCurrency";
 import { useTax } from "./useTax";
 import { exampleProducts, exampleCartItems } from "@/lib";
@@ -35,15 +35,21 @@ export function usePOSLogic(initialProducts: Product[]) {
   const [categories, setCategories] = useState<string[]>(["All"]);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [selectedCustomerId, setSelectedCustomerId] = useState<number | undefined>(undefined);
+
   useEffect(() => {
     if (!dbKey) return;
-    categoryApi
-      .getAll(dbKey)
-      .then((data) => {
-        setCategories(["All", ...data.map((c) => c.name)]);
+    Promise.all([
+      categoryApi.getAll(dbKey),
+      customerApi.getAll(dbKey)
+    ])
+      .then(([catData, custData]) => {
+        setCategories(["All", ...catData.map((c) => c.name)]);
+        setCustomers(custData);
       })
       .catch((err) => {
-        console.error("Failed to fetch categories", err);
+        console.error("Failed to fetch initial pos data", err);
       });
   }, [dbKey]);
 
@@ -137,7 +143,7 @@ export function usePOSLogic(initialProducts: Product[]) {
       try {
         // 1. Create Invoice Header
         // calls the receipt API to create a new invoice in the database
-        const receiptList = await receiptApi.createInvoice(dbKey);
+        const receiptList = await receiptApi.createInvoice(dbKey, selectedCustomerId);
         // Invoice created successfully
 
         // 2. Add Items
@@ -160,13 +166,14 @@ export function usePOSLogic(initialProducts: Product[]) {
 
         // 4. Reset
         setCartItems([]);
+        setSelectedCustomerId(undefined);
         setIsPaymentModalOpen(false);
       } catch (error) {
         console.error("Payment failed:", error);
         alert("Payment failed. Please try again.");
       }
     },
-    [dbKey, cartItems, taxRate, currency],
+    [dbKey, cartItems, taxRate, currency, selectedCustomerId],
   );
 
   const cartTotal = useMemo(() => {
@@ -203,5 +210,8 @@ export function usePOSLogic(initialProducts: Product[]) {
     handleConfirmPayment,
     currency,
     cartTotal,
+    customers,
+    selectedCustomerId,
+    setSelectedCustomerId,
   };
 }

@@ -1,4 +1,4 @@
-import { CartItem as CartItemType } from "@/lib";
+import { CartItem as CartItemType, Customer } from "@/lib";
 import CartItem from "./CartItem";
 import CartSummary from "./CartSummary";
 import CartEmpty from "./CartEmpty";
@@ -12,6 +12,9 @@ interface CartProps {
   onRemove: (id: number) => void;
   onCheckout: () => void;
   currency: string;
+  customers: Customer[];
+  selectedCustomerId?: number;
+  onCustomerSelect: (id: number | undefined) => void;
 }
 
 export default function Cart({
@@ -20,6 +23,9 @@ export default function Cart({
   onRemove,
   onCheckout,
   currency,
+  customers,
+  selectedCustomerId,
+  onCustomerSelect,
 }: CartProps) {
   const { taxRate } = useTax();
   const { settings } = useSettings();
@@ -79,6 +85,9 @@ export default function Cart({
         total={total}
         currency={currency}
         onCheckout={onCheckout}
+        customers={customers}
+        selectedCustomerId={selectedCustomerId}
+        onCustomerSelect={onCustomerSelect}
       />
     </Card>
   );

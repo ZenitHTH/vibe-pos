@@ -12,6 +12,7 @@ pub fn run_migrations(
 
 pub mod category;
 pub mod connection;
+pub mod customer;
 pub mod image;
 pub mod material;
 pub mod product;
@@ -23,6 +24,7 @@ pub mod stock;
 
 pub use category::model::{Category, NewCategory};
 pub use connection::{establish_connection, get_database_path};
+pub use customer::model::{Customer, NewCustomer};
 pub use image::model::{Image, NewImage};
 pub use image::{get_image, get_image_by_hash, insert_image};
 pub use material::model::{Material, NewMaterial};

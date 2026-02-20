@@ -69,6 +69,11 @@ const menuEntries: MenuEntry[] = [
         path: "/manage/categories",
         icon: <FaTags size={18} />,
       },
+      {
+        name: "Customers",
+        path: "/manage/customers",
+        icon: <FaClipboardList size={18} />,
+      },
     ],
   },
   {

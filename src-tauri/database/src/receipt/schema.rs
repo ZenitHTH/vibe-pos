@@ -2,6 +2,7 @@ diesel::table! {
     receipt_list (receipt_id) {
         receipt_id -> Integer,
         datetime_unix -> BigInt, // Maps to i64
+        customer_id -> Nullable<Integer>,
     }
 }
 

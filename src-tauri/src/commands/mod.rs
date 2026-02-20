@@ -1,4 +1,5 @@
 pub mod category;
+pub mod customer;
 pub mod database;
 pub mod export;
 pub mod images;

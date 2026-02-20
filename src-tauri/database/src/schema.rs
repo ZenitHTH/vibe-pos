@@ -8,6 +8,15 @@ diesel::table! {
 }
 
 diesel::table! {
+    customer (id) {
+        id -> Integer,
+        name -> Text,
+        tax_id -> Nullable<Text>,
+        address -> Nullable<Text>,
+    }
+}
+
+diesel::table! {
     images (id) {
         id -> Integer,
         file_name -> Text,
@@ -58,6 +67,7 @@ diesel::table! {
     receipt_list (receipt_id) {
         receipt_id -> Integer,
         datetime_unix -> Integer,
+        customer_id -> Nullable<Integer>,
     }
 }
 
@@ -91,6 +101,7 @@ diesel::joinable!(product_images -> images (image_id));
 diesel::joinable!(product_images -> product (product_id));
 diesel::joinable!(receipt_item -> product (product_id));
 diesel::joinable!(receipt_item -> receipt_list (receipt_id));
+diesel::joinable!(receipt_list -> customer (customer_id));
 diesel::joinable!(recipe_item -> material (material_id));
 diesel::joinable!(recipe_item -> recipe_list (recipe_list_id));
 diesel::joinable!(recipe_list -> product (product_id));
@@ -98,6 +109,7 @@ diesel::joinable!(stock -> product (product_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     category,
+    customer,
     images,
     material,
     product,

@@ -7,6 +7,7 @@ use commands::product::*;
 use commands::receipt::*;
 use commands::stock::*;
 
+use commands::customer::*;
 use commands::database::*;
 use commands::export::*;
 use commands::images::*;
@@ -49,6 +50,10 @@ pub fn run() {
             create_category,
             update_category,
             delete_category,
+            // Customer Commands
+            get_customers,
+            create_customer,
+            update_customer,
             // Export Commands
             export_receipts,
             // Settings Commands

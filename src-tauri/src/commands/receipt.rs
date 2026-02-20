@@ -4,10 +4,10 @@ use database::stock;
 use database::{NewReceipt, Receipt, ReceiptList};
 
 #[tauri::command]
-pub fn create_invoice(key: String) -> Result<ReceiptList, String> {
+pub fn create_invoice(key: String, customer_id: Option<i32>) -> Result<ReceiptList, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
     // Create a new header with "Now" timestamp (None)
-    receipt::create_receipt_header(&mut conn, None).map_err(|e| e.to_string())
+    receipt::create_receipt_header(&mut conn, None, customer_id).map_err(|e| e.to_string())
 }
 
 #[tauri::command]

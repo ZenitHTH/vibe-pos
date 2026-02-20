@@ -1,5 +1,6 @@
 pub mod csv_export;
 pub mod ods_export;
+pub mod thai_accounting;
 pub mod xlsx_export;
 
 use serde::{Deserialize, Serialize};
