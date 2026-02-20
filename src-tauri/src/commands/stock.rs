@@ -17,6 +17,10 @@ pub fn get_all_stocks(key: String) -> Result<Vec<Stock>, String> {
 
 #[tauri::command]
 pub fn insert_stock(key: String, product_id: i32, quantity: i32) -> Result<Stock, String> {
+    if quantity < 0 || quantity > 1_000_000 {
+        return Err("Invalid stock quantity.".to_string());
+    }
+
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
 
     // Fetch product details first
@@ -33,6 +37,10 @@ pub fn insert_stock(key: String, product_id: i32, quantity: i32) -> Result<Stock
 
 #[tauri::command]
 pub fn update_stock(key: String, product_id: i32, quantity: i32) -> Result<Stock, String> {
+    if quantity < 0 || quantity > 1_000_000 {
+        return Err("Invalid stock quantity.".to_string());
+    }
+
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
     // Pass product_id directly to the DB function
     stock::update_stock(&mut conn, product_id, quantity).map_err(|e| e.to_string())

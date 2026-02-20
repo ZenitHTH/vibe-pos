@@ -17,6 +17,10 @@ pub fn add_invoice_item(
     product_id: i32,
     quantity: i32,
 ) -> Result<Receipt, String> {
+    if quantity <= 0 || quantity > 1_000_000 {
+        return Err("Invalid quantity.".to_string());
+    }
+
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
     let item = NewReceipt {
         receipt_id,
