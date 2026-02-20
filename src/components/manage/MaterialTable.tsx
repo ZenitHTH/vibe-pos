@@ -1,11 +1,5 @@
 import { FaEdit, FaTrash } from "react-icons/fa";
-
-export interface Material {
-  id: number;
-  name: string;
-  unit_of_measurement: string;
-  cost_per_unit: number;
-}
+import { Material } from "@/lib";
 
 interface MaterialTableProps {
   materials: Material[];
@@ -34,8 +28,9 @@ export default function MaterialTable({
             <tr>
               <th className="px-6 py-4">ID</th>
               <th className="px-6 py-4">Name</th>
-              <th className="px-6 py-4">Unit of Measurement</th>
-              <th className="px-6 py-4">Cost per Unit</th>
+              <th className="px-6 py-4">Type</th>
+              <th className="px-6 py-4">Volume</th>
+              <th className="px-6 py-4">Quantity</th>
               <th className="px-6 py-4 text-right">Actions</th>
             </tr>
           </thead>
@@ -48,12 +43,11 @@ export default function MaterialTable({
                 <td className="px-6 py-4 font-medium">{m.name}</td>
                 <td className="px-6 py-4">
                   <span className="bg-secondary text-secondary-foreground inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium">
-                    {m.unit_of_measurement}
+                    {m.type_}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-[1.1em] font-semibold text-green-600 dark:text-green-400">
-                  ฿{(m.cost_per_unit / 100).toFixed(2)}
-                </td>
+                <td className="px-6 py-4">{m.volume}</td>
+                <td className="px-6 py-4 font-semibold">{m.quantity}</td>
                 <td className="px-6 py-4 text-right">
                   <div className="flex justify-end gap-2">
                     <button

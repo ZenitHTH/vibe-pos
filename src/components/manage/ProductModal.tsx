@@ -2,8 +2,8 @@
 
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { useState, useEffect } from "react";
-import { BackendProduct, NewProduct, Category, Image } from "@/lib/types";
-import { categoryApi, imageApi } from "@/lib/api";
+import { BackendProduct, NewProduct, Category, Image } from "@/lib";
+import { categoryApi, imageApi } from "@/lib";
 import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -13,7 +13,10 @@ import { useDatabase } from "@/context/DatabaseContext";
 interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (product: NewProduct) => Promise<BackendProduct | undefined>;
+  onSubmit: (
+    product: NewProduct,
+    afterSubmit?: (saved: BackendProduct) => Promise<void>,
+  ) => Promise<BackendProduct | undefined>;
   initialData?: BackendProduct;
   isSubmitting: boolean;
 }
@@ -63,47 +66,21 @@ export default function ProductModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const savedProduct = await onSubmit(formData);
 
-    if (savedProduct && dbKey && images.length > 0) {
-      // Link images to the new product (if they aren't already linked)
-      // If editing, they might already be linked if we did it on upload.
-      // But if we uploaded new ones, they need linking.
-      // Strategy: Link all images in `images` array to `savedProduct.product_id`.
-      // Use `linkToProduct`. `link_product_image` is idempotent (insert or ignore usually, or fails if exists).
-      // My backend `insert_into` might fail if exists?
-      // `diesel::insert_into` usually fails on unique constraint violation.
-      // SQLite schema: `diesel::table! { product_images (product_id, image_id) { ... } }`
-      // PK is composite (product_id, image_id). So it will fail if exists.
-
-      // To be safe, we can try linking and ignore errors, or valid check.
-      // Or better: only link the ones that are new.
-      // How do we know which are new?
-      // `initialData` has original images. `images` has current images.
-      // But `initialData` (backend product) doesn't have images in it.
-
-      // Simpler approach:
-      // For new product: Link all.
-      // For existing product: Link immediately on upload!
-      // But what if user cancels?
-      // If user cancels, we have orphaned images (saved but not linked, or linked then modal closed).
-      // Ideally we only link on Save.
-      // But `images` state contains `Image` objects (already saved to DB/Disk).
-
-      // Let's just loop and link all, masking errors?
-      // Or `get_product_images` first, then diff?
-      // Since `link_product_image` is cheap, let's try linking all for now.
-      await Promise.all(
-        images.map((img) =>
-          imageApi
-            .linkToProduct(dbKey, savedProduct.product_id, img.id)
-            .catch((err) => {
-              // Ignore "Unique violation" or similar if already linked
-              console.warn("Failed to link image (might already exist):", err);
-            }),
-        ),
-      );
-    }
+    await onSubmit(formData, async (savedProduct) => {
+      if (dbKey && images.length > 0) {
+        // Link all current images to the product
+        await Promise.all(
+          images.map((img) =>
+            imageApi
+              .linkToProduct(dbKey, savedProduct.product_id, img.id)
+              .catch((err) => {
+                console.warn("Failed to link image:", err);
+              }),
+          ),
+        );
+      }
+    });
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {

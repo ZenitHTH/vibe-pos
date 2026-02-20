@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useMockup } from "@/context/MockupContext";
 import { FaHistory, FaCompass } from "react-icons/fa";
-import { AppSettings } from "@/lib/settings";
+import { AppSettings } from "@/lib";
 import NumberStepper from "../ui/NumberStepper";
 import NumberSlider from "../ui/NumberSlider";
 

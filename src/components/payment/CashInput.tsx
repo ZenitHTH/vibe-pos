@@ -3,7 +3,7 @@ import { formatCurrency } from "./utils";
 import VirtualNumpad from "./VirtualNumpad";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 
 interface CashInputProps {
   value: string;

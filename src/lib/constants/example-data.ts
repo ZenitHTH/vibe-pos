@@ -1,4 +1,4 @@
-import { Product } from "@/types";
+import { Product, CartItem } from "../types";
 
 export const exampleProducts: Product[] = [
   {
@@ -98,8 +98,6 @@ export const exampleProducts: Product[] = [
     color: "#ef4444",
   },
 ];
-
-import { CartItem } from "@/types";
 
 export const exampleCartItems: CartItem[] = [
   { ...exampleProducts[0], quantity: 2 },

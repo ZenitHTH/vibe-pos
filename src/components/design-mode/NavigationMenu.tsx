@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { FaCompass, FaHome, FaBoxOpen, FaTags, FaCog } from "react-icons/fa";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 
 export default function NavigationMenu({
   router,

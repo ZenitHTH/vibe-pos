@@ -1,6 +1,7 @@
 "use client";
 
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaBoxes } from "react-icons/fa";
+import Link from "next/link";
 import StockModal from "./components/StockModal";
 import { useStockManagement } from "./hooks/useStockManagement";
 import StockTable from "./components/StockTable";
@@ -30,13 +31,22 @@ export default function StockPage() {
       title="Stock Management"
       subtitle="Manage your inventory stock levels"
       headerActions={
-        <button
-          onClick={handleCreate}
-          className="bg-primary flex items-center gap-2 rounded-xl px-4 py-2 text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90"
-        >
-          <FaPlus />
-          <span>Add Stock</span>
-        </button>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/manage/material"
+            className="text-muted-foreground hover:text-foreground hover:bg-muted/50 flex items-center gap-2 rounded-xl border border-transparent px-4 py-2 text-sm font-medium transition-all"
+          >
+            <FaBoxes />
+            <span>Manage Materials</span>
+          </Link>
+          <button
+            onClick={handleCreate}
+            className="bg-primary shadow-primary/20 hover:bg-primary/90 flex items-center gap-2 rounded-xl px-4 py-2 text-white shadow-lg transition-all"
+          >
+            <FaPlus />
+            <span>Add Stock</span>
+          </button>
+        </div>
       }
       loading={loading}
       error={error}

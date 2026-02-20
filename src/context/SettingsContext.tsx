@@ -7,7 +7,8 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { AppSettings, getSettings, saveSettings } from "@/lib/settings";
+import { AppSettings } from "@/lib";
+import { settingsApi } from "@/lib";
 
 interface SettingsContextType {
   settings: AppSettings;
@@ -28,12 +29,14 @@ const DEFAULT_SETTINGS: AppSettings = {
   grid_scale: 100.0,
   manage_table_scale: 100.0,
   stock_table_scale: 100.0,
+  material_table_scale: 100.0,
   category_table_scale: 100.0,
   sidebar_font_scale: 100.0,
   cart_font_scale: 100.0,
   grid_font_scale: 100.0,
   manage_table_font_scale: 100.0,
   stock_table_font_scale: 100.0,
+  material_table_font_scale: 100.0,
   category_table_font_scale: 100.0,
   setting_page_scale: 100.0,
   setting_page_font_scale: 100.0,
@@ -41,14 +44,15 @@ const DEFAULT_SETTINGS: AppSettings = {
   layout_max_width: 1280.0,
   payment_modal_scale: 100.0,
   payment_modal_font_scale: 100.0,
+  history_font_scale: 100.0,
   payment_numpad_height: 320, // Default h-80 equivalent (approx)
   cart_item_font_size: 100,
   cart_item_header_font_size: 100,
   cart_item_price_font_size: 100,
   cart_item_padding: 10,
   cart_item_margin: 8,
-  image_storage_path: undefined,
-  db_storage_path: undefined,
+  image_storage_path: null,
+  db_storage_path: null,
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(
@@ -72,7 +76,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   const load = async () => {
     try {
-      const data = await getSettings();
+      const data = await settingsApi.getSettings();
       // Ensure display_scale exists (migration for old saves)
       setSettings({ ...DEFAULT_SETTINGS, ...data });
     } catch (error) {
@@ -88,7 +92,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   const save = async () => {
     try {
-      await saveSettings(settings);
+      await settingsApi.saveSettings(settings);
       // Optionally fetch again or just assume success
     } catch (error) {
       console.error("Failed to save settings:", error);

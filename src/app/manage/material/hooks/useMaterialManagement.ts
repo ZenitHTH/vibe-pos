@@ -1,11 +1,11 @@
-// This hook mocks the backend communication until the backend is fully connected later
 "use client";
-
 import { useState, useMemo, useEffect } from "react";
-import { invoke } from "@tauri-apps/api/core";
-import { Material } from "../components/MaterialTable";
+import { materialApi } from "@/lib";
+import { Material } from "@/lib";
+import { useDatabase } from "@/context/DatabaseContext";
 
 export function useMaterialManagement() {
+  const { dbKey } = useDatabase();
   const [materials, setMaterials] = useState<Material[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -17,9 +17,10 @@ export function useMaterialManagement() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const fetchMaterials = async () => {
+    if (!dbKey) return;
     try {
       setLoading(true);
-      const data = await invoke<Material[]>("get_materials");
+      const data = await materialApi.getAll(dbKey);
       setMaterials(data);
       setError(null);
     } catch (err: any) {
@@ -32,7 +33,7 @@ export function useMaterialManagement() {
 
   useEffect(() => {
     fetchMaterials();
-  }, []);
+  }, [dbKey]);
 
   const handleCreate = () => {
     setEditingMaterial(undefined);
@@ -45,12 +46,15 @@ export function useMaterialManagement() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!window.confirm("Are you sure you want to delete this material?")) {
+    if (
+      !window.confirm("Are you sure you want to delete this material?") ||
+      !dbKey
+    ) {
       return;
     }
 
     try {
-      await invoke("delete_material", { id });
+      await materialApi.delete(dbKey, id);
       await fetchMaterials();
     } catch (err: any) {
       alert(`Failed to delete material: ${err.message}`);
@@ -58,23 +62,27 @@ export function useMaterialManagement() {
   };
 
   const handleModalSubmit = async (data: any) => {
+    if (!dbKey) return;
     try {
       setIsSubmitting(true);
-      const parsedCost = Math.round(parseFloat(data.cost_per_unit_thb) * 100);
 
       if (editingMaterial) {
-        await invoke("update_material", {
-          id: editingMaterial.id,
-          name: data.name,
-          unitOfMeasurement: data.unit_of_measurement,
-          costPerUnit: parsedCost,
-        });
+        await materialApi.update(
+          dbKey,
+          editingMaterial.id,
+          data.name,
+          data.type_,
+          parseInt(data.volume, 10),
+          parseInt(data.quantity, 10),
+        );
       } else {
-        await invoke("create_material", {
-          name: data.name,
-          unitOfMeasurement: data.unit_of_measurement,
-          costPerUnit: parsedCost,
-        });
+        await materialApi.create(
+          dbKey,
+          data.name,
+          data.type_,
+          parseInt(data.volume, 10),
+          parseInt(data.quantity, 10),
+        );
       }
 
       await fetchMaterials();

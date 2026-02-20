@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { CartItem as CartItemType } from "../../types";
+import { CartItem as CartItemType } from "@/lib";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import { convertFileSrc } from "@tauri-apps/api/core";
 

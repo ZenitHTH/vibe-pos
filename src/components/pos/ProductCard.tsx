@@ -1,5 +1,5 @@
-import { memo } from "react";
-import { Product } from "@/types";
+import { memo, useState } from "react";
+import { Product } from "@/lib";
 import { convertFileSrc } from "@tauri-apps/api/core";
 
 interface ProductCardProps {
@@ -13,11 +13,11 @@ const ProductCard = memo(function ProductCard({
   onAdd,
   currency,
 }: ProductCardProps) {
-  const imageSrc = product.image
-    ? product.image.startsWith("http")
-      ? product.image
-      : convertFileSrc(product.image)
-    : null;
+  const [imageError, setImageError] = useState(false);
+
+  // Use the same logic as ProductTable for consistency
+  const imageSrc =
+    product.image && !imageError ? convertFileSrc(product.image) : null;
 
   return (
     <div
@@ -35,6 +35,7 @@ const ProductCard = memo(function ProductCard({
             src={imageSrc}
             alt={product.name}
             className="h-full w-full object-cover"
+            onError={() => setImageError(true)}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold opacity-20">

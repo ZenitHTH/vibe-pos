@@ -1,4 +1,4 @@
-import { Stock } from "@/lib/types";
+import { Stock } from "@/lib";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import GlobalTable from "@/components/ui/GlobalTable";
 

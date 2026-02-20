@@ -10,3 +10,13 @@ export interface Product {
 export interface CartItem extends Product {
   quantity: number;
 }
+
+export interface BackendProduct {
+  product_id: number;
+  title: string;
+  category_id: number;
+  satang: number;
+  image_path?: string;
+}
+
+export type NewProduct = Omit<BackendProduct, "product_id">;

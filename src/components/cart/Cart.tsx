@@ -1,4 +1,4 @@
-import { CartItem as CartItemType } from "@/types";
+import { CartItem as CartItemType } from "@/lib";
 import CartItem from "./CartItem";
 import CartSummary from "./CartSummary";
 import CartEmpty from "./CartEmpty";
@@ -64,10 +64,10 @@ export default function Cart({
               currency={currency}
               onUpdateQuantity={onUpdateQuantity}
               onRemove={onRemove}
-              itemFontSize={settings.cart_item_font_size}
-              headerFontSize={settings.cart_item_header_font_size}
-              priceFontSize={settings.cart_item_price_font_size}
-              itemPadding={settings.cart_item_padding}
+              itemFontSize={settings.cart_item_font_size ?? undefined}
+              headerFontSize={settings.cart_item_header_font_size ?? undefined}
+              priceFontSize={settings.cart_item_price_font_size ?? undefined}
+              itemPadding={settings.cart_item_padding ?? undefined}
             />
           ))}
         </div>

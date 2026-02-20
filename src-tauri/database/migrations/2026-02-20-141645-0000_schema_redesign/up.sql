@@ -7,10 +7,6 @@ CREATE TABLE IF NOT EXISTS "category" (
 	PRIMARY KEY("id")
 );
 
--- Ensure categories from existing products are transferred if they don't exist
-INSERT INTO category (name)
-SELECT DISTINCT catagory FROM product WHERE catagory NOT IN (SELECT name FROM category);
-
 -- 2. Create Product with category_id
 CREATE TABLE IF NOT EXISTS "product_new" (
 	"product_id" INTEGER NOT NULL,
@@ -23,9 +19,8 @@ CREATE TABLE IF NOT EXISTS "product_new" (
 );
 
 INSERT INTO "product_new" ("product_id", "title", "category_id", "satang")
-SELECT p.product_id, p.title, c.id, p.satang
-FROM product p
-JOIN category c ON p.catagory = c.name;
+SELECT product_id, title, category_id, satang
+FROM product;
 
 -- 3. Create Stock without category
 CREATE TABLE IF NOT EXISTS "stock_new" (

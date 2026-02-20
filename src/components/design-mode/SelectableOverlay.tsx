@@ -1,7 +1,7 @@
 "use client";
 
 import { useMockup } from "../../context/MockupContext";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 
 interface SelectableOverlayProps {
   id: string;

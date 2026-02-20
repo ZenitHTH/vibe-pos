@@ -9,7 +9,7 @@ import {
   FaArrowRight,
   FaExclamationTriangle,
 } from "react-icons/fa";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 
 interface PasswordSetupScreenProps {
   onSuccess?: () => void;

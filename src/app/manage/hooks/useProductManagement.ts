@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { productApi, categoryApi } from "@/lib/api";
-import { BackendProduct, NewProduct, Category } from "@/lib/types";
+import { productApi, categoryApi } from "@/lib";
+import { BackendProduct, NewProduct, Category } from "@/lib";
 
 import { useDatabase } from "@/context/DatabaseContext";
 
@@ -19,24 +19,25 @@ export function useProductManagement() {
   >(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const fetchProducts = async () => {
+    if (!dbKey) return;
+    try {
+      setLoading(true);
+      const [data, fetchedCategories] = await Promise.all([
+        productApi.getAll(dbKey),
+        categoryApi.getAll(dbKey),
+      ]);
+      setProducts(data);
+      setCategories(fetchedCategories);
+    } catch (err) {
+      console.error("Failed to fetch products:", err);
+      setError("Failed to load products. Is the backend running?");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      if (!dbKey) return;
-      try {
-        setLoading(true);
-        const [data, fetchedCategories] = await Promise.all([
-          productApi.getAll(dbKey),
-          categoryApi.getAll(dbKey),
-        ]);
-        setProducts(data);
-        setCategories(fetchedCategories);
-      } catch (err) {
-        console.error("Failed to fetch products:", err);
-        setError("Failed to load products. Is the backend running?");
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchProducts();
   }, [dbKey]);
 
@@ -65,6 +66,7 @@ export function useProductManagement() {
 
   const handleModalSubmit = async (
     data: NewProduct,
+    afterSubmit?: (saved: BackendProduct) => Promise<void>,
   ): Promise<BackendProduct | undefined> => {
     if (!dbKey) return;
     try {
@@ -75,17 +77,19 @@ export function useProductManagement() {
           ...data,
           product_id: editingProduct.product_id,
         });
-        setProducts(
-          products.map((p) =>
-            p.product_id === updated.product_id ? updated : p,
-          ),
-        );
         result = updated;
       } else {
         const created = await productApi.create(dbKey, data);
-        setProducts([...products, created]);
         result = created;
       }
+
+      if (afterSubmit) {
+        await afterSubmit(result);
+      }
+
+      // Re-fetch to get updated state (including images)
+      await fetchProducts();
+
       setIsModalOpen(false);
       return result;
     } catch (err) {

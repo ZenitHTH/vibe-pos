@@ -31,8 +31,8 @@ export default function GeneralSettingPage() {
     >
       <div className="space-y-6">
         <GeneralSettings
-          imageStoragePath={settings.image_storage_path}
-          dbStoragePath={settings.db_storage_path}
+          imageStoragePath={settings.image_storage_path ?? undefined}
+          dbStoragePath={settings.db_storage_path ?? undefined}
           onUpdateSettings={handleUpdateSettings}
         />
         <ThemeSettings />

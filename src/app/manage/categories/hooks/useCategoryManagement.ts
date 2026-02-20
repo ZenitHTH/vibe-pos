@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { categoryApi } from "@/lib/api";
-import { Category } from "@/lib/types";
+import { categoryApi } from "@/lib";
+import { Category } from "@/lib";
 
 import { useDatabase } from "@/context/DatabaseContext";
 

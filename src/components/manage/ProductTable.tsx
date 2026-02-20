@@ -1,10 +1,11 @@
-import { BackendProduct, Category } from "@/lib/types";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { convertFileSrc } from "@tauri-apps/api/core";
+import { BackendProduct, Category } from "@/lib";
+import { FaEdit, FaTrash, FaImage } from "react-icons/fa";
 import GlobalTable from "@/components/ui/GlobalTable";
-import { AppSettings } from "@/lib/settings";
+import { AppSettings } from "@/lib";
 
 interface ProductTableProps {
-  products: BackendProduct[];
+  products: (BackendProduct & { image_path?: string })[];
   categories: Category[];
   onEdit: (product: BackendProduct) => void;
   onDelete: (id: number) => void;
@@ -23,6 +24,25 @@ export default function ProductTable({
       data={products}
       emptyMessage="No products found"
       columns={[
+        {
+          header: "Image",
+          className: "w-[60px]",
+          render: (product) => (
+            <div className="bg-muted flex h-10 w-10 overflow-hidden rounded-lg border">
+              {product.image_path ? (
+                <img
+                  src={convertFileSrc(product.image_path)}
+                  alt={product.title}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="text-muted-foreground flex h-full w-full items-center justify-center">
+                  <FaImage size={16} />
+                </div>
+              )}
+            </div>
+          ),
+        },
         {
           header: "ID",
           accessor: "product_id",

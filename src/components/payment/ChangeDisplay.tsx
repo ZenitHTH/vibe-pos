@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/Card";
 import { memo } from "react";
 import { formatCurrency } from "./utils";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 
 interface ChangeDisplayProps {
   change: number;

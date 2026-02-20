@@ -6,7 +6,7 @@ import POSClient from "@/components/pos/POSClient";
 import Sidebar from "@/components/layout/Sidebar";
 import BottomControlPanel from "./BottomControlPanel";
 import { FaSave, FaArrowRight } from "react-icons/fa";
-import { exampleProducts } from "@/lib/example-data";
+import { exampleProducts } from "@/lib";
 
 interface DesignModeWrapperProps {
   onNext: () => void;

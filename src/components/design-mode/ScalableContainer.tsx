@@ -1,7 +1,7 @@
 "use client";
 
 import { useSettings } from "@/context/SettingsContext";
-import { AppSettings } from "@/lib/settings";
+import { AppSettings } from "@/lib";
 import SelectableOverlay from "./SelectableOverlay";
 import { ReactNode } from "react";
 

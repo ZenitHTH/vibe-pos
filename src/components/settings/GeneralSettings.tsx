@@ -1,7 +1,8 @@
 import { memo } from "react";
-import { AppSettings } from "@/lib/settings";
+import { AppSettings } from "@/lib";
 import { open } from "@tauri-apps/plugin-dialog";
-import { invoke } from "@tauri-apps/api/core";
+import { settingsApi } from "@/lib";
+import { StorageInfo } from "@/lib";
 import { FaFolderOpen, FaCog } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import SettingsSection from "@/components/ui/SettingsSection";
@@ -18,12 +19,10 @@ const GeneralSettings = memo(function GeneralSettings({
   dbStoragePath,
   onUpdateSettings,
 }: GeneralSettingsProps) {
-  const [storageInfo, setStorageInfo] = useState<{ image_path: string; db_path: string } | null>(null);
+  const [storageInfo, setStorageInfo] = useState<StorageInfo | null>(null);
 
   useEffect(() => {
-    invoke<{ image_path: string; db_path: string }>("get_storage_info")
-      .then(setStorageInfo)
-      .catch(console.error);
+    settingsApi.getStorageInfo().then(setStorageInfo).catch(console.error);
   }, []);
 
   const handleSelectImageStorage = async () => {

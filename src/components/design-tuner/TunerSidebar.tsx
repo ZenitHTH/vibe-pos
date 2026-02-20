@@ -9,7 +9,7 @@ import {
 import { NavButton } from "./NavButton";
 import { GlobalStylesPanel } from "./GlobalStylesPanel";
 import { CartItemStylesPanel } from "./CartItemStylesPanel";
-import { AppSettings } from "@/lib/settings";
+import { AppSettings } from "@/lib";
 import GlobalHeader from "@/components/ui/GlobalHeader";
 
 export type TunerTab = "selector" | "button" | "typography" | "cart";

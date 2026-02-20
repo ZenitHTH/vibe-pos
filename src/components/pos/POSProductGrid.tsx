@@ -4,8 +4,8 @@ import { useMemo, memo } from "react";
 import ProductCard from "./ProductCard";
 import ProductFilter from "../filters/ProductFilter";
 import SelectableOverlay from "../design-mode/SelectableOverlay";
-import { Product } from "@/types";
-import { AppSettings } from "@/lib/settings";
+import { Product } from "@/lib";
+import { AppSettings } from "@/lib";
 
 interface POSProductGridProps {
   products: Product[];

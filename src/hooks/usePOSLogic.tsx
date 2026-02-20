@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CartItem, Product } from "@/types";
-import { categoryApi, receiptApi } from "@/lib/api";
+import { CartItem, Product } from "@/lib";
+import { categoryApi, receiptApi } from "@/lib";
 import { useCurrency } from "./useCurrency";
 import { useTax } from "./useTax";
-import { exampleProducts, exampleCartItems } from "@/lib/example-data";
+import { exampleProducts, exampleCartItems } from "@/lib";
 import { useMockup } from "@/context/MockupContext";
 import { useDatabase } from "@/context/DatabaseContext";
 

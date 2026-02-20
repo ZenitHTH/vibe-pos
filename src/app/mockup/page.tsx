@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import POSClient from "@/components/pos/POSClient";
-import { Product } from "@/types";
-import { productApi, categoryApi } from "@/lib/api";
+import { Product } from "@/lib";
+import { productApi, categoryApi } from "@/lib";
 import { useDatabase } from "@/context/DatabaseContext";
 
 export default function MockupPage() {

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import ManagementPageLayout from "@/components/layout/ManagementPageLayout";
-import MaterialTable from "./components/MaterialTable";
-import MaterialModal from "./components/MaterialModal";
+import MaterialTable from "@/components/manage/MaterialTable";
+import MaterialModal from "@/components/manage/MaterialModal";
 import { useMaterialManagement } from "./hooks/useMaterialManagement";
 
 export default function MaterialPage() {

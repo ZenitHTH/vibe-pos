@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { receiptApi } from "@/lib/api";
+import { receiptApi } from "@/lib";
 import { FaFileExport, FaFolderOpen } from "react-icons/fa";
 import { save } from "@tauri-apps/plugin-dialog";
 import SettingsSection from "@/components/ui/SettingsSection";

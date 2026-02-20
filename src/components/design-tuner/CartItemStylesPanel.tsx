@@ -1,5 +1,5 @@
 import { SidebarSlider } from "./SidebarSlider";
-import { AppSettings } from "@/lib/settings";
+import { AppSettings } from "@/lib";
 
 interface CartItemStylesPanelProps {
   settings: AppSettings;

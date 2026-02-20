@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 
 interface SettingsSectionProps {

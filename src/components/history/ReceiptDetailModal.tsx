@@ -1,7 +1,7 @@
 "use client";
 
 import { FaArrowLeft, FaReceipt } from "react-icons/fa";
-import { ReceiptList as ReceiptListType } from "@/lib/types";
+import { ReceiptList as ReceiptListType } from "@/lib";
 import { useReceiptDetail, formatDate } from "./hooks/useReceiptDetail";
 
 interface ReceiptDetailModalProps {

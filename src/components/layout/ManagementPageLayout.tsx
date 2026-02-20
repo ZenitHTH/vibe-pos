@@ -5,7 +5,7 @@ import GlobalHeader from "../ui/GlobalHeader";
 import ScalableContainer from "../design-mode/ScalableContainer";
 import ScrollableContainer from "../ui/ScrollableContainer";
 
-import { AppSettings } from "@/lib/settings";
+import { AppSettings } from "@/lib";
 
 interface ManagementPageLayoutProps {
   title: string;

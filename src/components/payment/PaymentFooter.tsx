@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/Button";
 import { memo } from "react";
 import { FaPaperPlane } from "react-icons/fa";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 
 interface PaymentFooterProps {
   isValid: boolean;

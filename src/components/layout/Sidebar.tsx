@@ -19,7 +19,7 @@ import {
 
 import { useSettings } from "@/context/SettingsContext";
 import SelectableOverlay from "@/components/design-mode/SelectableOverlay";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 
 interface MenuItem {
   name: string;

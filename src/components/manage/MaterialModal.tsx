@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Material } from "./MaterialTable";
+import { Material } from "@/lib";
 import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 
 interface MaterialFormData {
   name: string;
-  unit_of_measurement: string;
-  cost_per_unit_thb: number;
+  type_: string;
+  volume: number;
+  quantity: number;
 }
 
 interface MaterialModalProps {
@@ -37,14 +38,16 @@ export default function MaterialModal({
       if (initialData) {
         reset({
           name: initialData.name,
-          unit_of_measurement: initialData.unit_of_measurement,
-          cost_per_unit_thb: initialData.cost_per_unit / 100, // Convert satang to THB for UI
+          type_: initialData.type_,
+          volume: initialData.volume,
+          quantity: initialData.quantity,
         });
       } else {
         reset({
           name: "",
-          unit_of_measurement: "Pieces",
-          cost_per_unit_thb: 0,
+          type_: "Pieces",
+          volume: 1,
+          quantity: 0,
         });
       }
     }
@@ -69,35 +72,43 @@ export default function MaterialModal({
 
         <div className="grid grid-cols-2 gap-4">
           <Input
-            label="Cost (฿)"
+            label="Volume"
             type="number"
-            step="0.01"
-            min="0"
-            error={errors.cost_per_unit_thb?.message}
-            {...register("cost_per_unit_thb", {
-              required: "Cost is required",
-              min: { value: 0, message: "Cost cannot be negative" },
-              max: { value: 10000000, message: "Cost is too high" },
+            min="1"
+            error={errors.volume?.message}
+            {...register("volume", {
+              required: "Volume is required",
+              min: { value: 1, message: "Volume must be at least 1" },
             })}
           />
+          <Input
+            label="Quantity"
+            type="number"
+            min="0"
+            error={errors.quantity?.message}
+            {...register("quantity", {
+              required: "Quantity is required",
+              min: { value: 0, message: "Quantity cannot be negative" },
+            })}
+          />
+        </div>
 
-          <div className="space-y-2">
-            <label className="text-foreground text-sm font-medium">
-              Unit of Measurement
-            </label>
-            <select
-              className="bg-background border-input text-foreground focus:border-primary focus:ring-primary w-full rounded-xl border px-3 py-2 outline-none focus:ring-2"
-              {...register("unit_of_measurement", { required: true })}
-            >
-              <option value="Pieces">Pieces</option>
-              <option value="Liters">Liters</option>
-              <option value="Kilograms">Kilograms</option>
-              <option value="Grams">Grams</option>
-              <option value="Milliliters">Milliliters</option>
-              <option value="Box">Box</option>
-              <option value="Pack">Pack</option>
-            </select>
-          </div>
+        <div className="space-y-2">
+          <label className="text-foreground text-sm font-medium">
+            Type / Unit
+          </label>
+          <select
+            className="bg-background border-input text-foreground focus:border-primary focus:ring-primary w-full rounded-xl border px-3 py-2 outline-none focus:ring-2"
+            {...register("type_", { required: true })}
+          >
+            <option value="Pieces">Pieces</option>
+            <option value="Liters">Liters</option>
+            <option value="Kilograms">Kilograms</option>
+            <option value="Grams">Grams</option>
+            <option value="Milliliters">Milliliters</option>
+            <option value="Box">Box</option>
+            <option value="Pack">Pack</option>
+          </select>
         </div>
 
         <div className="border-border mt-6 flex justify-end gap-3 border-t pt-4">

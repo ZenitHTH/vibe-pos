@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
-import { cn } from "../../lib/utils";
+import { cn } from "@/lib";
 
 interface ModalProps {
   isOpen: boolean;

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDatabase } from "@/context/DatabaseContext";
-import { ReceiptList as ReceiptListType, Receipt } from "@/lib/types";
-import { Product } from "@/types";
-import { receiptApi, productApi } from "@/lib/api";
+import { ReceiptList as ReceiptListType, Receipt } from "@/lib";
+import { Product } from "@/lib";
+import { receiptApi, productApi } from "@/lib";
 import { useMockup } from "@/context/MockupContext";
 
 export const formatDate = (unix: number) => {

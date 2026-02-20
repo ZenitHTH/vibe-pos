@@ -1,0 +1,7 @@
+export interface Material {
+  id: number;
+  name: string;
+  type_: string;
+  volume: number;
+  quantity: number;
+}

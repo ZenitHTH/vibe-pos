@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { stockApi, productApi } from "@/lib/api";
-import { Stock, BackendProduct } from "@/lib/types";
+import { stockApi, productApi } from "@/lib";
+import { Stock, BackendProduct } from "@/lib";
 import { useDatabase } from "@/context/DatabaseContext";
 
 export function useStockManagement() {
