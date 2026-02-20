@@ -8,6 +8,11 @@ import {
   Image,
   ProductImage,
   Stock,
+  AppSettings,
+  StorageInfo,
+  Material,
+  RecipeList,
+  RecipeItem,
 } from "./types";
 
 export const productApi = {
@@ -19,7 +24,7 @@ export const productApi = {
     return await invoke("create_product", {
       key,
       title: product.title,
-      catagory: product.catagory,
+      categoryId: product.category_id,
       satang: product.satang,
     });
   },
@@ -32,7 +37,7 @@ export const productApi = {
       key,
       id: product.product_id,
       title: product.title,
-      catagory: product.catagory,
+      categoryId: product.category_id,
       satang: product.satang,
     });
   },
@@ -106,6 +111,7 @@ export const receiptApi = {
     format: string,
     startDate: number,
     endDate: number,
+    reportType: string,
   ): Promise<string> => {
     return await invoke("export_receipts", {
       key,
@@ -113,6 +119,7 @@ export const receiptApi = {
       format,
       startDate: startDate,
       endDate: endDate,
+      reportType: reportType,
     });
   },
 };
@@ -153,6 +160,18 @@ export const imageApi = {
   getByProduct: async (key: string, productId: number): Promise<Image[]> => {
     return await invoke("get_product_images", { key, productId });
   },
+
+  getAllImages: async (key: string): Promise<Image[]> => {
+    return await invoke("get_all_images", { key });
+  },
+
+  deleteImage: async (key: string, imageId: number): Promise<void> => {
+    await invoke("delete_image", { key, imageId });
+  },
+
+  getAllImageLinks: async (key: string): Promise<ProductImage[]> => {
+    return await invoke("get_all_image_links", { key });
+  },
 };
 
 export const stockApi = {
@@ -182,5 +201,123 @@ export const stockApi = {
 
   remove: async (key: string, stockId: number): Promise<number> => {
     return await invoke("remove_stock", { key, stockId });
+  },
+};
+
+export const settingsApi = {
+  getSettings: async (): Promise<AppSettings> => {
+    return await invoke("get_settings");
+  },
+
+  saveSettings: async (settings: AppSettings): Promise<void> => {
+    await invoke("save_settings", { settings });
+  },
+
+  getStorageInfo: async (): Promise<StorageInfo> => {
+    return await invoke("get_storage_info");
+  },
+};
+
+export const databaseApi = {
+  initializeDatabase: async (key: string): Promise<void> => {
+    await invoke("initialize_database", { key });
+  },
+
+  checkDatabaseExists: async (): Promise<boolean> => {
+    return await invoke("check_database_exists");
+  },
+};
+
+export const materialApi = {
+  getAll: async (key: string): Promise<Material[]> => {
+    return await invoke("get_materials", { key });
+  },
+
+  create: async (
+    key: string,
+    name: string,
+    type_: string,
+    volume: number,
+    quantity: number,
+  ): Promise<Material> => {
+    return await invoke("create_material", {
+      key,
+      name,
+      type_,
+      volume,
+      quantity,
+    });
+  },
+
+  update: async (
+    key: string,
+    id: number,
+    name: string,
+    type_: string,
+    volume: number,
+    quantity: number,
+  ): Promise<Material> => {
+    return await invoke("update_material", {
+      key,
+      id,
+      name,
+      type_,
+      volume,
+      quantity,
+    });
+  },
+
+  delete: async (key: string, id: number): Promise<number> => {
+    return await invoke("delete_material", { key, id });
+  },
+};
+
+export const recipeApi = {
+  createList: async (key: string, productId: number): Promise<RecipeList> => {
+    return await invoke("create_recipe_list", { key, productId });
+  },
+
+  getListByProduct: async (
+    key: string,
+    productId: number,
+  ): Promise<RecipeList | null> => {
+    return await invoke("get_recipe_list_by_product", { key, productId });
+  },
+
+  deleteList: async (key: string, listId: number): Promise<number> => {
+    return await invoke("delete_recipe_list", { key, listId });
+  },
+
+  addItem: async (
+    key: string,
+    recipeListId: number,
+    materialId: number,
+    volumeUse: number,
+  ): Promise<RecipeItem> => {
+    return await invoke("add_recipe_item", {
+      key,
+      recipeListId,
+      materialId,
+      volumeUse,
+    });
+  },
+
+  getItems: async (
+    key: string,
+    recipeListId: number,
+  ): Promise<RecipeItem[]> => {
+    return await invoke("get_recipe_items", { key, recipeListId });
+  },
+
+  updateItem: async (
+    key: string,
+    itemId: number,
+    volumeUse: number,
+  ): Promise<RecipeItem> => {
+    return await invoke("update_recipe_item", { key, itemId, volumeUse });
+  },
+
+  deleteItem: async (key: string, itemId: number): Promise<number> => {
+    return await invoke("delete_recipe_item", { key, itemId });
   },
 };

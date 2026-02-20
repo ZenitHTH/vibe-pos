@@ -16,6 +16,7 @@ export interface AppSettings {
   grid_scale: number;
   manage_table_scale: number;
   stock_table_scale: number;
+  material_table_scale: number;
   category_table_scale: number;
   setting_page_scale: number;
   payment_modal_scale: number;
@@ -27,6 +28,7 @@ export interface AppSettings {
   grid_font_scale: number;
   manage_table_font_scale: number;
   stock_table_font_scale: number;
+  material_table_font_scale: number;
   category_table_font_scale: number;
   setting_page_font_scale: number;
   payment_modal_font_scale: number;
