@@ -30,19 +30,19 @@ export interface AppSettings {
   setting_page_font_scale: number;
   payment_modal_font_scale: number;
   material_table_font_scale: number;
-  history_font_scale?: number | null;
+  history_font_scale: number | null;
 
   // ── Cart Item Styling ──
-  cart_item_font_size?: number | null;
-  cart_item_header_font_size?: number | null;
-  cart_item_price_font_size?: number | null;
-  cart_item_padding?: number | null;
-  cart_item_margin?: number | null;
+  cart_item_font_size: number | null;
+  cart_item_header_font_size: number | null;
+  cart_item_price_font_size: number | null;
+  cart_item_padding: number | null;
+  cart_item_margin: number | null;
 
   // ── Payment ──
-  payment_numpad_height?: number | null;
+  payment_numpad_height: number | null;
 
   // ── Storage Paths ──
-  image_storage_path?: string | null;
-  db_storage_path?: string | null;
+  image_storage_path: string | null;
+  db_storage_path: string | null;
 }

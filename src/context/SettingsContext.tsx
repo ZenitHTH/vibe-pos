@@ -7,8 +7,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { AppSettings } from "@/lib";
-import { settingsApi } from "@/lib";
+import { AppSettings, settingsApi } from "@/lib";
 
 interface SettingsContextType {
   settings: AppSettings;
