@@ -18,10 +18,21 @@ diesel::table! {
 }
 
 diesel::table! {
+    material (id) {
+        id -> Integer,
+        name -> Text,
+        #[sql_name = "type"]
+        type_ -> Text,
+        volume -> Integer,
+        quantity -> Integer,
+    }
+}
+
+diesel::table! {
     product (product_id) {
         product_id -> Integer,
         title -> Text,
-        catagory -> Text,
+        category_id -> Integer,
         satang -> Integer,
     }
 }
@@ -39,6 +50,7 @@ diesel::table! {
         receipt_id -> Integer,
         product_id -> Integer,
         quantity -> Integer,
+        satang_at_sale -> Integer,
     }
 }
 
@@ -50,26 +62,49 @@ diesel::table! {
 }
 
 diesel::table! {
+    recipe_item (id) {
+        id -> Integer,
+        recipe_list_id -> Integer,
+        material_id -> Integer,
+        volume_use -> Integer,
+    }
+}
+
+diesel::table! {
+    recipe_list (id) {
+        id -> Integer,
+        product_id -> Integer,
+    }
+}
+
+diesel::table! {
     stock (stock_id) {
         stock_id -> Integer,
         product_id -> Integer,
-        catagory -> Text,
         satang -> Integer,
         quantity -> Integer,
     }
 }
 
+diesel::joinable!(product -> category (category_id));
 diesel::joinable!(product_images -> images (image_id));
 diesel::joinable!(product_images -> product (product_id));
 diesel::joinable!(receipt_item -> product (product_id));
 diesel::joinable!(receipt_item -> receipt_list (receipt_id));
+diesel::joinable!(recipe_item -> material (material_id));
+diesel::joinable!(recipe_item -> recipe_list (recipe_list_id));
+diesel::joinable!(recipe_list -> product (product_id));
+diesel::joinable!(stock -> product (product_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     category,
     images,
+    material,
     product,
     product_images,
     receipt_item,
     receipt_list,
+    recipe_item,
+    recipe_list,
     stock,
 );

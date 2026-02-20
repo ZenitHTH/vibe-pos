@@ -41,6 +41,7 @@ pub struct Receipt {
     pub receipt_id: i32,
     pub product_id: i32,
     pub quantity: i32,
+    pub satang_at_sale: i32,
 }
 
 #[derive(Insertable)]
@@ -49,4 +50,5 @@ pub struct NewReceipt {
     pub receipt_id: i32,
     pub product_id: i32,
     pub quantity: i32,
+    pub satang_at_sale: i32,
 }

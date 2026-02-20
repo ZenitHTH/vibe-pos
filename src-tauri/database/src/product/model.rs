@@ -7,7 +7,7 @@ use serde::Serialize;
 pub struct Product {
     pub product_id: i32,
     pub title: String,
-    pub catagory: String,
+    pub category_id: i32,
     pub satang: i32,
 }
 
@@ -22,7 +22,7 @@ pub struct ProductWithImage {
 #[diesel(table_name = crate::schema::product)]
 pub struct NewProduct<'a> {
     pub title: &'a str,
-    pub catagory: &'a str,
+    pub category_id: i32,
     pub satang: i32,
 }
 

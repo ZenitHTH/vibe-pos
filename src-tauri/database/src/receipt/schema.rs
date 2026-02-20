@@ -6,12 +6,12 @@ diesel::table! {
 }
 
 diesel::table! {
-    // Maps SQL "Receipt" table to Rust "receipt_item" variable
     receipt_item (id) {
         id -> Integer,
         receipt_id -> Integer,
         product_id -> Integer,
         quantity -> Integer,
+        satang_at_sale -> Integer,
     }
 }
 

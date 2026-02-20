@@ -19,37 +19,55 @@ pub fn remove_product(conn: &mut SqliteConnection, id: i32) -> Result<usize, Err
     diesel::delete(product_schema::dsl::product.find(id)).execute(conn)
 }
 
-pub fn remove_product_images_link(conn: &mut SqliteConnection, target_id: i32) -> Result<usize, Error> {
-    use crate::schema::product_images::dsl::{product_images, product_id};
+pub fn remove_product_images_link(
+    conn: &mut SqliteConnection,
+    target_id: i32,
+) -> Result<usize, Error> {
+    use crate::schema::product_images::dsl::{product_id, product_images};
     diesel::delete(product_images.filter(product_id.eq(target_id))).execute(conn)
 }
 
-pub fn check_product_dependencies(conn: &mut SqliteConnection, target_id: i32) -> Result<bool, Error> {
-    use crate::schema::stock::dsl::{stock, product_id as stock_pid};
-    use crate::schema::receipt_item::dsl::{receipt_item, product_id as receipt_pid};
-    
-    let stock_count: i64 = stock.filter(stock_pid.eq(target_id)).count().get_result(conn)?;
-    let receipt_count: i64 = receipt_item.filter(receipt_pid.eq(target_id)).count().get_result(conn)?;
-    
+pub fn check_product_dependencies(
+    conn: &mut SqliteConnection,
+    target_id: i32,
+) -> Result<bool, Error> {
+    use crate::schema::receipt_item::dsl::{product_id as receipt_pid, receipt_item};
+    use crate::schema::stock::dsl::{product_id as stock_pid, stock};
+
+    let stock_count: i64 = stock
+        .filter(stock_pid.eq(target_id))
+        .count()
+        .get_result(conn)?;
+    let receipt_count: i64 = receipt_item
+        .filter(receipt_pid.eq(target_id))
+        .count()
+        .get_result(conn)?;
+
     Ok(stock_count > 0 || receipt_count > 0)
 }
 
-pub fn find_product_by_title(conn: &mut SqliteConnection, target_title: &str) -> Result<Option<Product>, Error> {
+pub fn find_product_by_title(
+    conn: &mut SqliteConnection,
+    target_title: &str,
+) -> Result<Option<Product>, Error> {
     use product_schema::dsl::{product, title};
-    product.filter(title.eq(target_title)).first::<Product>(conn).optional()
+    product
+        .filter(title.eq(target_title))
+        .first::<Product>(conn)
+        .optional()
 }
 
 pub fn get_all_products(conn: &mut SqliteConnection) -> Result<Vec<Product>, Error> {
     product_schema::table.load::<Product>(conn)
 }
 pub fn update_product(conn: &mut SqliteConnection, prod: Product) -> Result<Product, Error> {
-    use product_schema::dsl::{catagory, product as product_dsl, product_id, satang, title};
+    use product_schema::dsl::{category_id, product as product_dsl, product_id, satang, title};
 
     diesel::update(product_dsl.find(prod.product_id))
         .set((
             product_id.eq(prod.product_id),
             title.eq(prod.title),
-            catagory.eq(prod.catagory),
+            category_id.eq(prod.category_id),
             satang.eq(prod.satang),
         ))
         .returning(Product::as_returning())
