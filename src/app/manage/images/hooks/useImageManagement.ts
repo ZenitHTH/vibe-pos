@@ -1,0 +1,161 @@
+import { useState, useEffect, useCallback } from "react";
+import { invoke } from "@tauri-apps/api/core";
+import { useDatabase } from "@/context/DatabaseContext";
+import { Image, ProductImage, BackendProduct, productApi } from "@/lib";
+
+export function useImageManagement() {
+  const { dbKey } = useDatabase();
+  const [images, setImages] = useState<Image[]>([]);
+  const [links, setLinks] = useState<ProductImage[]>([]);
+  const [products, setProducts] = useState<BackendProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Linking Modal State
+  const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
+  const [productSearch, setProductSearch] = useState("");
+
+  const fetchData = useCallback(async () => {
+    if (!dbKey) return;
+    setLoading(true);
+    try {
+      // Parallel fetch
+      const [imgs, lnks, prods] = await Promise.all([
+        invoke<Image[]>("get_all_images", { key: dbKey }),
+        invoke<ProductImage[]>("get_all_image_links", { key: dbKey }),
+        productApi.getAll(dbKey),
+      ]);
+      setImages(imgs);
+      setLinks(lnks);
+      setProducts(prods);
+    } catch (err) {
+      console.error("Failed to fetch data", err);
+    } finally {
+      setLoading(false);
+    }
+  }, [dbKey]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const handleDelete = async (image: Image) => {
+    if (!dbKey) return;
+    // Check if used
+    const usage = links.filter((l) => l.image_id === image.id);
+    if (usage.length > 0) {
+      if (
+        !confirm(
+          `This image is used by ${usage.length} products. Deleting it will unlink it from them. Continue?`,
+        )
+      ) {
+        return;
+      }
+    } else {
+      if (!confirm("Delete this image?")) return;
+    }
+
+    try {
+      await invoke("delete_image", { key: dbKey, imageId: image.id });
+      // Update state locally
+      setImages((prev) => prev.filter((i) => i.id !== image.id));
+      setLinks((prev) => prev.filter((l) => l.image_id !== image.id));
+    } catch (err) {
+      console.error("Failed to delete image", err);
+      alert("Failed to delete image");
+    }
+  };
+
+  const handleUpload = async () => {
+    document.getElementById("image-upload-input")?.click();
+  };
+
+  const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0 || !dbKey) return;
+
+    const file = e.target.files[0];
+    const arrayBuffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(arrayBuffer);
+    const data = Array.from(bytes);
+
+    try {
+      await invoke("save_image", {
+        key: dbKey,
+        data: data,
+        filename: file.name,
+      });
+      fetchData(); // Refresh all to get new ID and sort
+    } catch (err) {
+      console.error("Upload failed", err);
+      alert("Upload failed: " + err);
+    }
+  };
+
+  const openLinkModal = (img: Image) => {
+    setSelectedImage(img);
+    setProductSearch("");
+    setIsLinkModalOpen(true);
+  };
+
+  const toggleLink = async (productId: number, isLinked: boolean) => {
+    if (!dbKey || !selectedImage) return;
+
+    try {
+      if (isLinked) {
+        await invoke("unlink_product_image", {
+          key: dbKey,
+          productId,
+          imageId: selectedImage.id,
+        });
+        setLinks((prev) =>
+          prev.filter(
+            (l) =>
+              !(l.product_id === productId && l.image_id === selectedImage.id),
+          ),
+        );
+      } else {
+        await invoke("link_product_image", {
+          key: dbKey,
+          productId,
+          imageId: selectedImage.id,
+        });
+        setLinks((prev) => [
+          ...prev,
+          { product_id: productId, image_id: selectedImage.id },
+        ]);
+      }
+    } catch (err) {
+      console.error("Failed to toggle link", err);
+    }
+  };
+
+  const getProductUsage = (imageId: number) => {
+    const productIds = links
+      .filter((l) => l.image_id === imageId)
+      .map((l) => l.product_id);
+    return products.filter((p) => productIds.includes(p.product_id));
+  };
+
+  const filteredProductsToLink = products.filter((p) =>
+    p.title.toLowerCase().includes(productSearch.toLowerCase()),
+  );
+
+  return {
+    images,
+    links,
+    products,
+    loading,
+    isLinkModalOpen,
+    setIsLinkModalOpen,
+    selectedImage,
+    productSearch,
+    setProductSearch,
+    handleDelete,
+    handleUpload,
+    onFileChange,
+    openLinkModal,
+    toggleLink,
+    getProductUsage,
+    filteredProductsToLink,
+  };
+}

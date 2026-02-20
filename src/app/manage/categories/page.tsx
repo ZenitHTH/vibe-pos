@@ -1,10 +1,10 @@
 "use client";
 
 import { FaPlus } from "react-icons/fa";
-import CategoryModal from "./components/CategoryModal";
+import CategoryModal from "@/components/manage/CategoryModal";
 import { useSettings } from "@/context/SettingsContext";
 import { useCategoryManagement } from "./hooks/useCategoryManagement";
-import CategoryTable from "./components/CategoryTable";
+import CategoryTable from "@/components/manage/CategoryTable";
 import ManagementPageLayout from "@/components/layout/ManagementPageLayout";
 
 export default function CategoriesPage() {
@@ -30,7 +30,7 @@ export default function CategoriesPage() {
       headerActions={
         <button
           onClick={handleCreate}
-          className="bg-primary flex items-center gap-2 rounded-xl px-4 py-2 text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90"
+          className="bg-primary shadow-primary/20 hover:bg-primary/90 flex items-center gap-2 rounded-xl px-4 py-2 text-white shadow-lg transition-all"
         >
           <FaPlus />
           <span>New Category</span>

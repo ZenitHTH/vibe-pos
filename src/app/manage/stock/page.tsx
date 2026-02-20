@@ -2,9 +2,9 @@
 
 import { FaPlus, FaBoxes } from "react-icons/fa";
 import Link from "next/link";
-import StockModal from "./components/StockModal";
+import StockModal from "@/components/manage/StockModal";
 import { useStockManagement } from "./hooks/useStockManagement";
-import StockTable from "./components/StockTable";
+import StockTable from "@/components/manage/StockTable";
 import ManagementPageLayout from "@/components/layout/ManagementPageLayout";
 
 export default function StockPage() {
