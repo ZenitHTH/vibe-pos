@@ -120,11 +120,16 @@ fn main() -> Result<(), String> {
 
     // 4. Generate Export
     use export_lib::thai_accounting::{build_thai_sales_tax_report, TaxReportRow};
+    use export_lib::{export_xlsx_sheets, CellValue, ExportTable};
 
     // Fetch headers manually since we have an isolated script
     let headers: Vec<database::receipt::ReceiptList> =
         database::receipt::get_all_headers(&mut conn).unwrap();
     let customers = database::customer::get_all_customers(&mut conn).unwrap();
+    let products = database::product::get_all_products(&mut conn).unwrap();
+    // Build a product lookup map: product_id -> (title, satang)
+    let product_map: std::collections::HashMap<i32, &database::product::model::Product> =
+        products.iter().map(|p| (p.product_id, p)).collect();
 
     let vat_rate = 7.0; // Simulated VAT rate
     let mut report_rows = Vec::new();
@@ -175,22 +180,81 @@ fn main() -> Result<(), String> {
         });
     }
 
-    let export_table = build_thai_sales_tax_report(report_rows);
+    let tax_report_table = build_thai_sales_tax_report(report_rows);
 
+    // ─── Sheet 2: Receipt Line Items ──────────────────────────────────────────
+    let line_item_headers = vec![
+        "Invoice No.".to_string(),
+        "Date".to_string(),
+        "Customer".to_string(),
+        "Product".to_string(),
+        "Qty".to_string(),
+        "Price (THB)".to_string(),
+        "Subtotal (THB)".to_string(),
+    ];
+    let mut line_items_table = ExportTable::new(line_item_headers);
+
+    // Re-fetch all headers for the line-item sheet
+    let all_headers = database::receipt::get_all_headers(&mut conn).unwrap();
+    for header in &all_headers {
+        let invoice_no = format!("INV-{:06}", header.receipt_id);
+        let date_str = chrono::DateTime::from_timestamp(header.datetime_unix, 0)
+            .unwrap()
+            .format("%d/%m/%Y")
+            .to_string();
+        let customer_name = if let Some(cid) = header.customer_id {
+            customers
+                .iter()
+                .find(|c| c.id == cid)
+                .map(|c| c.name.clone())
+                .unwrap_or_else(|| "ลูกค้าทั่วไป".to_string())
+        } else {
+            "ลูกค้าทั่วไป".to_string()
+        };
+
+        let items =
+            database::receipt::get_items_by_header_id(&mut conn, header.receipt_id).unwrap();
+        for item in items {
+            let product_title = product_map
+                .get(&item.product_id)
+                .map(|p| p.title.clone())
+                .unwrap_or_else(|| format!("Product #{}", item.product_id));
+            let price = item.satang_at_sale as f64 / 100.0;
+            let subtotal = price * item.quantity as f64;
+            line_items_table.add_row(vec![
+                CellValue::Text(invoice_no.clone()),
+                CellValue::Text(date_str.clone()),
+                CellValue::Text(customer_name.clone()),
+                CellValue::Text(product_title),
+                CellValue::Int(item.quantity as i64),
+                CellValue::Number(price),
+                CellValue::Number(subtotal),
+            ]);
+        }
+    }
+
+    // ─── Export ──────────────────────────────────────────────────────────────
     let export_dir = PathBuf::from("simulated_exports");
     if !export_dir.exists() {
         fs::create_dir(&export_dir).map_err(|e| e.to_string())?;
     }
 
+    // CSV: tax report only
     let csv_path = export_dir.join("test_report.csv");
-    let xlsx_path = export_dir.join("test_report.xlsx");
-
-    export_table
+    tax_report_table
         .export_csv(&csv_path)
         .map_err(|e| e.to_string())?;
-    export_table
-        .export_xlsx(&xlsx_path)
-        .map_err(|e| e.to_string())?;
+
+    // XLSX: two sheets
+    let xlsx_path = export_dir.join("test_report.xlsx");
+    export_xlsx_sheets(
+        &[
+            ("รายงานภาษีขาย", &tax_report_table),
+            ("Receipt Line Items", &line_items_table),
+        ],
+        &xlsx_path,
+    )
+    .map_err(|e| e.to_string())?;
 
     println!(
         "Simulation exported successfully to: {:?}",

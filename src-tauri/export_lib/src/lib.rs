@@ -111,3 +111,11 @@ impl ExportTable {
         ods_export::export_to_ods(self, path)
     }
 }
+
+/// Export multiple named ExportTables as separate sheets in one xlsx file.
+pub fn export_xlsx_sheets<P: AsRef<Path>>(
+    sheets: &[(&str, &ExportTable)],
+    path: P,
+) -> Result<(), Box<dyn Error>> {
+    xlsx_export::export_to_xlsx_sheets(sheets, path)
+}
