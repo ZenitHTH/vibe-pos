@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import POSClient from "@/components/pos/POSClient";
 import { Product } from "@/types";
-import { productApi } from "@/lib/api";
+import { productApi, categoryApi } from "@/lib/api";
 import { useDatabase } from "@/context/DatabaseContext";
 
 export default function MockupPage() {
@@ -16,12 +16,19 @@ export default function MockupPage() {
       if (!dbKey) return;
       try {
         // Use backend products or fall back to mock data
-        const backendProducts = await productApi.getAll(dbKey);
+        const [backendProducts, backendCategories] = await Promise.all([
+          productApi.getAll(dbKey),
+          categoryApi.getAll(dbKey),
+        ]);
+        const catMap = Object.fromEntries(
+          backendCategories.map((c) => [c.id, c.name]),
+        );
+
         const mappedProducts: Product[] = backendProducts.map((p) => ({
           id: p.product_id,
           name: p.title,
           price: p.satang / 100, // Convert satang to unit
-          category: p.catagory,
+          category: catMap[p.category_id] || "Unknown",
           image: "",
           color: "#78350f",
         }));
@@ -52,8 +59,8 @@ export default function MockupPage() {
 
   return (
     <>
-      <div className="relative box-border h-full border-4 border-warning">
-        <div className="absolute top-0 right-0 z-50 rounded-bl-lg bg-warning px-4 py-1 font-bold text-warning-foreground">
+      <div className="border-warning relative box-border h-full border-4">
+        <div className="bg-warning text-warning-foreground absolute top-0 right-0 z-50 rounded-bl-lg px-4 py-1 font-bold">
           Design Mode
         </div>
         <POSClient initialProducts={products} />

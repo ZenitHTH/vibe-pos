@@ -46,12 +46,14 @@ export function useReceiptDetail(receipt: ReceiptListType) {
             receipt_id: receipt.receipt_id,
             product_id: 1,
             quantity: 2,
+            satang_at_sale: 10000,
           },
           {
             id: 102,
             receipt_id: receipt.receipt_id,
             product_id: 2,
             quantity: 1,
+            satang_at_sale: 20000,
           },
         ]);
         setLoadingDetail(false);
@@ -68,7 +70,7 @@ export function useReceiptDetail(receipt: ReceiptListType) {
           id: p.product_id,
           name: p.title,
           price: p.satang / 100,
-          category: p.catagory,
+          category: String(p.category_id),
           image: "",
         }));
         setProducts(mapped);

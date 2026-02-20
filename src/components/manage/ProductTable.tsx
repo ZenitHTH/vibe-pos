@@ -1,10 +1,11 @@
-import { BackendProduct } from "@/lib/types";
+import { BackendProduct, Category } from "@/lib/types";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import GlobalTable from "@/components/ui/GlobalTable";
 import { AppSettings } from "@/lib/settings";
 
 interface ProductTableProps {
   products: BackendProduct[];
+  categories: Category[];
   onEdit: (product: BackendProduct) => void;
   onDelete: (id: number) => void;
   settings: AppSettings;
@@ -12,6 +13,7 @@ interface ProductTableProps {
 
 export default function ProductTable({
   products,
+  categories,
   onEdit,
   onDelete,
 }: ProductTableProps) {
@@ -29,11 +31,14 @@ export default function ProductTable({
         { header: "Title", accessor: "title", className: "font-medium" },
         {
           header: "Category",
-          render: (product) => (
-            <span className="bg-primary/10 text-primary rounded-md px-2 py-1 text-sm font-medium">
-              {product.catagory}
-            </span>
-          ),
+          render: (product) => {
+            const cat = categories.find((c) => c.id === product.category_id);
+            return (
+              <span className="bg-primary/10 text-primary rounded-md px-2 py-1 text-sm font-medium">
+                {cat ? cat.name : "Unknown"}
+              </span>
+            );
+          },
         },
         {
           header: "Price",

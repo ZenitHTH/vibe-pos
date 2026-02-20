@@ -1,42 +1,40 @@
 "use client";
 
+import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import ProductModal from "@/components/manage/ProductModal";
-import { useSettings } from "@/context/SettingsContext";
-import { useProductManagement } from "./hooks/useProductManagement";
-import ProductTable from "@/components/manage/ProductTable";
 import ManagementPageLayout from "@/components/layout/ManagementPageLayout";
+import MaterialTable from "./components/MaterialTable";
+import MaterialModal from "./components/MaterialModal";
+import { useMaterialManagement } from "./hooks/useMaterialManagement";
 
-export default function ManagePage() {
-  const { settings } = useSettings();
+export default function MaterialPage() {
   const {
-    products,
-    categories,
+    materials,
     loading,
     error,
     searchQuery,
     setSearchQuery,
     isModalOpen,
     setIsModalOpen,
-    editingProduct,
+    editingMaterial,
     isSubmitting,
     handleCreate,
     handleEdit,
     handleDelete,
     handleModalSubmit,
-  } = useProductManagement();
+  } = useMaterialManagement();
 
   return (
     <ManagementPageLayout
-      title="Product Management"
-      subtitle="Manage your inventory items"
+      title="Material Management"
+      subtitle="Manage raw materials and ingredients for your products"
       headerActions={
         <button
           onClick={handleCreate}
           className="bg-primary shadow-primary/20 hover:bg-primary/90 flex items-center gap-2 rounded-xl px-4 py-2 text-white shadow-lg transition-all"
         >
           <FaPlus />
-          <span>New Product</span>
+          <span>Add Material</span>
         </button>
       }
       loading={loading}
@@ -45,23 +43,19 @@ export default function ManagePage() {
       setSearchQuery={setSearchQuery}
       scaleKey="manage_table_scale"
       modal={
-        isModalOpen && (
-          <ProductModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            onSubmit={handleModalSubmit}
-            initialData={editingProduct}
-            isSubmitting={isSubmitting}
-          />
-        )
+        <MaterialModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleModalSubmit}
+          initialData={editingMaterial}
+          isSubmitting={isSubmitting}
+        />
       }
     >
-      <ProductTable
-        products={products}
-        categories={categories}
+      <MaterialTable
+        materials={materials}
         onEdit={handleEdit}
         onDelete={handleDelete}
-        settings={settings}
       />
     </ManagementPageLayout>
   );

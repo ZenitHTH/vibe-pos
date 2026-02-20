@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import POSClient from "@/components/pos/POSClient";
 import { Product } from "@/types";
-import { productApi } from "@/lib/api";
+import { productApi, categoryApi } from "@/lib/api";
 import { useDatabase } from "@/context/DatabaseContext";
 
 export default function Page() {
@@ -15,12 +15,19 @@ export default function Page() {
     async function loadProducts() {
       if (!dbKey) return;
       try {
-        const backendProducts = await productApi.getAll(dbKey);
+        const [backendProducts, backendCategories] = await Promise.all([
+          productApi.getAll(dbKey),
+          categoryApi.getAll(dbKey),
+        ]);
+        const catMap = Object.fromEntries(
+          backendCategories.map((c) => [c.id, c.name]),
+        );
+
         const mappedProducts: Product[] = backendProducts.map((p) => ({
           id: p.product_id,
           name: p.title,
           price: p.satang / 100, // Convert satang to unit
-          category: p.catagory, // Note: backend uses 'catagory' typo
+          category: catMap[p.category_id] || "Unknown",
           image: p.image_path || "",
           color: "#78350f", // Default color
         }));

@@ -28,7 +28,7 @@ export default function ProductModal({
   const { dbKey } = useDatabase();
   const [formData, setFormData] = useState<NewProduct>({
     title: initialData?.title || "",
-    catagory: initialData?.catagory || "",
+    category_id: initialData?.category_id || 0,
     satang: initialData?.satang || 0,
   });
 
@@ -47,7 +47,7 @@ export default function ProductModal({
     if (isOpen) {
       setFormData({
         title: initialData?.title || "",
-        catagory: initialData?.catagory || "",
+        category_id: initialData?.category_id || 0,
         satang: initialData?.satang || 0,
       });
       setImages([]);
@@ -150,12 +150,12 @@ export default function ProductModal({
 
         <Select
           label="Category"
-          value={formData.catagory}
+          value={formData.category_id ? String(formData.category_id) : ""}
           onChange={(val) =>
-            setFormData({ ...formData, catagory: String(val) })
+            setFormData({ ...formData, category_id: parseInt(String(val), 10) })
           }
           options={categories.map((cat) => ({
-            value: cat.name,
+            value: String(cat.id),
             label: cat.name,
           }))}
           placeholder="Select Category"
@@ -235,7 +235,7 @@ export default function ProductModal({
           <button
             type="submit"
             disabled={isSubmitting || isUploading}
-            className="bg-primary rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90 disabled:opacity-50"
+            className="bg-primary hover:bg-primary/90 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors disabled:opacity-50"
           >
             {isSubmitting ? "Saving..." : "Save Product"}
           </button>

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { productApi } from "@/lib/api";
-import { BackendProduct, NewProduct } from "@/lib/types";
+import { productApi, categoryApi } from "@/lib/api";
+import { BackendProduct, NewProduct, Category } from "@/lib/types";
 
 import { useDatabase } from "@/context/DatabaseContext";
 
 export function useProductManagement() {
   const { dbKey } = useDatabase();
   const [products, setProducts] = useState<BackendProduct[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,8 +24,12 @@ export function useProductManagement() {
       if (!dbKey) return;
       try {
         setLoading(true);
-        const data = await productApi.getAll(dbKey);
+        const [data, fetchedCategories] = await Promise.all([
+          productApi.getAll(dbKey),
+          categoryApi.getAll(dbKey),
+        ]);
         setProducts(data);
+        setCategories(fetchedCategories);
       } catch (err) {
         console.error("Failed to fetch products:", err);
         setError("Failed to load products. Is the backend running?");
@@ -91,14 +96,18 @@ export function useProductManagement() {
     }
   };
 
-  const filteredProducts = products.filter(
-    (product) =>
+  const filteredProducts = products.filter((product) => {
+    const categoryName =
+      categories.find((c) => c.id === product.category_id)?.name || "Unknown";
+    return (
       product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.catagory.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+      categoryName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   return {
     products: filteredProducts,
+    categories,
     loading,
     error,
     searchQuery,
