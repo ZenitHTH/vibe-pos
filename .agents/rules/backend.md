@@ -2,7 +2,7 @@
 trigger: always_on
 ---
 
-### Rust-Lang + Tauri 2
+### Rust-Lang + Tauri 2 stricking rule
 
 # 1.always checking api
 
