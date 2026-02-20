@@ -29,7 +29,6 @@ pub fn insert_stock(key: String, product_id: i32, quantity: i32) -> Result<Stock
     let new_stock = NewStock {
         product_id,
         quantity,
-        catagory: &product_info.catagory,
         satang: product_info.satang,
     };
     stock::insert_stock(&mut conn, &new_stock).map_err(|e| e.to_string())

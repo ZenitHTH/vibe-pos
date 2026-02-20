@@ -13,7 +13,7 @@ pub fn get_products(key: String) -> Result<Vec<ProductWithImage>, String> {
 pub fn create_product(
     key: String,
     title: String,
-    catagory: String,
+    category_id: i32,
     satang: i32,
 ) -> Result<Product, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
@@ -29,8 +29,7 @@ pub fn create_product(
         return Err("Invalid product price.".to_string());
     }
 
-    let trimmed_category = catagory.trim();
-    if trimmed_category.is_empty() || trimmed_category.len() > 100 {
+    if category_id <= 0 {
         return Err("Invalid category.".to_string());
     }
 
@@ -41,7 +40,7 @@ pub fn create_product(
 
     let new_prod = NewProduct {
         title: trimmed_title,
-        catagory: trimmed_category,
+        category_id,
         satang,
     };
     product::insert_product(&mut conn, &new_prod).map_err(|e| e.to_string())
@@ -52,7 +51,7 @@ pub fn update_product(
     key: String,
     id: i32,
     title: String,
-    catagory: String,
+    category_id: i32,
     satang: i32,
 ) -> Result<Product, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
@@ -68,8 +67,7 @@ pub fn update_product(
         return Err("Invalid product price.".to_string());
     }
 
-    let trimmed_category = catagory.trim();
-    if trimmed_category.is_empty() || trimmed_category.len() > 100 {
+    if category_id <= 0 {
         return Err("Invalid category.".to_string());
     }
 
@@ -83,7 +81,7 @@ pub fn update_product(
     let prod = Product {
         product_id: id,
         title: trimmed_title.to_string(),
-        catagory: trimmed_category.to_string(),
+        category_id,
         satang,
     };
     product::update_product(&mut conn, prod).map_err(|e| e.to_string())

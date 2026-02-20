@@ -22,10 +22,16 @@ pub fn add_invoice_item(
     }
 
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
+
+    // Fetch product to get the current price (satang)
+    use database::product;
+    let product_info = product::find_product(&mut conn, product_id).map_err(|e| e.to_string())?;
+
     let item = NewReceipt {
         receipt_id,
         product_id,
         quantity,
+        satang_at_sale: product_info.satang,
     };
     let saved_item = receipt::add_item(&mut conn, &item).map_err(|e| e.to_string())?;
 
