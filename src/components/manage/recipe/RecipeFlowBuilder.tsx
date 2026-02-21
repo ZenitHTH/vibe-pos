@@ -8,7 +8,8 @@ import {
   Panel,
 } from "@xyflow/react";
 import { useRecipeFlow } from "@/app/manage/material/recipe/hooks/useRecipeFlow";
-import RecipeSidebar from "./RecipeSidebar";
+import MaterialSidebar from "./MaterialSidebar";
+import ProductSidebar from "./ProductSidebar";
 import ProductNode from "./ProductNode";
 import MaterialNode from "./MaterialNode";
 import VolumeEdge from "./VolumeEdge";
@@ -66,12 +67,11 @@ export default function RecipeFlowBuilder({
   );
 
   return (
-    <div className="relative flex h-full w-full" ref={reactFlowWrapper}>
-      <RecipeSidebar
-        products={products}
-        materials={materials}
-        onDragStart={handleDragStart}
-      />
+    <div
+      className="bg-background relative flex h-full w-full"
+      ref={reactFlowWrapper}
+    >
+      <MaterialSidebar materials={materials} onDragStart={handleDragStart} />
 
       <div className="relative h-full flex-1">
         <ReactFlow
@@ -85,19 +85,20 @@ export default function RecipeFlowBuilder({
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           fitView
-          className="bg-background"
+          className="bg-muted/5 font-sans"
         >
           <Background
             color="var(--muted-foreground)"
-            gap={16}
-            className="opacity-20"
+            gap={20}
+            size={1.5}
+            className="opacity-15"
           />
-          <Controls className="bg-card! text-foreground border-border! fill-foreground [&_button]:border-border! [&_button]:bg-card! [&_button]:text-foreground! [&_button:hover]:bg-muted! [&_path]:fill-foreground! shadow-sm" />
+          <Controls className="bg-card! text-foreground border-border! fill-foreground [&_button]:border-border! [&_button]:bg-card! [&_button]:text-foreground! [&_button:hover]:bg-muted! [&_path]:fill-foreground! overflow-hidden rounded-lg shadow-md" />
           <MiniMap
             zoomable
             pannable
             nodeClassName="bg-primary/20!"
-            className="bg-card! border-border! rounded border shadow-sm"
+            className="bg-card! border-border! rounded-xl border shadow-lg"
             maskColor="color-mix(in srgb, var(--muted) 80%, transparent)"
           />
 
@@ -105,7 +106,7 @@ export default function RecipeFlowBuilder({
             <button
               onClick={clearCanvas}
               type="button"
-              className="bg-background border-border hover:bg-muted rounded border px-4 py-2 text-sm font-medium shadow-sm"
+              className="bg-card border-border hover:bg-muted text-foreground flex items-center gap-2 rounded-xl border px-4 py-2.5 text-xs font-bold tracking-wider uppercase shadow-sm transition-all active:scale-95"
             >
               Clear Canvas
             </button>
@@ -113,21 +114,28 @@ export default function RecipeFlowBuilder({
               onClick={saveRecipes}
               disabled={saving}
               type="button"
-              className="bg-primary hover:bg-primary/90 rounded px-4 py-2 text-sm font-medium text-white shadow-sm disabled:opacity-50"
+              className="bg-primary hover:bg-primary/90 flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold tracking-wider text-white uppercase shadow-lg transition-all active:scale-95 disabled:opacity-50"
             >
-              {saving ? "Saving..." : "Save Recipes"}
+              {saving ? (
+                <>
+                  <span className="h-3 w-3 animate-spin rounded-full border-2 border-white/20 border-t-white"></span>
+                  Saving...
+                </>
+              ) : (
+                "Save Recipes"
+              )}
             </button>
           </Panel>
 
           {(error || successMsg) && (
-            <Panel position="top-center" className="z-50 min-w-64">
+            <Panel position="top-center" className="z-50 min-w-80">
               {error && (
-                <div className="bg-destructive text-destructive-foreground animate-in slide-in-from-top-4 rounded px-4 py-2 text-center text-sm font-medium shadow-md">
+                <div className="border-destructive/20 bg-destructive/10 text-destructive animate-in slide-in-from-top-4 flex items-center justify-center rounded-xl border px-6 py-3 text-sm font-bold shadow-2xl backdrop-blur-md">
                   {error}
                 </div>
               )}
               {successMsg && (
-                <div className="animate-in slide-in-from-top-4 bg-success text-success-foreground rounded px-4 py-2 text-center text-sm font-medium shadow-md">
+                <div className="border-success/20 bg-success/10 text-success animate-in slide-in-from-top-4 flex items-center justify-center rounded-xl border px-6 py-3 text-sm font-bold shadow-2xl backdrop-blur-md">
                   {successMsg}
                 </div>
               )}
@@ -135,6 +143,8 @@ export default function RecipeFlowBuilder({
           )}
         </ReactFlow>
       </div>
+
+      <ProductSidebar products={products} onDragStart={handleDragStart} />
     </div>
   );
 }
