@@ -45,7 +45,7 @@ export default function VolumeEdge({
             ...edge,
             data: {
               ...edge.data,
-              volume_use: parseInt(evt.target.value, 10) || 1,
+              volume_use: parseFloat(evt.target.value) || 0,
             },
           };
         }
@@ -96,7 +96,8 @@ export default function VolumeEdge({
           <input
             id={`vol-${id}`}
             type="number"
-            min="1"
+            min="0"
+            step="any"
             className="bg-muted h-6 w-14 rounded px-1 text-center outline-none"
             value={(data?.volume_use as number) || 1}
             onChange={onVolumeChange}

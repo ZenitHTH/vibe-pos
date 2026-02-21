@@ -2,6 +2,7 @@
 
 import { BackendProduct, Material } from "@/lib";
 import { RecipeItem, RecipeList } from "@/lib/types/recipe";
+import GlobalTable, { Column } from "@/components/ui/GlobalTable";
 
 interface RecipeRow {
   product: BackendProduct;
@@ -14,7 +15,40 @@ interface RecipeTableProps {
   recipeRows: RecipeRow[];
 }
 
+interface MaterialWithItem {
+  item: RecipeItem;
+  mat: Material | undefined;
+}
+
 export default function RecipeTable({ recipeRows }: RecipeTableProps) {
+  const columns: Column<MaterialWithItem>[] = [
+    {
+      header: "Material",
+      render: (data) => data.mat?.name ?? `Material #${data.item.material_id}`,
+      className: "font-medium",
+    },
+    {
+      header: "Type",
+      render: (data) => data.mat?.type_ ?? "—",
+      className: "text-muted-foreground",
+    },
+    {
+      header: "Qty",
+      accessor: "item",
+      render: (data) => (
+        <span className="block w-full text-right font-mono">
+          {data.item.volume_use}
+        </span>
+      ),
+      className: "text-right",
+      headerClassName: "text-right",
+    },
+    {
+      header: "Unit",
+      render: (data) => data.item.unit,
+    },
+  ];
+
   if (recipeRows.length === 0) {
     return (
       <div className="text-muted-foreground py-8 text-center text-sm">
@@ -24,67 +58,29 @@ export default function RecipeTable({ recipeRows }: RecipeTableProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
       {recipeRows.map(({ product, list, items, materials }) => {
-        const productMaterials = items.map((item) => {
+        const productMaterials: MaterialWithItem[] = items.map((item) => {
           const mat = materials.find((m) => m.id === item.material_id);
           return { item, mat };
         });
 
         return (
-          <div key={list.id} className="space-y-2">
-            <h3 className="text-foreground text-base font-semibold">
-              {product.title}
-            </h3>
-            <div className="border-border overflow-hidden rounded-xl border">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-muted/50 border-border border-b">
-                    <th className="text-muted-foreground px-4 py-2 text-left font-semibold">
-                      Material
-                    </th>
-                    <th className="text-muted-foreground px-4 py-2 text-left font-semibold">
-                      Type
-                    </th>
-                    <th className="text-muted-foreground px-4 py-2 text-right font-semibold">
-                      Qty
-                    </th>
-                    <th className="text-muted-foreground px-4 py-2 text-left font-semibold">
-                      Unit
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {productMaterials.map(({ item, mat }) => (
-                    <tr
-                      key={item.id}
-                      className="border-border hover:bg-muted/20 border-b transition-colors last:border-0"
-                    >
-                      <td className="text-foreground px-4 py-2 font-medium">
-                        {mat?.name ?? `Material #${item.material_id}`}
-                      </td>
-                      <td className="text-muted-foreground px-4 py-2">
-                        {mat?.type_ ?? "—"}
-                      </td>
-                      <td className="text-foreground px-4 py-2 text-right font-mono">
-                        {item.volume_use}
-                      </td>
-                      <td className="text-foreground px-4 py-2">{item.unit}</td>
-                    </tr>
-                  ))}
-                  {productMaterials.length === 0 && (
-                    <tr>
-                      <td
-                        colSpan={4}
-                        className="text-muted-foreground px-4 py-4 text-center text-sm"
-                      >
-                        No materials linked.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+          <div key={list.id} className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-foreground text-base font-bold">
+                {product.title}
+              </h3>
+              <span className="text-muted-foreground text-xs">
+                {productMaterials.length} materials
+              </span>
             </div>
+            <GlobalTable
+              columns={columns}
+              data={productMaterials}
+              keyField="item"
+              emptyMessage="No materials linked."
+            />
           </div>
         );
       })}

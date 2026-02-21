@@ -27,23 +27,45 @@ export default function RecipeBuilderPage() {
         </Link>
       }
     >
-      <div className="bg-card border-border flex h-[600px] w-full overflow-hidden rounded-xl border shadow-sm">
-        <ReactFlowProvider>
-          <RecipeFlowBuilder onSaved={refresh} />
-        </ReactFlowProvider>
-      </div>
-
-      <div className="mt-6">
-        <h2 className="text-foreground mb-3 text-lg font-bold">
-          Saved Recipes
-        </h2>
-        {loading ? (
-          <div className="text-muted-foreground py-6 text-center text-sm">
-            Loading recipes…
+      <div className="flex flex-col gap-8">
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-foreground text-xl font-bold">Flow Builder</h2>
+            <p className="text-muted-foreground text-sm italic">
+              Connect materials to products in the canvas below
+            </p>
           </div>
-        ) : (
-          <RecipeTable recipeRows={rows} />
-        )}
+          <div className="bg-card border-border h-[500px] w-full overflow-hidden rounded-2xl border shadow-lg ring-1 ring-black/5 dark:ring-white/5">
+            <ReactFlowProvider>
+              <RecipeFlowBuilder onSaved={refresh} />
+            </ReactFlowProvider>
+          </div>
+        </section>
+
+        <section className="space-y-4">
+          <div className="border-border flex items-center justify-between border-b pb-2">
+            <h2 className="text-foreground text-xl font-bold">Saved Recipes</h2>
+            <div className="flex items-center gap-2">
+              <span className="bg-primary flex h-2 w-2 animate-pulse rounded-full"></span>
+              <span className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
+                Live Preview
+              </span>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="flex flex-col items-center justify-center gap-3 py-20">
+              <div className="border-primary h-8 w-8 animate-spin rounded-full border-2 border-t-transparent"></div>
+              <p className="text-muted-foreground text-sm font-medium">
+                Loading your recipes...
+              </p>
+            </div>
+          ) : (
+            <div className="bg-muted/30 rounded-2xl p-6">
+              <RecipeTable recipeRows={rows} />
+            </div>
+          )}
+        </section>
       </div>
     </ManagementPageLayout>
   );
