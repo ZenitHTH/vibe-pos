@@ -29,12 +29,14 @@ pub fn add_recipe_item(
     recipe_list_id: i32,
     material_id: i32,
     volume_use: i32,
+    unit: String,
 ) -> Result<RecipeItem, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
     let new_item = NewRecipeItem {
         recipe_list_id,
         material_id,
         volume_use,
+        unit,
     };
     recipe::add_recipe_item(&mut conn, &new_item).map_err(|e| e.to_string())
 }
@@ -50,9 +52,10 @@ pub fn update_recipe_item(
     key: String,
     item_id: i32,
     volume_use: i32,
+    unit: String,
 ) -> Result<RecipeItem, String> {
     let mut conn = establish_connection(&key).map_err(|e| e.to_string())?;
-    recipe::update_recipe_item(&mut conn, item_id, volume_use).map_err(|e| e.to_string())
+    recipe::update_recipe_item(&mut conn, item_id, volume_use, unit).map_err(|e| e.to_string())
 }
 
 #[tauri::command]

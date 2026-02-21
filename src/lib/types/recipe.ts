@@ -8,4 +8,5 @@ export interface RecipeItem {
   recipe_list_id: number;
   material_id: number;
   volume_use: number;
+  unit: string;
 }

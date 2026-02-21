@@ -22,12 +22,14 @@ export const recipeApi = {
     recipeListId: number,
     materialId: number,
     volumeUse: number,
+    unit: string,
   ): Promise<RecipeItem> => {
     return await invoke("add_recipe_item", {
       key,
       recipeListId,
       materialId,
       volumeUse,
+      unit,
     });
   },
 
@@ -42,8 +44,9 @@ export const recipeApi = {
     key: string,
     itemId: number,
     volumeUse: number,
+    unit: string,
   ): Promise<RecipeItem> => {
-    return await invoke("update_recipe_item", { key, itemId, volumeUse });
+    return await invoke("update_recipe_item", { key, itemId, volumeUse, unit });
   },
 
   deleteItem: async (key: string, itemId: number): Promise<number> => {

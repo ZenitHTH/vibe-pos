@@ -61,9 +61,13 @@ pub fn update_recipe_item(
     conn: &mut SqliteConnection,
     item_id: i32,
     volume: i32,
+    unit: String,
 ) -> Result<RecipeItem, diesel::result::Error> {
     diesel::update(recipe_item::table.find(item_id))
-        .set(recipe_item::volume_use.eq(volume))
+        .set((
+            recipe_item::volume_use.eq(volume),
+            recipe_item::unit.eq(unit),
+        ))
         .returning(RecipeItem::as_returning())
         .get_result(conn)
 }

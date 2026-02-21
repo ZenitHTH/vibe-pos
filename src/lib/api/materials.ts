@@ -16,7 +16,7 @@ export const materialApi = {
     return await invoke("create_material", {
       key,
       name,
-      type_,
+      type: type_,
       volume,
       quantity,
     });
@@ -34,7 +34,7 @@ export const materialApi = {
       key,
       id,
       name,
-      type_,
+      type: type_,
       volume,
       quantity,
     });

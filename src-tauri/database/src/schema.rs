@@ -77,6 +77,7 @@ diesel::table! {
         recipe_list_id -> Integer,
         material_id -> Integer,
         volume_use -> Integer,
+        unit -> Text,
     }
 }
 

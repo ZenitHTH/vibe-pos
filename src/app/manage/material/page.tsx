@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaProjectDiagram } from "react-icons/fa";
+import Link from "next/link";
 import ManagementPageLayout from "@/components/layout/ManagementPageLayout";
 import MaterialTable from "@/components/manage/MaterialTable";
 import MaterialModal from "@/components/manage/MaterialModal";
@@ -29,13 +30,22 @@ export default function MaterialPage() {
       title="Material Management"
       subtitle="Manage raw materials and ingredients for your products"
       headerActions={
-        <button
-          onClick={handleCreate}
-          className="bg-primary shadow-primary/20 hover:bg-primary/90 flex items-center gap-2 rounded-xl px-4 py-2 text-white shadow-lg transition-all"
-        >
-          <FaPlus />
-          <span>Add Material</span>
-        </button>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/manage/material/recipe"
+            className="text-muted-foreground hover:text-foreground hover:bg-muted/50 flex items-center gap-2 rounded-xl border border-transparent px-4 py-2 text-sm font-medium transition-all"
+          >
+            <FaProjectDiagram />
+            <span>Recipe Builder</span>
+          </Link>
+          <button
+            onClick={handleCreate}
+            className="bg-primary shadow-primary/20 hover:bg-primary/90 flex items-center gap-2 rounded-xl px-4 py-2 text-white shadow-lg transition-all"
+          >
+            <FaPlus />
+            <span>Add Material</span>
+          </button>
+        </div>
       }
       loading={loading}
       error={error}

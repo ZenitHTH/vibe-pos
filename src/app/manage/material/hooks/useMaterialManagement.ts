@@ -57,7 +57,7 @@ export function useMaterialManagement() {
       await materialApi.delete(dbKey, id);
       await fetchMaterials();
     } catch (err: any) {
-      alert(`Failed to delete material: ${err.message}`);
+      alert(`Failed to delete material: ${err.message || err}`);
     }
   };
 
@@ -88,7 +88,7 @@ export function useMaterialManagement() {
       await fetchMaterials();
       setIsModalOpen(false);
     } catch (err: any) {
-      alert(`Failed to save material: ${err.message}`);
+      alert(`Failed to save material: ${err.message || err}`);
     } finally {
       setIsSubmitting(false);
     }

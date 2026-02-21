@@ -23,6 +23,7 @@ pub struct RecipeItem {
     pub recipe_list_id: i32,
     pub material_id: i32,
     pub volume_use: i32,
+    pub unit: String,
 }
 
 #[derive(Insertable)]
@@ -31,4 +32,5 @@ pub struct NewRecipeItem {
     pub recipe_list_id: i32,
     pub material_id: i32,
     pub volume_use: i32,
+    pub unit: String,
 }
